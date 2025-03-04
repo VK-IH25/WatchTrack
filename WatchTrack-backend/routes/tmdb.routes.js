@@ -1,0 +1,110 @@
+const express = require("express");
+const router = express.Router();
+const axios = require("axios");
+
+const API_KEY = process.env.API_KEY;
+
+
+
+// genre list
+router.get("/genre", async (req, res) => {
+    try {
+        const response = await axios.get(`hhttps://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error("Error fetching:", error.message);
+        res.status(500).json({ error: "Failed to fetch " });
+    }
+});
+
+//*****MOVIES
+
+// Fetch popular movies
+router.get("/movies/popular", async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error("Error fetching popular movies:", error.message);
+        res.status(500).json({ error: "Failed to fetch popular movies" });
+    }
+});
+
+// Fetch top-rated movies
+router.get("/movies/toprated", async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error("Error fetching top-rated movies:", error.message);
+        res.status(500).json({ error: "Failed to fetch top-rated movies" });
+    }
+});
+
+// Fetch movie by ID
+router.get("/movies/:id", async (req, res) => {
+    const movie_id = req.params.id;
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}`);
+        res.json(response.data); 
+    } catch (error) {
+        console.error(`Error fetching movie with ID ${movie_id}:`, error.message);
+        res.status(500).json({ error: "Failed to fetch movie details" });
+    }
+});
+
+//*****TV
+
+
+
+// Fetch popular shows
+router.get("/tv/popular", async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error("Error fetching popular shows:", error.message);
+        res.status(500).json({ error: "Failed to fetch popular shows" });
+    }
+});
+
+// Fetch top-rated shows
+router.get("/tv/toprated", async (req, res) => {
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error("Error fetching top-rated shows:", error.message);
+        res.status(500).json({ error: "Failed to fetch top-rated shows" });
+    }
+});
+
+// Fetch Show by ID
+router.get("/tv/:id", async (req, res) => {
+    const show_id = req.params.id;
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/tv/${show_id}?api_key=${API_KEY}`);
+        res.json(response.data); 
+    } catch (error) {
+        console.error(`Error fetching show with ID ${show_id}:`, error.message);
+        res.status(500).json({ error: "Failed to fetch show details" });
+    }
+});
+
+// Fetch Seasons by Show
+router.get("/tv/:id/season/:season", async (req, res) => {
+    const show_id = req.params.id;
+    const season = req.params.season;
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/tv/${show_id}/season/${season}?api_key=${API_KEY}`);
+        res.json(response.data); 
+    } catch (error) {
+        console.error(`Error fetching season ${season} of show with ID ${show_id}:`, error.message);
+        res.status(500).json({ error: "Failed to fetch season details" });
+    }
+});
+
+
+
+
+module.exports = router;
