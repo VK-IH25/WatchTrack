@@ -5,7 +5,7 @@ import "../styles/Header.css";
 const Header = () => {
   const [opened, { toggle }] = useDisclosure();
   return (
-    <Container shadow="xs">
+    <Container>
       <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
       <Text>WatchTrack</Text>
     </Container>

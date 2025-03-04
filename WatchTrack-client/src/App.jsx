@@ -12,19 +12,15 @@ function App() {
       <AppShell.Header className="header">
         <Header />
       </AppShell.Header>
-
-      <AppShell.Main className="main">
-        <Container size="xl" style={{ padding: "20px 0" }}>
-          <HeroBanner />
-
-          {/* Wrap carousels in a div for better structure */}
-          <div className="carousel-section">
-            <CategoryCarousel title="Trending Now" />
-            <CategoryCarousel title="New Releases" />
-            <CategoryCarousel title="Popular Movies" />
-          </div>
-        </Container>
-      </AppShell.Main>
+      <HeroBanner />
+      <Container size="xl" style={{ padding: "20px 0" }}>
+        {/* Wrap carousels in a div for better structure */}
+        <div className="carousel-section">
+          <CategoryCarousel title="Trending Now" />
+          <CategoryCarousel title="New Releases" />
+          <CategoryCarousel title="Popular Movies" />
+        </div>
+      </Container>
 
       <AppShell.Footer className="footer">
         <Footer />
