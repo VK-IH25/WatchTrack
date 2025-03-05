@@ -1,13 +1,19 @@
-import { Container, Burger, Text } from "@mantine/core";
+import { Container, Burger, Text, Image} from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import "../styles/Header.css";
+import { Link } from "react-router-dom";
+import logo from "../assets/logo.png";
 
 const Header = () => {
+
+  
   const [opened, { toggle }] = useDisclosure();
   return (
     <Container>
       <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-      <Text>WatchTrack</Text>
+      <Link to="/">
+      <Image src={logo} alt="logo" h={80}  className="logo" />
+      </Link>
     </Container>
   );
 };
