@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Card, Image, Text } from "@mantine/core";
+import { Card, Image, Text, Container } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 function Watchlists() {
@@ -15,7 +15,9 @@ function Watchlists() {
     }, []);
 
     return (
-        <div style={{ marginTop: "30px" }}>
+      
+            <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
+    
             <Text size="xl" weight={700} mb="sm">
                 Watchlists
             </Text>
@@ -54,10 +56,10 @@ function Watchlists() {
                                     </div>
                                 )}
                             </Card.Section>
-                            <Text align="center" mt="sm" lineClamp={1}>
+                            <Text align="center" mt="sm">
                                 {watchlist.title}
                             </Text>
-                            <Text align="center" mt="sm" lineClamp={2}> 
+                            <Text align="center" mt="sm"> 
                                 {watchlist.description || "No description available"}
                             </Text>
                         </Card>
@@ -65,7 +67,9 @@ function Watchlists() {
                     </Carousel.Slide>
                 ))}
             </Carousel>
-        </div>
+     
+        </Container>
+    
     );
 }
 

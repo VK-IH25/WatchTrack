@@ -45,7 +45,7 @@ router.get("/movies/toprated", async (req, res) => {
 });
 
 // Fetch trending movies
-router.get("/tv/trending", async (req, res) => {
+router.get("/movies/trending", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`

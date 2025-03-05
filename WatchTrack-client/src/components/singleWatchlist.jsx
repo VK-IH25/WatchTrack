@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Text, Card, Image } from '@mantine/core';
+import { Text, Card, Image, Container } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
 
 function SingleWatchlist() {
@@ -18,7 +18,7 @@ function SingleWatchlist() {
     console.log(watchlist);
 
     return (
-        <div>
+          <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
             {watchlist && (
                 <div>
                     <>
@@ -130,7 +130,7 @@ function SingleWatchlist() {
                 </div>
 
             )}
-        </div>
+        </Container>
     );
 }
 

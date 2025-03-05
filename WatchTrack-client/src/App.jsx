@@ -8,6 +8,7 @@ import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Watchlists from "./components/Watchlists";
 import SingleWatchlist from "./components/singleWatchlist";
+import Homepage from "./components/homepage";
 
 function App() {
   return (
@@ -15,20 +16,17 @@ function App() {
       <AppShell.Header className="header">
         <Header />
       </AppShell.Header>
-      <HeroBanner />
-      <Container size="xl" style={{ padding: "20px 0" }}>
-        <div className="carousel-section">
-          <CategoryCarousel title="Trending Now" category="Trending Now" />
-          <CategoryCarousel title="New Releases" category="New Releases" />
-          <CategoryCarousel title="Popular Movies" category="Popular Movies" />
-        </div>
-      </Container>
-
-      <Routes>
-        <Route path="/" element="" />
+ 
+  
+      
+        <Routes>
+        <Route path="/" element={<Homepage></Homepage>} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
       </Routes>
+
+
+
 
       <AppShell.Footer className="footer">
         <Footer />
