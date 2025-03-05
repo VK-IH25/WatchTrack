@@ -12,6 +12,9 @@ import EditWatchlist from "./pages/EditWatchlist";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import Sidebar from "./components/Sidebar";
 import { useDisclosure } from "@mantine/hooks";
+import SignIn from "./auth/SignIn";
+import SignUp from "./auth/SignUp";
+import AuthDetails from "./auth/AuthDetails";
 
 function App() {
 
@@ -25,7 +28,7 @@ function App() {
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-      padding="0" header={{ height: 60 }}>
+       header={{ height: 60 }}>
       <AppShell.Header className="header">
         <Burger
           lineSize={3}
@@ -44,6 +47,7 @@ function App() {
           className="burger"
         />
         <Header />
+        <AuthDetails></AuthDetails>
       </AppShell.Header>
       <AppShell.Navbar>
         <Sidebar toggleDesktop={toggleDesktop} toggleMobile={toggleMobile} />
@@ -51,6 +55,8 @@ function App() {
 
       <Routes>
         <Route path="/" element={<Homepage></Homepage>} />
+        <Route path="signin" element={<SignIn></SignIn>} />
+        <Route path="signup" element={<SignUp />} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
         <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>} />
