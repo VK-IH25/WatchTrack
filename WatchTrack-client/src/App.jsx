@@ -11,6 +11,7 @@ import SingleWatchlist from "./pages/singleWatchlist";
 import Homepage from "./pages/homepage";
 import AddWatchlist from "./pages/AddWatchlist";
 import EditWatchlist from "./pages/EditWatchlist";
+import MovieDetailPage from "./pages/MovieDetailPage";
 
 function App() {
   return (
@@ -18,20 +19,19 @@ function App() {
       <AppShell.Header className="header">
         <Header />
       </AppShell.Header>
- 
-  
-      
-        <Routes>
+
+      <Routes>
         <Route path="/" element={<Homepage></Homepage>} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
         <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>}/>
         <Route path="/watchlist/:id/edit" element={<EditWatchlist></EditWatchlist>} />
 
+        <Route
+          path="/movie/:id"
+          element={<MovieDetailPage></MovieDetailPage>}
+        />
       </Routes>
-
-
-
 
       <AppShell.Footer className="footer">
         <Footer />

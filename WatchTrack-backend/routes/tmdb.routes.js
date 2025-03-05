@@ -75,7 +75,7 @@ router.get("/movies/:id", async (req, res) => {
   const movie_id = req.params.id;
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/${movie_id}?api_key=${API_KEY}&with_cast=true`
     );
     res.json(response.data);
   } catch (error) {
