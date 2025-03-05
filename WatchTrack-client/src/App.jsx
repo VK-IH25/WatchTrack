@@ -15,6 +15,7 @@ import { useDisclosure } from "@mantine/hooks";
 import SignIn from "./auth/SignIn";
 import SignUp from "./auth/SignUp";
 import AuthDetails from "./auth/AuthDetails";
+import Search from "./components/Search";
 
 function App() {
 
@@ -61,6 +62,8 @@ function App() {
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
         <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>} />
         <Route path="/watchlist/:id/edit" element={<EditWatchlist></EditWatchlist>} />
+        <Route path="/movies/search" element={<Search></Search>} />
+
 
         <Route
           path="/movie/:id"

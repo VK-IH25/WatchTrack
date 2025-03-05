@@ -27,7 +27,57 @@ function Watchlists() {
             </Link>
 
             <Text size="xl" weight={700} mb="sm">
-                Watchlists
+                Tailored by us
+            </Text>
+
+            <Carousel
+                height={320}
+                type="container"
+                slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+                slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+                loop
+                align="start"
+            >
+                {watchlists.map((watchlist, index) => (
+                    <Carousel.Slide key={index}>
+                        <Link to={`/watchlist/${watchlist._id}`}>
+                        <Card shadow="sm" padding="lg">
+                            <Card.Section>
+                                {watchlist.poster_path ? (
+                                    <Image
+                                        src={`https://image.tmdb.org/t/p/w500/${watchlist.poster_path}`}
+                                        height={270}
+                                        fit="cover"
+                                        alt={watchlist.title}
+                                    />
+                                ) : (
+                                    <div
+                                        style={{
+                                            height: 270,
+                                            backgroundColor: "#ccc",
+                                            display: "flex",
+                                            alignItems: "center",
+                                            justifyContent: "center",
+                                        }}
+                                    >
+                                        No Image
+                                    </div>
+                                )}
+                            </Card.Section>
+                            <Text align="center" mt="sm">
+                                {watchlist.title}
+                            </Text>
+                            <Text align="center" mt="sm"> 
+                                {watchlist.description || "No description available"}
+                            </Text>
+                        </Card>
+                        </Link>
+                    </Carousel.Slide>
+                ))}
+            </Carousel>
+
+            <Text mt={50} size="xl" weight={700} mb="sm">
+                Your Watchlists
             </Text>
 
             <Carousel
