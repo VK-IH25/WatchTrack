@@ -7,6 +7,7 @@ import CategoryCarousel from "./components/CategoryCarousel";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import Watchlists from "./components/Watchlists";
+import SingleWatchlist from "./components/singleWatchlist";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
       <Routes>
         <Route path="/" element="" />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
+        <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
       </Routes>
 
       <AppShell.Footer className="footer">
