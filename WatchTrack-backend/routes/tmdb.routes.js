@@ -12,7 +12,7 @@ const API_KEY = process.env.API_KEY;
 // genre list
 router.get("/movie/genre", async (req, res) => {
     try {
-        const response = await axios.get(`hhttps://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`);
+        const response = await axios.get(`https://api.themoviedb.org/3/genre/movie/list?api_key=${API_KEY}`);
         res.json(response.data.results);
     } catch (error) {
         console.error("Error fetching:", error.message);
