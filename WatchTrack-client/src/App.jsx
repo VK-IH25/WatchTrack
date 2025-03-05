@@ -5,7 +5,7 @@ import Footer from "./components/Footer";
 import HeroBanner from "./components/HeroBanner";
 import CategoryCarousel from "./components/CategoryCarousel";
 import "./App.css";
-import { Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Watchlists from "./components/Watchlists";
 
 function App() {
@@ -24,7 +24,7 @@ function App() {
       </Container>
 
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element="" />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
       </Routes>
 
