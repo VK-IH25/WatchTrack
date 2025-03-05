@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Text, Card, Image, Container, Button } from '@mantine/core';
+import { Text, Card, Image, Container, Button, ActionIcon } from '@mantine/core';
+import { IconArrowLeft } from '@tabler/icons-react';
 import { Carousel } from '@mantine/carousel';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -32,14 +33,20 @@ function SingleWatchlist() {
     }
 
     return (
-          <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
+        <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
             {watchlist && (
                 <div>
                     <>
+                        <  ActionIcon>
+                            <Link to="/watchlists">
+                                <IconArrowLeft />
+                            </Link>
+                        </ActionIcon>
                         <h1>{watchlist.title || "No title available"}</h1>
                         <p>{watchlist.description || "No description available"}</p>
                     </>
                     <>
+
                         <Text size="xl" weight={700} mb="sm">
                             Movies
                         </Text>
@@ -142,7 +149,7 @@ function SingleWatchlist() {
                         </Carousel>
                     </>
                 </div>
-                
+
             )}
             <Link to={`/watchlist/${id}/edit`}>
                 <Button mr={20}>Edit</Button>

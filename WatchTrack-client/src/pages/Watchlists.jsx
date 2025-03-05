@@ -40,7 +40,7 @@ function Watchlists() {
             >
                 {watchlists.map((watchlist, index) => (
                     <Carousel.Slide key={index}>
-                        <Link to={`/watchlists/${watchlist._id}`}>
+                        <Link to={`/watchlist/${watchlist._id}`}>
                         <Card shadow="sm" padding="lg">
                             <Card.Section>
                                 {watchlist.poster_path ? (
