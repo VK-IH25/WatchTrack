@@ -1,6 +1,10 @@
 .heroBanner {
   padding: 0 5%;
-  background: linear-gradient(90deg, #3023ae, #c86dd7);
+  background: linear-gradient(
+    90deg,
+    var(--gradient-start),
+    var(--gradient-end)
+  );
   min-height: 500px;
   margin: 0 !important;
   width: 100%;
@@ -17,13 +21,14 @@
 }
 
 .subtitle {
+  color: white;
   font-size: 1.5rem;
   margin: 15px 0;
 }
 
 .button {
-  background-color: #212529;
-  border: 1px solid #212529;
+  background-color: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
   color: white;
   border-radius: 25px;
   padding: 14px 28px;
@@ -32,6 +37,6 @@
 }
 
 .button:hover {
-  background-color: #424649;
-  border-color: #424649;
+  background-color: var(--hover-color);
+  border-color: var(--hover-color);
 }

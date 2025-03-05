@@ -3,15 +3,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
 import { MantineProvider } from "@mantine/core";
+import myTheme from "./myTheme";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <MantineProvider
       defaultColorScheme="light"
-      theme={{
-        colorScheme: "light",
-        fontFamily: "Montserrat, sans-serif",
-      }}
+      theme={{ myTheme }}
       withGlobalStyles
       withNormalizeCSS
     >

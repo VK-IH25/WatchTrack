@@ -5,8 +5,8 @@
   position: absolute;
   top: 0;
   z-index: 1000;
-  padding: 1.3rem;
-  background-color: #ffd400;
-  color: #212529;
+  padding: var(--padding-header);
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
   border: none;
 }

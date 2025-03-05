@@ -1,41 +1,88 @@
+import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
 import { Card, Image, Text } from "@mantine/core";
 import "@mantine/carousel/styles.css";
 
-const movies = [
-  { title: "Movie 1", image: "https://placehold.co/400x200" },
-  { title: "Movie 2", image: "https://placehold.co/400x200" },
-  { title: "Movie 3", image: "https://placehold.co/400x200" },
-  { title: "Movie 4", image: "https://placehold.co/400x200" },
-  { title: "Movie 5", image: "https://placehold.co/400x200" },
-  { title: "Movie 6", image: "https://placehold.co/400x200" },
-  { title: "Movie 7", image: "https://placehold.co/400x200" },
-  { title: "Movie 8", image: "https://placehold.co/400x200" },
-  { title: "Movie 9", image: "https://placehold.co/400x200" },
-  { title: "Movie 10", image: "https://placehold.co/400x200" },
-];
+const CategoryCarousel = ({ title, category }) => {
+  const [movies, setMovies] = useState([]);
 
-const CategoryCarousel = ({ title }) => {
+  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
+
+  if (!apiKey) {
+    console.error("API key is missing in .env file");
+    return null;
+  }
+
+  let apiUrl = "";
+
+  switch (category) {
+    case "Trending Now":
+      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1`;
+      break;
+    case "New Releases":
+      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=release_date.desc&page=1`;
+      break;
+    case "Popular Movies":
+      apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+      break;
+    default:
+      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1`;
+  }
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        setMovies(data.results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
+      }
+    };
+
+    fetchMovies();
+  }, [category]);
+
   return (
     <div style={{ marginTop: "30px" }}>
       <Text size="xl" weight={700} mb="sm">
         {title}
       </Text>
+
       <Carousel
-        withIndicators
-        height={200}
-        slideSize="33.333333%"
-        slideGap="md"
+        height={320}
+        type="container"
+        slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+        slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+        loop
         align="start"
-        slidesToScroll={3}
       >
         {movies.map((movie, index) => (
           <Carousel.Slide key={index}>
             <Card shadow="sm" padding="lg">
               <Card.Section>
-                <Image src={movie.image} height={160} alt={movie.title} />
+                {movie.poster_path ? (
+                  <Image
+                    src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                    height={270}
+                    fit="cover"
+                    alt={movie.title}
+                  />
+                ) : (
+                  <div
+                    style={{
+                      height: 270,
+                      backgroundColor: "#ccc",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    No Image
+                  </div>
+                )}
               </Card.Section>
-              <Text align="center" mt="sm">
+              <Text align="center" mt="sm" lineClamp={1}>
                 {movie.title}
               </Text>
             </Card>

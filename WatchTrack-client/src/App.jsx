@@ -14,11 +14,10 @@ function App() {
       </AppShell.Header>
       <HeroBanner />
       <Container size="xl" style={{ padding: "20px 0" }}>
-        {/* Wrap carousels in a div for better structure */}
         <div className="carousel-section">
-          <CategoryCarousel title="Trending Now" />
-          <CategoryCarousel title="New Releases" />
-          <CategoryCarousel title="Popular Movies" />
+          <CategoryCarousel title="Trending Now" category="Trending Now" />
+          <CategoryCarousel title="New Releases" category="New Releases" />
+          <CategoryCarousel title="Popular Movies" category="Popular Movies" />
         </div>
       </Container>
 
