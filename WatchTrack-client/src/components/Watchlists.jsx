@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Card, Image, Text, Container } from "@mantine/core";
+import { Card, Image, Text, Container, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 
 function Watchlists() {
     const [watchlists, setWatchlists] = useState([]);
+
+
+
     useEffect(() => {
         fetch("http://localhost:5005/watchlist")
             .then((res) => res.json())
@@ -14,10 +17,15 @@ function Watchlists() {
             .catch((err) => console.log(err));
     }, []);
 
+
     return (
       
-            <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
-    
+            <Container size="xl" mt={80} style={{ padding: "20px 0" }}>
+
+            <Link to="/addwatchlist">
+            <Button mb={50}>Create Watchlist</Button>
+            </Link>
+
             <Text size="xl" weight={700} mb="sm">
                 Watchlists
             </Text>
