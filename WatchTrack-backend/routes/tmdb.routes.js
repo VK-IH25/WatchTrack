@@ -77,6 +77,18 @@ router.get("/movies/:id", async (req, res) => {
     }
 });
 
+// Search movies by keyword
+router.get("/movies/search/:keyword", async (req, res) => {
+    const keyword = req.params.keyword;
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error(`Error searching for movies with keyword ${keyword}:`, error.message);
+        res.status(500).json({ error: "Failed to search for movies" });
+    }
+});
+
 //*****TV
 
 // genre list
@@ -147,6 +159,18 @@ router.get("/tv/:id/season/:season", async (req, res) => {
     } catch (error) {
         console.error(`Error fetching season ${season} of show with ID ${show_id}:`, error.message);
         res.status(500).json({ error: "Failed to fetch season details" });
+    }
+});
+
+// Search shows by keyword
+router.get("/tv/search/:keyword", async (req, res) => {
+    const keyword = req.params.keyword;
+    try {
+        const response = await axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${keyword}`);
+        res.json(response.data.results);
+    } catch (error) {
+        console.error(`Error searching for shows with keyword ${keyword}:`, error.message);
+        res.status(500).json({ error: "Failed to search for shows" });
     }
 });
 
