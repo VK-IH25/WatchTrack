@@ -2,7 +2,6 @@
 // https://www.npmjs.com/package/dotenv
 require("dotenv").config();
 
-const cors = require("cors");
 // ℹ️ Connects to the database
 require("./db");
 
@@ -11,8 +10,6 @@ require("./db");
 const express = require("express");
 
 const app = express();
-
-app.use(cors());
 
 // ℹ️ This function is getting exported from the config folder. It runs most pieces of middleware
 require("./config")(app);

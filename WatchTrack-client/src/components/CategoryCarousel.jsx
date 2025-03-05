@@ -6,21 +6,26 @@ import "@mantine/carousel/styles.css";
 const CategoryCarousel = ({ title, category }) => {
   const [movies, setMovies] = useState([]);
 
-  const backendBaseUrl = "http://localhost:5005/tmdb";
+  const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
+  // Fetch popular movies
+  // Fetch top-rated movies
+  // Fetch trending movies
+  // Fetch now-playing movies
   let apiUrl = "";
   switch (category) {
     case "Trending Now":
-      apiUrl = `${backendBaseUrl}/tv/trending`;
+      apiUrl = `${backendBaseUrl}/tmdb/tv/trending`;
       break;
     case "New Releases":
-      apiUrl = `${backendBaseUrl}/movies/now_playing`;
+      apiUrl = `${backendBaseUrl}/tmdb/movies/now_playing`;
       break;
     case "Popular Movies":
-      apiUrl = `${backendBaseUrl}/movies/popular`;
+      apiUrl = `${backendBaseUrl}/tmdb/movies/popular`;
       break;
     default:
-      apiUrl = `${backendBaseUrl}/movies/popular`;
+      apiUrl = `${backendBaseUrl}/tmdb/movies/popular`;
   }
 
   useEffect(() => {
@@ -36,7 +41,7 @@ const CategoryCarousel = ({ title, category }) => {
     };
 
     fetchMovies();
-  }, [category]);
+  }, [apiUrl]);
 
   return (
     <div style={{ marginTop: "30px" }}>
