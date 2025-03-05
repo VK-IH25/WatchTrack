@@ -10,6 +10,7 @@ import Watchlists from "./pages/Watchlists";
 import SingleWatchlist from "./pages/singleWatchlist";
 import Homepage from "./pages/homepage";
 import AddWatchlist from "./pages/AddWatchlist";
+import EditWatchlist from "./pages/EditWatchlist";
 
 function App() {
   return (
@@ -24,7 +25,8 @@ function App() {
         <Route path="/" element={<Homepage></Homepage>} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
-        <Route path="/addwatchlist" element={<AddWatchlist></AddWatchlist>}/>
+        <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>}/>
+        <Route path="/watchlist/:id/edit" element={<EditWatchlist></EditWatchlist>} />
 
       </Routes>
 

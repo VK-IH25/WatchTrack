@@ -24,7 +24,7 @@ function AddWatchlist() {
             .then((res) => res.json())
             .then((data) => {
                 console.log('Watchlist created:', data._id);
-                navigate(`/watchlist/${data._id}`);
+                navigate(`/watchlists/${data._id}`);
             })
             .catch((err) => console.log(err));
     };

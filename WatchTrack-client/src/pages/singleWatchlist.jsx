@@ -144,7 +144,11 @@ function SingleWatchlist() {
                 </div>
                 
             )}
+            <Link to={`/watchlist/${id}/edit`}>
+                <Button mr={20}>Edit</Button>
+            </Link>
             <Button onClick={handleDelete}>Delete</Button>
+
         </Container>
     );
 }
