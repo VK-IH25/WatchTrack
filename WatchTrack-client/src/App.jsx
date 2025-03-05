@@ -9,6 +9,7 @@ import { Routes, Route } from "react-router-dom";
 import Watchlists from "./components/Watchlists";
 import SingleWatchlist from "./components/singleWatchlist";
 import Homepage from "./components/homepage";
+import AddWatchlist from "./components/AddWatchlist";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <Route path="/" element={<Homepage></Homepage>} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
+        <Route path="/addwatchlist" element={<AddWatchlist></AddWatchlist>}/>
+
       </Routes>
 
 
