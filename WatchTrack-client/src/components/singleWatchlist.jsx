@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Text, Card, Image, Container } from '@mantine/core';
+import { Text, Card, Image, Container, Button } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SingleWatchlist() {
     const { id } = useParams();
     const [watchlist, setWatchlist] = useState(null);
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetch(`http://localhost:5005/watchlist/${id}`)
             .then((res) => res.json())
@@ -15,7 +18,18 @@ function SingleWatchlist() {
             .catch((err) => console.log(err));
     }, [id]);
 
-    console.log(watchlist);
+    const handleDelete = (e) => {
+        e.preventDefault();
+        fetch(`http://localhost:5005/watchlist/${id}`, {
+            method: 'DELETE',
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                console.log('Watchlist deleted:', data);
+                navigate('/watchlists');
+            })
+            .catch((err) => console.log(err));
+    }
 
     return (
           <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
@@ -128,8 +142,9 @@ function SingleWatchlist() {
                         </Carousel>
                     </>
                 </div>
-
+                
             )}
+            <Button onClick={handleDelete}>Delete</Button>
         </Container>
     );
 }
