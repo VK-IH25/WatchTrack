@@ -6,27 +6,21 @@ import "@mantine/carousel/styles.css";
 const CategoryCarousel = ({ title, category }) => {
   const [movies, setMovies] = useState([]);
 
-  const apiKey = import.meta.env.VITE_TMDB_API_KEY;
-
-  if (!apiKey) {
-    console.error("API key is missing in .env file");
-    return null;
-  }
+  const backendBaseUrl = "http://localhost:5005/tmdb";
 
   let apiUrl = "";
-
   switch (category) {
     case "Trending Now":
-      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1`;
+      apiUrl = `${backendBaseUrl}/tv/trending`;
       break;
     case "New Releases":
-      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=release_date.desc&page=1`;
+      apiUrl = `${backendBaseUrl}/movies/now_playing`;
       break;
     case "Popular Movies":
-      apiUrl = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}&language=en-US&page=1`;
+      apiUrl = `${backendBaseUrl}/movies/popular`;
       break;
     default:
-      apiUrl = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&page=1`;
+      apiUrl = `${backendBaseUrl}/movies/popular`;
   }
 
   useEffect(() => {
@@ -34,7 +28,8 @@ const CategoryCarousel = ({ title, category }) => {
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        setMovies(data.results);
+
+        setMovies(data.results || data);
       } catch (error) {
         console.error("Error fetching movies:", error);
       }
@@ -66,7 +61,7 @@ const CategoryCarousel = ({ title, category }) => {
                     src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                     height={270}
                     fit="cover"
-                    alt={movie.title}
+                    alt={movie.title || "Movie Image"}
                   />
                 ) : (
                   <div
@@ -83,7 +78,7 @@ const CategoryCarousel = ({ title, category }) => {
                 )}
               </Card.Section>
               <Text align="center" mt="sm" lineClamp={1}>
-                {movie.title}
+                {movie.title || "Unknown Title"}
               </Text>
             </Card>
           </Carousel.Slide>
