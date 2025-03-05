@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Text, Card, Image, Container, Button, ActionIcon } from '@mantine/core';
-import { IconArrowLeft } from '@tabler/icons-react';
+
 import { Carousel } from '@mantine/carousel';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -37,11 +37,13 @@ function SingleWatchlist() {
             {watchlist && (
                 <div>
                     <>
-                        <  ActionIcon>
-                            <Link to="/watchlists">
-                                <IconArrowLeft />
-                            </Link>
-                        </ActionIcon>
+                        <Button
+                            variant="outline"
+                            onClick={() => navigate(-1)}
+                            style={{ marginBottom: "20px" }}
+                        >
+                            Back
+                        </Button>
                         <h1>{watchlist.title || "No title available"}</h1>
                         <p>{watchlist.description || "No description available"}</p>
                     </>

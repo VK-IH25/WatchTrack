@@ -59,7 +59,6 @@ const MovieDetailPage = () => {
     <Container size="xl" style={{ padding: "100px 0" }}>
       <Button
         variant="outline"
-        size="lg"
         onClick={() => navigate(-1)}
         style={{ marginBottom: "20px" }}
       >

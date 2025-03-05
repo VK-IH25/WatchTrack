@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
 import { Card, Image, Text, Loader } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "@mantine/carousel/styles.css";
 
 const CategoryCarousel = ({ title, category }) => {
@@ -11,7 +11,6 @@ const CategoryCarousel = ({ title, category }) => {
 
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
-  const navigate = useNavigate();
 
   let apiUrl = "";
   switch (category) {
@@ -66,10 +65,6 @@ const CategoryCarousel = ({ title, category }) => {
     );
   }
 
-  const handleMovieClick = (movieId) => {
-    navigate(`/movie/${movieId}`);
-  };
-
   return (
     <div style={{ marginTop: "30px" }}>
       <Text size="xl" weight={700} mb="sm">
@@ -86,11 +81,11 @@ const CategoryCarousel = ({ title, category }) => {
       >
         {movies.map((movie, index) => (
           <Carousel.Slide key={index}>
+            <Link to={`/movie/${movie.id}`}>
             <Card
               shadow="sm"
               padding="lg"
-              onClick={() => handleMovieClick(movie.id)}
-            >
+                         >
               <Card.Section>
                 {movie.poster_path ? (
                   <Image
@@ -117,6 +112,7 @@ const CategoryCarousel = ({ title, category }) => {
                 {movie.title || "Unknown Title"}
               </Text>
             </Card>
+            </Link>
           </Carousel.Slide>
         ))}
       </Carousel>
