@@ -5,6 +5,8 @@ import Footer from "./components/Footer";
 import HeroBanner from "./components/HeroBanner";
 import CategoryCarousel from "./components/CategoryCarousel";
 import "./App.css";
+import { Route } from "react-router-dom";
+import Watchlists from "./components/Watchlists";
 
 function App() {
   return (
@@ -20,6 +22,11 @@ function App() {
           <CategoryCarousel title="Popular Movies" category="Popular Movies" />
         </div>
       </Container>
+
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/watchlists" element={<Watchlists></Watchlists>} />
+      </Routes>
 
       <AppShell.Footer className="footer">
         <Footer />

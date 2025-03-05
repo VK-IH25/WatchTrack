@@ -13,7 +13,9 @@ createRoot(document.getElementById("root")).render(
       withGlobalStyles
       withNormalizeCSS
     >
+      <BrowserRouter>
       <App />
+      </BrowserRouter>
     </MantineProvider>
   </StrictMode>
 );
