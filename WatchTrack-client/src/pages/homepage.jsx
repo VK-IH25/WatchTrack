@@ -1,5 +1,5 @@
-import CategoryCarousel from "./CategoryCarousel";
-import HeroBanner from "./HeroBanner";
+import CategoryCarousel from "../components/CategoryCarousel";
+import HeroBanner from "../components/HeroBanner";
 import { Container } from "@mantine/core";
 
 function Homepage() {

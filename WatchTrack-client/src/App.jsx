@@ -6,10 +6,10 @@ import HeroBanner from "./components/HeroBanner";
 import CategoryCarousel from "./components/CategoryCarousel";
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import Watchlists from "./components/Watchlists";
-import SingleWatchlist from "./components/singleWatchlist";
-import Homepage from "./components/homepage";
-import AddWatchlist from "./components/AddWatchlist";
+import Watchlists from "./pages/Watchlists";
+import SingleWatchlist from "./pages/singleWatchlist";
+import Homepage from "./pages/homepage";
+import AddWatchlist from "./pages/AddWatchlist";
 
 function App() {
   return (
