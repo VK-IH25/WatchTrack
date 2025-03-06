@@ -10,6 +10,7 @@ import Homepage from "./pages/homepage";
 import AddWatchlist from "./pages/AddWatchlist";
 import EditWatchlist from "./pages/EditWatchlist";
 import MovieDetailPage from "./pages/MovieDetailPage";
+import TVShowDetailPage from "./pages/TVShowDetailPage";
 import Sidebar from "./components/Sidebar";
 import { useDisclosure } from "@mantine/hooks";
 import SignIn from "./auth/SignIn";
@@ -74,6 +75,7 @@ function App() {
           path="/movie/:id"
           element={<MovieDetailPage></MovieDetailPage>}
         />
+        <Route path="/tv/:id" element={<TVShowDetailPage />} />
       </Routes>
 
       <AppShell.Footer className="footer">

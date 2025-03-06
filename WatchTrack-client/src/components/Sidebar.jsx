@@ -2,30 +2,44 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "../styles/Sidebar.css";
 
-
 const Sidebar = (props) => {
-
-
   return (
     <nav className="sidebar">
       <ul>
         <li>
-        <Link to="/" onClick={() => {
-            props.toggleDesktop();
-            props.toggleMobile();
-          }}>
-           Home
+          <Link
+            to="/"
+            onClick={() => {
+              props.toggleDesktop();
+              props.toggleMobile();
+            }}
+          >
+            Home
           </Link>
         </li>
         <li>
-        <Link to="/watchlists" onClick={() => {
-            props.toggleDesktop();
-            props.toggleMobile();
-          }}>
-           Watchlists
+          <Link
+            to="/watchlists"
+            onClick={() => {
+              props.toggleDesktop();
+              props.toggleMobile();
+            }}
+          >
+            Watchlists
           </Link>
         </li>
 
+        <li>
+          <Link
+            to="/search"
+            onClick={() => {
+              props.toggleDesktop();
+              props.toggleMobile();
+            }}
+          >
+            Search
+          </Link>
+        </li>
       </ul>
     </nav>
   );

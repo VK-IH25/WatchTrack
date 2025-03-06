@@ -16,9 +16,9 @@ import {
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 
-const MovieDetailPage = () => {
+const TVShowDetailPage = () => {
   const { id } = useParams();
-  const [movie, setMovie] = useState(null);
+  const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -27,26 +27,27 @@ const MovieDetailPage = () => {
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchTVShowDetails = async () => {
       try {
-        const movieResponse = await axios.get(
-          `${backendBaseUrl}/tmdb/movies/${id}`
+        const tvShowResponse = await axios.get(
+          `${backendBaseUrl}/tmdb/tv/${id}`
         );
-        setMovie(movieResponse.data);
+        console.log(tvShowResponse);
+        setTvShow(tvShowResponse.data);
 
         const castResponse = await axios.get(
-          `${backendBaseUrl}/tmdb/movies/${id}/credits`
+          `${backendBaseUrl}/tmdb/tv/${id}/credits`
         );
 
         setCast(castResponse.data.cast);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching movie details:", error);
+        console.error("Error fetching TV show details:", error);
         setLoading(false);
       }
     };
 
-    fetchMovieDetails();
+    fetchTVShowDetails();
   }, [id]);
 
   if (loading) {
@@ -57,11 +58,11 @@ const MovieDetailPage = () => {
     );
   }
 
-  if (!movie) {
+  if (!tvShow) {
     return (
       <Container size="md" style={{ textAlign: "center", padding: "50px" }}>
         <Text size="xl" weight={700}>
-          No movie found
+          No TV show found
         </Text>
       </Container>
     );
@@ -79,7 +80,7 @@ const MovieDetailPage = () => {
           left: 0,
           width: "100%",
           height: "65svh",
-          backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
+          backgroundImage: `url(https://image.tmdb.org/t/p/original/${tvShow.backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
           filter: "blur(8px)",
@@ -120,26 +121,26 @@ const MovieDetailPage = () => {
         style={{ position: "relative", zIndex: 2, paddingTop: 60 }}
       >
         <Image
-          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-          alt={movie.title}
+          src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
+          alt={tvShow.name}
           radius="lg"
           style={{ maxWidth: "300px", margin: "auto" }}
         />
 
         <Stack spacing="sm">
           <Text size="35px" color="white" weight={900} lineClamp={1}>
-            {movie.title}
+            {tvShow.name}
           </Text>
           <Text size="lg" color="white">
-            {movie.tagline || "No tagline available"}
+            {tvShow.tagline || "No tagline available"}
           </Text>
           <Group spacing="xl" mt="md">
-            <Text color="white">{movie.release_date}</Text>
+            <Text color="white">{tvShow.first_air_date}</Text>
             <Text color="white">•</Text>
-            <Text color="white">{movie.runtime} mins</Text>
+            <Text color="white">{tvShow.number_of_seasons} seasons</Text>
             <Text color="white">•</Text>
             <Text color="white">
-              {movie.genres.map((g) => g.name).join(", ")}
+              {tvShow.genres.map((g) => g.name).join(", ")}
             </Text>
           </Group>
           <Divider my="xl" />
@@ -155,7 +156,7 @@ const MovieDetailPage = () => {
             </Button>
           </Group>
           <Text my="xl" color="white" size="md">
-            {movie.overview}
+            {tvShow.overview}
           </Text>
         </Stack>
       </SimpleGrid>
@@ -200,4 +201,4 @@ const MovieDetailPage = () => {
   );
 };
 
-export default MovieDetailPage;
+export default TVShowDetailPage;
