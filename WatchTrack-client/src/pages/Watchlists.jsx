@@ -22,7 +22,7 @@ function Watchlists() {
       
             <Container size="xl" mt={80} style={{ padding: "20px 0" }}>
 
-            <Link to="/addwatchlist">
+            <Link to="/watchlists/add">
             <Button mb={50}>Create Watchlist</Button>
             </Link>
 
