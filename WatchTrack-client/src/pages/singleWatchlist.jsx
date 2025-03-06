@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { Text, Card, Image, Container, Button, Popover, Title } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
@@ -21,44 +21,42 @@ function SingleWatchlist() {
             .catch((err) => console.log(err));
     }, [id]);
 
-    useEffect(() => {
-        if (watchlist && watchlist.movies) {
-            populateMovies();
-            populateTvShows();
-        }
-    }, [watchlist]);
-
-    const handleDelete = (e) => {
-        e.preventDefault();
-        fetch(`http://localhost:5005/watchlist/${id}`, {
-            method: 'DELETE',
-        })
-            .then((res) => res.json())
-            .then(() => {
-                console.log('Watchlist deleted');
-                navigate('/watchlists');
-            })
-            .catch((err) => console.log(err));
-    };
-
-    const populateMovies = () => {
+    const populateMovies = useCallback(() => {
+        if (!watchlist?.movies?.length) return;
         Promise.all(
             watchlist.movies.map((movie) =>
                 fetch(`http://localhost:5005/tmdb/movies/${movie}`)
                     .then((res) => res.json())
                     .catch((err) => console.log(err))
             )
-        ).then((movies) => setSelectedMovies(movies.filter(Boolean))); // Filter out failed requests
-    };
+        ).then((movies) => setSelectedMovies(movies.filter(Boolean)));
+    }, [watchlist]);
 
-    const populateTvShows = () => {
+    const populateTvShows = useCallback(() => {
+        if (!watchlist?.tvShows?.length) return;
         Promise.all(
             watchlist.tvShows.map((show) =>
                 fetch(`http://localhost:5005/tmdb/tv/${show}`)
                     .then((res) => res.json())
                     .catch((err) => console.log(err))
             )
-        ).then((tvShows) => setSelectedTvShows(tvShows.filter(Boolean))); // Filter out failed requests
+        ).then((tvShows) => setSelectedTvShows(tvShows.filter(Boolean)));
+    }, [watchlist]);
+
+    useEffect(() => {
+        populateMovies();
+        populateTvShows();
+    }, [populateMovies, populateTvShows]);
+
+    const handleDelete = (e) => {
+        e.preventDefault();
+        fetch(`http://localhost:5005/watchlist/${id}`, { method: 'DELETE' })
+            .then((res) => res.json())
+            .then(() => {
+                console.log('Watchlist deleted');
+                navigate('/watchlists');
+            })
+            .catch((err) => console.log(err));
     };
 
     return (

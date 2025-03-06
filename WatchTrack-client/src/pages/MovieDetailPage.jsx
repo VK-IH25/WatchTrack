@@ -14,7 +14,7 @@ import {
   Divider,
 } from "@mantine/core";
 import axios from "axios";
-import "../styles/MovieDetailPage.css";
+// import "../styles/MovieDetailPage.css";
 import { Carousel } from "@mantine/carousel";
 
 const MovieDetailPage = () => {
