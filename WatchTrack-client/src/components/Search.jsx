@@ -123,7 +123,7 @@ const Search = (props) => {
             >
                 {tvResult.map((movie, index) => (
                     <Carousel.Slide key={index}>
-                        <Link to={`/movie/${movie.id}`}>
+                        <Link to={`/tv/${movie.id}`}>
                             <Card shadow="sm" padding="lg">
                                 <Card.Section>
                                     {movie.poster_path ? (
