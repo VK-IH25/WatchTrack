@@ -1,27 +1,43 @@
-import CategoryCarousel from "../components/CategoryCarousel";
+import { useState } from "react";
+import { Tabs, Container } from "@mantine/core";
+import MoviesCarousel from "../components/MoviesCarousel";
+import TVShowsCarousel from "../components/TVShowsCarousel";
 import HeroBanner from "../components/HeroBanner";
-import { Container } from "@mantine/core";
 
 function Homepage() {
+  const [activeTab, setActiveTab] = useState("movies");
+
   return (
     <div>
       <HeroBanner />
-      <Container size="xl" style={{ padding: "20px 0" }}>
-        <div className="carousel-section">
-          <CategoryCarousel
-            title="Trending Movies"
-            category="Trending Movies"
-          />
-          <CategoryCarousel
-            title="Now Playing Movies"
-            category="Now Playing Movies"
-          />
-          <CategoryCarousel title="Popular Movies" category="Popular Movies" />
-          <CategoryCarousel
-            title="Top Rated Movies"
-            category="Top Rated Movies"
-          />
-        </div>
+      <Container size="xl" style={{ padding: "50px 0" }}>
+        <Tabs
+          defaultValue="movies"
+          value={activeTab}
+          onChange={(value) => setActiveTab(value)}
+          color="dark"
+        >
+          <Tabs.List grow>
+            <Tabs.Tab value="movies">Movies</Tabs.Tab>
+            <Tabs.Tab value="tv">TV Shows</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="movies">
+            <div className="carousel-section">
+              <MoviesCarousel category="Trending Movies" />
+              <MoviesCarousel category="Popular Movies" />
+              <MoviesCarousel category="Top Rated Movies" />
+            </div>
+          </Tabs.Panel>
+
+          <Tabs.Panel value="tv">
+            <div className="carousel-section">
+              <TVShowsCarousel category="Trending TV Shows" />
+              <TVShowsCarousel category="Popular TV Shows" />
+              <TVShowsCarousel category="Top Rated TV Shows" />
+            </div>
+          </Tabs.Panel>
+        </Tabs>
       </Container>
     </div>
   );

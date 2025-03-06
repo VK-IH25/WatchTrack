@@ -18,7 +18,6 @@ import AuthDetails from "./auth/AuthDetails";
 import Search from "./components/Search";
 
 function App() {
-
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
   const [desktopOpened, { toggle: toggleDesktop }] = useDisclosure(false);
 
@@ -29,7 +28,8 @@ function App() {
         breakpoint: "sm",
         collapsed: { mobile: !mobileOpened, desktop: !desktopOpened },
       }}
-       header={{ height: 60 }}>
+      header={{ height: 60 }}
+    >
       <AppShell.Header className="header">
         <Burger
           lineSize={3}
@@ -59,11 +59,16 @@ function App() {
         <Route path="signin" element={<SignIn></SignIn>} />
         <Route path="signup" element={<SignUp />} />
         <Route path="/watchlists" element={<Watchlists></Watchlists>} />
-        <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
+        <Route
+          path="/watchlist/:id"
+          element={<SingleWatchlist></SingleWatchlist>}
+        />
         <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>} />
-        <Route path="/watchlist/:id/edit" element={<EditWatchlist></EditWatchlist>} />
+        <Route
+          path="/watchlist/:id/edit"
+          element={<EditWatchlist></EditWatchlist>}
+        />
         <Route path="/search" element={<Search></Search>} />
-
 
         <Route
           path="/movie/:id"
