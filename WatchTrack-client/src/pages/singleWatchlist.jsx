@@ -39,7 +39,7 @@ function SingleWatchlist() {
                     <>
                         <Button
                             variant="outline"
-                            onClick={() => navigate(-1)}
+                            onClick={() => navigate("/watchlists")}
                             style={{ marginBottom: "20px" }}
                         >
                             Back

@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Carousel } from "@mantine/carousel";
 import { Card, Image, Text, Container, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
 
 function Watchlists() {
     const [watchlists, setWatchlists] = useState([]);
+      const { user } = useContext(AuthContext);
 
 
 
@@ -17,6 +19,10 @@ function Watchlists() {
             .catch((err) => console.log(err));
     }, []);
 
+    const filteredWatchlists = watchlists.filter((watchlist) => watchlist.createdBy === user._id);
+    console.log(watchlists);
+
+    console.log(user)
 
     return (
       
@@ -88,7 +94,7 @@ function Watchlists() {
                 loop
                 align="start"
             >
-                {watchlists.map((watchlist, index) => (
+                {filteredWatchlists.map((watchlist, index) => (
                     <Carousel.Slide key={index}>
                         <Link to={`/watchlist/${watchlist._id}`}>
                         <Card shadow="sm" padding="lg">
