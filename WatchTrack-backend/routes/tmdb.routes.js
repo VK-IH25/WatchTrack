@@ -84,6 +84,36 @@ router.get("/movies/:id", async (req, res) => {
   }
 });
 
+// Fetch movie CAST by ID
+router.get("/movies/:id/credits", async (req, res) => {
+  const movie_id = req.params.id;
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movie_id}/credits?api_key=${API_KEY}&with_cast=true`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(`Error fetching movie with ID ${movie_id}:`, error.message);
+    res.status(500).json({ error: "Failed to fetch movie details" });
+  }
+});
+
+// Fetch movie RECOMMENDATIONS by ID
+router.get("/movies/:id/recommendations", async (req, res) => {
+  const movie_id = req.params.id;
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/movie/${movie_id}/recommendations?api_key=${API_KEY}&with_cast=true`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(`Error fetching movie with ID ${movie_id}:`, error.message);
+    res.status(500).json({ error: "Failed to fetch movie details" });
+  }
+});
+
+
+
 // Search movies by keyword
 router.get("/movies/search/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
@@ -166,6 +196,34 @@ router.get("/tv/:id", async (req, res) => {
   } catch (error) {
     console.error(`Error fetching show with ID ${show_id}:`, error.message);
     res.status(500).json({ error: "Failed to fetch show details" });
+  }
+});
+
+// Fetch tv CAST by ID
+router.get("/tv/:id/credits", async (req, res) => {
+  const show_id = req.params.id;
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/tv/${show_id}/credits?api_key=${API_KEY}&with_cast=true`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(`Error fetching tv with ID ${show_id}:`, error.message);
+    res.status(500).json({ error: "Failed to fetch tv details" });
+  }
+});
+
+// Fetch tv show RECOMMENDATIONS by ID
+router.get("/tv/:id/recommendations", async (req, res) => {
+  const show_id = req.params.id;
+  try {
+    const response = await axios.get(
+      `https://api.themoviedb.org/3/tv/${show_id}/recommendations?api_key=${API_KEY}&with_cast=true`
+    );
+    res.json(response.data);
+  } catch (error) {
+    console.error(`Error fetching tv show with ID ${show_id}:`, error.message);
+    res.status(500).json({ error: "Failed to fetch tv show details" });
   }
 });
 
