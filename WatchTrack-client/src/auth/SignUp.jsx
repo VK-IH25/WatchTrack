@@ -18,7 +18,7 @@ import {
 
   import { Link, useNavigate } from "react-router-dom";
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_BACKEND_BASE_URL;
   
   const SignUp = () => {
     const [email, setEmail] = useState();

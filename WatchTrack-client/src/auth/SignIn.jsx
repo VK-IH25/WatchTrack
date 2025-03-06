@@ -17,7 +17,7 @@ import {
   import { AuthContext } from "../context/auth.context";
   import axios from "axios";
 
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = import.meta.env.VITE_BACKEND_BASE_URL;
 
   
   const SignIn = () => {
