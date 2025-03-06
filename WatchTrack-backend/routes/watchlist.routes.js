@@ -35,15 +35,15 @@ router.get("/watchlist/:id", (req, res, next) => {
 
 router.put("/watchlist/:id", (req, res, next) => {
     const { id } = req.params;
-    const { title, description, createdBy, isPrivate } = req.body;
+    const { title, description, createdBy, isPrivate, movies, tvShows } = req.body;
     Watchlist.findByIdAndUpdate(
         id,
-        { title, description, createdBy, isPrivate },
-        { new: true }
+        { title, description, createdBy, isPrivate, movies, tvShows },
+        { new: true } // Return the updated document
     )
         .then((watchlist) => {
             if (!watchlist) {
-                res.status(404).json(watchlist);
+                res.status(404).json({ error: "Watchlist not found" });
             } else {
                 res.json(watchlist);
             }
