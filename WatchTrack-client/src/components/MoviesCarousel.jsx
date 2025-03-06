@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "@mantine/carousel/styles.css";
 
-const MoviesCarousel = ({ category }) => {
+const MoviesCarousel = ({ category, activeTab }) => {
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,7 +34,7 @@ const MoviesCarousel = ({ category }) => {
     };
 
     fetchMovies();
-  }, [category]);
+  }, [category, activeTab]);
 
   if (loading) {
     return (
@@ -53,7 +53,7 @@ const MoviesCarousel = ({ category }) => {
   }
 
   return (
-    <div style={{ marginTop: "30px" }}>
+    <div style={{ margin: "50px 0px" }}>
       <Text size="xl" weight={700} mb="sm">
         {category}
       </Text>
@@ -85,8 +85,6 @@ const MoviesCarousel = ({ category }) => {
                           height: 270,
                           backgroundColor: "#ccc",
                           display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
                         }}
                       >
                         No Image

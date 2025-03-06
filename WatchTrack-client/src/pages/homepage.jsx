@@ -10,13 +10,8 @@ function Homepage() {
   return (
     <div>
       <HeroBanner />
-      <Container size="xl" style={{ padding: "50px 0" }}>
-        <Tabs
-          defaultValue="movies"
-          value={activeTab}
-          onChange={(value) => setActiveTab(value)}
-          color="dark"
-        >
+      <Container size="xl" mb="xxl" style={{ padding: "20px 0" }}>
+        <Tabs value={activeTab} onChange={setActiveTab} color="dark">
           <Tabs.List grow>
             <Tabs.Tab value="movies">Movies</Tabs.Tab>
             <Tabs.Tab value="tv">TV Shows</Tabs.Tab>
@@ -24,17 +19,32 @@ function Homepage() {
 
           <Tabs.Panel value="movies">
             <div className="carousel-section">
-              <MoviesCarousel category="Trending Movies" />
-              <MoviesCarousel category="Popular Movies" />
-              <MoviesCarousel category="Top Rated Movies" />
+              <MoviesCarousel
+                category="Trending Movies"
+                activeTab={activeTab}
+              />
+              <MoviesCarousel category="Popular Movies" activeTab={activeTab} />
+              <MoviesCarousel
+                category="Top Rated Movies"
+                activeTab={activeTab}
+              />
             </div>
           </Tabs.Panel>
 
           <Tabs.Panel value="tv">
             <div className="carousel-section">
-              <TVShowsCarousel category="Trending TV Shows" />
-              <TVShowsCarousel category="Popular TV Shows" />
-              <TVShowsCarousel category="Top Rated TV Shows" />
+              <TVShowsCarousel
+                category="Trending TV Shows"
+                activeTab={activeTab}
+              />
+              <TVShowsCarousel
+                category="Popular TV Shows"
+                activeTab={activeTab}
+              />
+              <TVShowsCarousel
+                category="Top Rated TV Shows"
+                activeTab={activeTab}
+              />
             </div>
           </Tabs.Panel>
         </Tabs>
