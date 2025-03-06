@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Tabs, Container } from "@mantine/core";
+import { Link } from "react-router-dom";
 import MoviesCarousel from "../components/MoviesCarousel";
 import TVShowsCarousel from "../components/TVShowsCarousel";
 import HeroBanner from "../components/HeroBanner";
@@ -19,32 +20,47 @@ function Homepage() {
 
           <Tabs.Panel value="movies">
             <div className="carousel-section">
-              <MoviesCarousel
-                category="Trending Movies"
-                activeTab={activeTab}
-              />
-              <MoviesCarousel category="Popular Movies" activeTab={activeTab} />
-              <MoviesCarousel
-                category="Top Rated Movies"
-                activeTab={activeTab}
-              />
+              <Link to="/movies/trending">
+                <MoviesCarousel
+                  category="Trending Movies"
+                  activeTab={activeTab}
+                />
+              </Link>
+              <Link to="/movies/popular">
+                <MoviesCarousel
+                  category="Popular Movies"
+                  activeTab={activeTab}
+                />
+              </Link>
+              <Link to="/movies/toprated">
+                <MoviesCarousel
+                  category="Top Rated Movies"
+                  activeTab={activeTab}
+                />
+              </Link>
             </div>
           </Tabs.Panel>
 
           <Tabs.Panel value="tv">
             <div className="carousel-section">
-              <TVShowsCarousel
-                category="Trending TV Shows"
-                activeTab={activeTab}
-              />
-              <TVShowsCarousel
-                category="Popular TV Shows"
-                activeTab={activeTab}
-              />
-              <TVShowsCarousel
-                category="Top Rated TV Shows"
-                activeTab={activeTab}
-              />
+              <Link to="/tv/trending">
+                <TVShowsCarousel
+                  category="Trending TV Shows"
+                  activeTab={activeTab}
+                />
+              </Link>
+              <Link to="/tv/popular">
+                <TVShowsCarousel
+                  category="Popular TV Shows"
+                  activeTab={activeTab}
+                />
+              </Link>
+              <Link to="/tv/top-rated">
+                <TVShowsCarousel
+                  category="Top Rated TV Shows"
+                  activeTab={activeTab}
+                />
+              </Link>
             </div>
           </Tabs.Panel>
         </Tabs>
