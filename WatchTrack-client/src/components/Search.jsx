@@ -1,8 +1,12 @@
 import { useState } from "react";
+import axios from "axios";
 import { TextInput, Button, Container } from "@mantine/core";
 import { Card, Image, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import { Link } from "react-router-dom";
+
+const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
 const Search = () => {
   const [query, setQuery] = useState("");
@@ -17,30 +21,34 @@ const Search = () => {
 
   const handleSearchMovie = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5005/tmdb/movies/search/${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setMoviesResult(data);
+    axios
+      .get(`${backendBaseUrl}/tmdb/movies/search/${query}`)
+      .then((response) => {
+        if (response.data) {
+          setMoviesResult(response.data);
         } else {
           setMoviesResult([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleSearchTv = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5005/tmdb/tv/search/${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setTvResult(data);
+    axios
+      .get(`${backendBaseUrl}/tmdb/tv/search/${query}`)
+      .then((response) => {
+        if (response.data) {
+          setTvResult(response.data);
         } else {
           setTvResult([]);
         }
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -113,6 +121,7 @@ const Search = () => {
           </Carousel>
         </>
       )}
+
       {tvResult.length > 0 && (
         <>
           <Text size="xl" weight={700} mb="sm">
