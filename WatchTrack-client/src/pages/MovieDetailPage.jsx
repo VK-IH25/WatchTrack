@@ -1,16 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
-  Card,
-  Image,
   Text,
   Loader,
-  Grid,
+  SimpleGrid,
   Group,
   Container,
   Button,
+  Overlay,
+  Stack,
+  Box,
+  Image,
+  Divider,
 } from "@mantine/core";
 import axios from "axios";
+import "../styles/MovieDetailPage.css";
+import { Carousel } from "@mantine/carousel";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -25,18 +30,16 @@ const MovieDetailPage = () => {
   useEffect(() => {
     const fetchMovieDetails = async () => {
       try {
-        // Fetch movie details
         const movieResponse = await axios.get(
           `${backendBaseUrl}/tmdb/movies/${id}`
         );
         setMovie(movieResponse.data);
 
-        // Fetch movie cast
         const castResponse = await axios.get(
-          `${backendBaseUrl}/movies/${id}/credits`
+          `${backendBaseUrl}/tmdb/movies/${id}/credits`
         );
-        setCast(castResponse.data.cast);
 
+        setCast(castResponse.data.cast);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching movie details:", error);
@@ -48,65 +51,153 @@ const MovieDetailPage = () => {
   }, [id]);
 
   if (loading) {
-    return <Loader size="xl" />;
+    return (
+      <Container size="md" style={{ textAlign: "center", padding: "50px" }}>
+        <Loader size="xl" />
+      </Container>
+    );
   }
 
   if (!movie) {
-    return <Text>No movie found</Text>;
+    return (
+      <Container size="md" style={{ textAlign: "center", padding: "50px" }}>
+        <Text size="xl" weight={700}>
+          No movie found
+        </Text>
+      </Container>
+    );
   }
 
   return (
-    <Container size="xl" style={{ padding: "100px 0" }}>
+    <Container
+      size="xxl"
+      style={{ padding: "50px 0", marginTop: "50px", position: "relative" }}
+    >
+      <Box
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "65svh",
+          backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "blur(8px)",
+        }}
+      />
+      <Overlay
+        color="#000"
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "65svh",
+        }}
+        opacity={0.6}
+        zIndex={1}
+      />
+
       <Button
-        variant="outline"
+        variant="light"
+        color="rgba(255, 255, 255, 1)"
         onClick={() => navigate(-1)}
-        style={{ marginBottom: "20px" }}
+        style={{
+          position: "absolute",
+          top: 20,
+          left: 20,
+          zIndex: 3,
+          backgroundColor: "rgba(255,255,255,0.2)",
+        }}
       >
-        Back
+        ← Back
       </Button>
 
-      <Card>
-        <Card.Section>
-          <Image
-            src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-            height={400}
-            fit="contain"
-            alt={movie.title}
-          />
-        </Card.Section>
-        <Text align="center" size="xl" weight={700} mt="sm">
-          {movie.title}
-        </Text>
-        <Text align="center" color="dimmed" size="sm" mt="xs">
-          {movie.release_date} | {movie.runtime} mins |{" "}
-          {movie.genres.map((genre) => genre.name).join(", ")}
-        </Text>
-        <Text mt="sm">{movie.overview}</Text>
+      <SimpleGrid
+        cols={2}
+        spacing="xl"
+        breakpoints={[{ maxWidth: "md", cols: 1 }]}
+        style={{ position: "relative", zIndex: 2, paddingTop: 60 }}
+      >
+        <Image
+          src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+          alt={movie.title}
+          radius="lg"
+          style={{ maxWidth: "300px", margin: "auto" }}
+        />
 
-        <Grid mt="lg">
-          <Grid.Col span={12}>
-            <Group spacing="md" direction="row" wrap>
-              {cast.slice(0, 6).map((actor) => (
-                <div key={actor.id} style={{ textAlign: "center" }}>
-                  <Image
-                    src={`https://image.tmdb.org/t/p/w500/${actor.profile_path}`}
-                    alt={actor.name}
-                    radius="md"
-                    width={100}
-                    height={150}
-                  />
-                  <Text size="sm" mt="xs" weight={500}>
+        <Stack spacing="sm" style={{ width: "80%" }}>
+          <Text size="35px" color="white" weight={900} lineClamp={1}>
+            {movie.title}
+          </Text>
+          <Text size="lg" color="white">
+            {movie.tagline || "No tagline available"}
+          </Text>
+          <Group spacing="xl" mt="md">
+            <Text color="white">{movie.release_date}</Text>
+            <Text color="white">•</Text>
+            <Text color="white">{movie.runtime} mins</Text>
+            <Text color="white">•</Text>
+            <Text color="white">
+              {movie.genres.map((g) => g.name).join(", ")}
+            </Text>
+          </Group>
+          <Divider my="xl" />
+          <Group mt="xl">
+            <Button radius="xl" size="md" variant="light">
+              + Add to Watchlist
+            </Button>
+            <Button radius="xl" size="md">
+              ▶ Watch Now
+            </Button>
+            <Button variant="subtle" size="md">
+              Already seen it?
+            </Button>
+          </Group>
+          <Text my="xl" color="white" size="md">
+            {movie.overview}
+          </Text>
+        </Stack>
+      </SimpleGrid>
+
+      <Container
+        size="xxl"
+        style={{ position: "", zIndex: 2, paddingTop: 100 }}
+      >
+        <Text size="30px" weight={700} mt="xl">
+          Cast
+        </Text>
+
+        <Carousel slideSize="12%" align="start" slidesToScroll={2} mt="xl" loop>
+          {cast.map((actor) => (
+            <Carousel.Slide key={actor.id}>
+              <Group spacing="md" align="center">
+                <Image
+                  src={
+                    actor.profile_path
+                      ? `https://image.tmdb.org/t/p/w185/${actor.profile_path}`
+                      : "https://placehold.co/200x300"
+                  }
+                  width={80}
+                  height={80}
+                  radius="xl"
+                  fit="cover"
+                  alt={actor.name}
+                />
+                <Stack spacing={0}>
+                  <Text size="sm" weight={600}>
                     {actor.name}
                   </Text>
                   <Text size="xs" color="dimmed">
                     {actor.character}
                   </Text>
-                </div>
-              ))}
-            </Group>
-          </Grid.Col>
-        </Grid>
-      </Card>
+                </Stack>
+              </Group>
+            </Carousel.Slide>
+          ))}
+        </Carousel>
+      </Container>
     </Container>
   );
 };
