@@ -71,7 +71,7 @@ const MovieDetailPage = () => {
   return (
     <Container
       size="xxl"
-      style={{ padding: "50px 0", marginTop: "50px", position: "relative" }}
+      style={{ padding: "50px", marginTop: "50px", position: "relative" }}
     >
       <Box
         style={{
@@ -127,7 +127,7 @@ const MovieDetailPage = () => {
           style={{ maxWidth: "300px", margin: "auto" }}
         />
 
-        <Stack spacing="sm" style={{ width: "80%" }}>
+        <Stack spacing="sm">
           <Text size="35px" color="white" weight={900} lineClamp={1}>
             {movie.title}
           </Text>
@@ -177,11 +177,10 @@ const MovieDetailPage = () => {
                   src={
                     actor.profile_path
                       ? `https://image.tmdb.org/t/p/w185/${actor.profile_path}`
-                      : "https://placehold.co/200x300"
+                      : "https://placehold.co/150x228"
                   }
-                  width={80}
-                  height={80}
-                  radius="xl"
+                  width={150}
+                  height={228}
                   fit="cover"
                   alt={actor.name}
                 />
