@@ -62,7 +62,7 @@ function App() {
         <Route path="/watchlist/:id" element={<SingleWatchlist></SingleWatchlist>} />
         <Route path="/watchlists/add" element={<AddWatchlist></AddWatchlist>} />
         <Route path="/watchlist/:id/edit" element={<EditWatchlist></EditWatchlist>} />
-        <Route path="/movies/search" element={<Search></Search>} />
+        <Route path="/search" element={<Search></Search>} />
 
 
         <Route
