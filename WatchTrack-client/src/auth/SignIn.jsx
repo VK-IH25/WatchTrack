@@ -12,17 +12,42 @@ import {
     Title,
   } from "@mantine/core";
   import React from "react";
-  import { useState } from "react";
-  import { Link, useNavigate } from "react-router";
+  import { useState, useContext } from "react";
+  import { Link, useNavigate } from "react-router-dom"; // Updated import
+  import { AuthContext } from "../context/auth.context";
+  import axios from "axios";
+
+  const API_URL = import.meta.env.VITE_API_URL;
 
   
   const SignIn = () => {
-    const [email, setEmail] = useState();
-    const [password, setPassword] = useState();
+    const [email, setEmail] = useState(''); // Initialize with empty string
+    const [password, setPassword] = useState(''); // Initialize with empty string
+    const [errorMessage, setErrorMessage] = useState(undefined);
     const navigate = useNavigate();
-  
+    const { storeToken, authenticateUser } = useContext(AuthContext);
+
+    
+
     const signin = (e) => {
       e.preventDefault();
+      const requestBody = { email, password };
+
+      axios
+      .post(`${API_URL}/auth/login`, requestBody)
+      .then((response) => {
+        console.log("JWT token", response.data.authToken);
+
+        storeToken(response.data.authToken);
+        authenticateUser();
+        navigate("/");
+      })
+      .catch((error) => {
+        const errorDescription = error.response.data.message;
+        setErrorMessage(errorDescription);
+      });
+
+
     };
   
     return (
@@ -55,7 +80,7 @@ import {
               mt="md"
             />
             <Group justify="space-between" mt="lg">
-              <Checkbox color="#3d8d7a" label="Remember me" />
+              <Checkbox color="#3d8d7a" label="Remember me"/>
               <Anchor component="button" size="sm">
                 Forgot password?
               </Anchor>
@@ -64,10 +89,10 @@ import {
               Sign in
             </Button>
           </form>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
         </Paper>
       </Container>
     );
   };
   
   export default SignIn;
-  

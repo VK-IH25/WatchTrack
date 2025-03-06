@@ -5,6 +5,7 @@ import App from "./App.jsx";
 import { MantineProvider } from "@mantine/core";
 import myTheme from "./myTheme";
 import { BrowserRouter } from "react-router-dom";
+import { AuthProviderWrapper } from "./context/auth.context";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
       withNormalizeCSS
     >
       <BrowserRouter>
+      <AuthProviderWrapper>
       <App />
+      </AuthProviderWrapper>
       </BrowserRouter>
     </MantineProvider>
   </StrictMode>

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-
+import React, { useContext } from "react";
+import { AuthContext } from "../context/auth.context";
 import { Link } from "react-router-dom";
 import {
   Avatar,
@@ -11,13 +11,11 @@ import {
 } from "@mantine/core";
 
 const AuthDetails = () => {
-  const [authUser, setAuthUser] = useState(null);
-
-
+  const { user, logOutUser } = useContext(AuthContext);
 
   return (
     <div>
-      {authUser ? (
+      {user ? (
         <div>
           <Menu closeOnClickOutside={true} closeOnItemClick={true}>
             <MenuTarget>
@@ -25,7 +23,7 @@ const AuthDetails = () => {
             </MenuTarget>{" "}
             <MenuDropdown>
               <MenuItem>Profile</MenuItem>
-              <Button >Sign Out</Button>
+              <Button onClick={logOutUser}>Sign Out</Button>
             </MenuDropdown>
           </Menu>
         </div>
