@@ -15,7 +15,7 @@ function MoviesCategory() {
     if (category) {
       setLoading(true);
       axios
-        .get(`${backendBaseUrl}/tmdb/movies/${category}`)
+        .get(`${backendBaseUrl}/tmdb/movies/category/${category}`)
         .then((response) => {
           setMovies(response.data);
           setLoading(false);
@@ -32,7 +32,7 @@ function MoviesCategory() {
   }
 
   return (
-    <Container size="xl" mb="xxl" style={{ padding: "50px 0" }}>
+    <Container size="xl" mb="xl" mt="xl" style={{ padding: "50px 0" }}>
       <Text size="xl" mt="xl" weight={700} mb="sm">
         {category.charAt(0).toUpperCase() + category.slice(1)} Movies
       </Text>
@@ -71,9 +71,6 @@ function MoviesCategory() {
                     </Card.Section>
                     <Text align="center" mt="sm" lineClamp={1}>
                       {movie.title}
-                    </Text>
-                    <Text align="center" mt="sm" lineClamp={2}>
-                      {movie.description || "No description available"}
                     </Text>
                   </Card>
                 </Link>

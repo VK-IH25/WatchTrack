@@ -19,7 +19,7 @@ router.get("/movie/genre", async (req, res) => {
 });
 
 // Fetch popular movies
-router.get("/movies/popular", async (req, res) => {
+router.get("/movies/category/popular", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
@@ -32,7 +32,7 @@ router.get("/movies/popular", async (req, res) => {
 });
 
 // Fetch top-rated movies
-router.get("/movies/toprated", async (req, res) => {
+router.get("/movies/category/toprated", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
@@ -45,7 +45,7 @@ router.get("/movies/toprated", async (req, res) => {
 });
 
 // Fetch trending movies
-router.get("/movies/trending", async (req, res) => {
+router.get("/movies/category/trending", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`
@@ -58,7 +58,7 @@ router.get("/movies/trending", async (req, res) => {
 });
 
 // Fetch now-playing movies
-router.get("/movies/nowplaying", async (req, res) => {
+router.get("/movies/category/nowplaying", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`
@@ -71,7 +71,7 @@ router.get("/movies/nowplaying", async (req, res) => {
 });
 
 // Fetch movie by ID
-router.get("/movies/:id", async (req, res) => {
+router.get("/movies/:id(\\d+)", async (req, res) => {
   const movie_id = req.params.id;
   try {
     const response = await axios.get(
@@ -112,8 +112,6 @@ router.get("/movies/:id/recommendations", async (req, res) => {
   }
 });
 
-
-
 // Search movies by keyword
 router.get("/movies/search/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
@@ -137,7 +135,7 @@ router.get("/movies/search/:keyword", async (req, res) => {
 router.get("/tv/genre", async (req, res) => {
   try {
     const response = await axios.get(
-      `hhttps://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/genre/tv/list?api_key=${API_KEY}`
     );
     res.json(response.data.results);
   } catch (error) {
@@ -147,7 +145,7 @@ router.get("/tv/genre", async (req, res) => {
 });
 
 // Fetch popular shows
-router.get("/tv/popular", async (req, res) => {
+router.get("/tv/category/popular", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`
@@ -160,7 +158,7 @@ router.get("/tv/popular", async (req, res) => {
 });
 
 // Fetch top-rated shows
-router.get("/tv/toprated", async (req, res) => {
+router.get("/tv/category/toprated", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`
@@ -173,7 +171,7 @@ router.get("/tv/toprated", async (req, res) => {
 });
 
 // Fetch trending shows
-router.get("/tv/trending", async (req, res) => {
+router.get("/tv/category/trending", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY}`
@@ -186,7 +184,7 @@ router.get("/tv/trending", async (req, res) => {
 });
 
 // Fetch Show by ID
-router.get("/tv/:id", async (req, res) => {
+router.get("/tv/:id(\\d+)", async (req, res) => {
   const show_id = req.params.id;
   try {
     const response = await axios.get(
@@ -261,7 +259,5 @@ router.get("/tv/search/:keyword", async (req, res) => {
     res.status(500).json({ error: "Failed to search for shows" });
   }
 });
-
-
 
 module.exports = router;

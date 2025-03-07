@@ -14,7 +14,7 @@ function TVShowsCategory() {
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${backendBaseUrl}/tmdb/tv/${category}`)
+      .get(`${backendBaseUrl}/tmdb/tv/category/${category}`)
       .then((response) => {
         if (response.data) {
           setTvShows(response.data);
@@ -30,7 +30,7 @@ function TVShowsCategory() {
   }, [category]);
 
   return (
-    <Container size="xl" mb="xxl" style={{ padding: "20px 0" }}>
+    <Container size="xl" mb="xl" mt="xl" style={{ padding: "50px 0" }}>
       <Text size="xl" weight={700} mb="sm">
         {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows
       </Text>
@@ -41,7 +41,7 @@ function TVShowsCategory() {
         <Grid gutter="lg">
           {tvShows.length > 0 ? (
             tvShows.map((tvShow) => (
-              <Grid.Col key={tvShow.id} span={2} sm={2} md={2} lg={2} xl={2}>
+              <Grid.Col key={tvShow.id} span={{ base: 12, md: 6, lg: 3 }}>
                 <Link
                   to={`/tv/${tvShow.id}`}
                   style={{ textDecoration: "none" }}
@@ -76,9 +76,6 @@ function TVShowsCategory() {
                     </Card.Section>
                     <Text align="center" mt="sm" lineClamp={1}>
                       {tvShow.name}
-                    </Text>
-                    <Text align="center" mt="sm" lineClamp={2}>
-                      {tvShow.overview || "No description available"}
                     </Text>
                   </Card>
                 </Link>

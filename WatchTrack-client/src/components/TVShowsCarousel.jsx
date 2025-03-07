@@ -14,9 +14,15 @@ const TVShowsCarousel = ({ category, activeTab }) => {
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   const apiEndpoints = {
-    "Trending TV Shows": `${backendBaseUrl}/tmdb/tv/trending`,
-    "Popular TV Shows": `${backendBaseUrl}/tmdb/tv/popular`,
-    "Top Rated TV Shows": `${backendBaseUrl}/tmdb/tv/toprated`,
+    "Trending TV Shows": `${backendBaseUrl}/tmdb/tv/category/trending`,
+    "Popular TV Shows": `${backendBaseUrl}/tmdb/tv/category/popular`,
+    "Top Rated TV Shows": `${backendBaseUrl}/tmdb/tv/category/toprated`,
+  };
+
+  const categoryLinks = {
+    "Trending TV Shows": "/tv/category/trending",
+    "Popular TV Shows": "/tv/category/popular",
+    "Top Rated TV Shows": "/tv/category/top-rated",
   };
 
   useEffect(() => {
@@ -24,6 +30,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
       try {
         setLoading(true);
         const response = await axios.get(apiEndpoints[category]);
+        console.log(category, response.data);
         setShows(response.data || []);
         setLoading(false);
       } catch (error) {
@@ -54,9 +61,11 @@ const TVShowsCarousel = ({ category, activeTab }) => {
 
   return (
     <div style={{ margin: "50px 0px" }}>
-      <Text size="xl" weight={700} mb="sm">
-        {category}
-      </Text>
+      <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
+        <Text size="xl" weight={700} mb="sm" color="blue">
+          {category}
+        </Text>
+      </Link>
       {shows.length > 0 && (
         <Carousel
           key={category}
@@ -69,9 +78,9 @@ const TVShowsCarousel = ({ category, activeTab }) => {
         >
           {shows.map((show) => (
             <Carousel.Slide key={show.id}>
-              <Link to={`/tv/${show.id}`}>
-                <Card shadow="sm" padding="lg">
-                  <Card.Section>
+              <Card shadow="sm" padding="lg">
+                <Card.Section>
+                  <Link to={`/tv/${show.id}`}>
                     {show.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
@@ -90,12 +99,17 @@ const TVShowsCarousel = ({ category, activeTab }) => {
                         No Image
                       </div>
                     )}
-                  </Card.Section>
-                  <Text align="center" mt="sm" lineClamp={1}>
-                    {show.name || "Unknown Title"}
-                  </Text>
-                </Card>
-              </Link>
+                  </Link>
+                </Card.Section>
+                <Text align="center" mt="sm" lineClamp={1}>
+                  <Link
+                    to={`/tv/${show.id}`}
+                    style={{ textDecoration: "none", color: "inherit" }}
+                  >
+                    {show.name || show.original_title}
+                  </Link>
+                </Text>
+              </Card>
             </Carousel.Slide>
           ))}
         </Carousel>

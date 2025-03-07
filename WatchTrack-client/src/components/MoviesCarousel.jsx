@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Card, Image, Text, Loader } from "@mantine/core";
+import { Card, Image, Text, Loader, Group } from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "@mantine/carousel/styles.css";
@@ -14,9 +14,15 @@ const MoviesCarousel = ({ category, activeTab }) => {
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   const apiEndpoints = {
-    "Trending Movies": `${backendBaseUrl}/tmdb/movies/trending`,
-    "Popular Movies": `${backendBaseUrl}/tmdb/movies/popular`,
-    "Top Rated Movies": `${backendBaseUrl}/tmdb/movies/toprated`,
+    "Trending Movies": `${backendBaseUrl}/tmdb/movies/category/trending`,
+    "Popular Movies": `${backendBaseUrl}/tmdb/movies/category/popular`,
+    "Top Rated Movies": `${backendBaseUrl}/tmdb/movies/category/toprated`,
+  };
+
+  const categoryLinks = {
+    "Trending Movies": "/movies/category/trending",
+    "Popular Movies": "/movies/category/popular",
+    "Top Rated Movies": "/movies/category/toprated",
   };
 
   useEffect(() => {
@@ -54,9 +60,13 @@ const MoviesCarousel = ({ category, activeTab }) => {
 
   return (
     <div style={{ margin: "50px 0px" }}>
-      <Text size="xl" weight={700} mb="sm">
-        {category}
-      </Text>
+      <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
+        <Group spacing="xs">
+          <Text size="xl" weight={700} color="blue">
+            {category}
+          </Text>
+        </Group>
+      </Link>
       {movies.length > 0 && (
         <Carousel
           key={category}
@@ -69,9 +79,9 @@ const MoviesCarousel = ({ category, activeTab }) => {
         >
           {movies.map((movie) => (
             <Carousel.Slide key={movie.id}>
-              <Link to={`/movie/${movie.id}`}>
-                <Card shadow="sm" padding="lg">
-                  <Card.Section>
+              <Card shadow="sm" padding="lg">
+                <Card.Section>
+                  <Link to={`/movie/${movie.id}`}>
                     {movie.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
@@ -90,12 +100,21 @@ const MoviesCarousel = ({ category, activeTab }) => {
                         No Image
                       </div>
                     )}
-                  </Card.Section>
-                  <Text align="center" mt="sm" lineClamp={1}>
+                  </Link>
+                </Card.Section>
+                <Text align="center" mt="sm" lineClamp={1}>
+                  <Link
+                    to={`/movie/${movie.id}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      fontWeight: "bold",
+                    }}
+                  >
                     {movie.title || "Unknown Title"}
-                  </Text>
-                </Card>
-              </Link>
+                  </Link>
+                </Text>
+              </Card>
             </Carousel.Slide>
           ))}
         </Carousel>

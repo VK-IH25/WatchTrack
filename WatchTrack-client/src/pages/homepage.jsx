@@ -20,47 +20,32 @@ function Homepage() {
 
           <Tabs.Panel value="movies">
             <div className="carousel-section">
-              <Link to="/movies/trending">
-                <MoviesCarousel
-                  category="Trending Movies"
-                  activeTab={activeTab}
-                />
-              </Link>
-              <Link to="/movies/popular">
-                <MoviesCarousel
-                  category="Popular Movies"
-                  activeTab={activeTab}
-                />
-              </Link>
-              <Link to="/movies/toprated">
-                <MoviesCarousel
-                  category="Top Rated Movies"
-                  activeTab={activeTab}
-                />
-              </Link>
+              <MoviesCarousel
+                category="Trending Movies"
+                activeTab={activeTab}
+              />
+              <MoviesCarousel category="Popular Movies" activeTab={activeTab} />
+              <MoviesCarousel
+                category="Top Rated Movies"
+                activeTab={activeTab}
+              />
             </div>
           </Tabs.Panel>
 
           <Tabs.Panel value="tv">
             <div className="carousel-section">
-              <Link to="/tv/trending">
-                <TVShowsCarousel
-                  category="Trending TV Shows"
-                  activeTab={activeTab}
-                />
-              </Link>
-              <Link to="/tv/popular">
-                <TVShowsCarousel
-                  category="Popular TV Shows"
-                  activeTab={activeTab}
-                />
-              </Link>
-              <Link to="/tv/top-rated">
-                <TVShowsCarousel
-                  category="Top Rated TV Shows"
-                  activeTab={activeTab}
-                />
-              </Link>
+              <TVShowsCarousel
+                category="Trending TV Shows"
+                activeTab={activeTab}
+              />
+              <TVShowsCarousel
+                category="Popular TV Shows"
+                activeTab={activeTab}
+              />
+              <TVShowsCarousel
+                category="Top Rated TV Shows"
+                activeTab={activeTab}
+              />
             </div>
           </Tabs.Panel>
         </Tabs>

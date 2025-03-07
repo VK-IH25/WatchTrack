@@ -73,13 +73,11 @@ function App() {
         />
         <Route path="/search" element={<Search></Search>} />
 
-        <Route
-          path="/movie/:id"
-          element={<MovieDetailPage></MovieDetailPage>}
-        />
+        <Route path="/movie/:id" element={<MovieDetailPage />} />
+        <Route path="/movies/category/:category" element={<MoviesCategory />} />
+
         <Route path="/tv/:id" element={<TVShowDetailPage />} />
-        <Route path="/movies/:category" element={<MoviesCategory />} />
-        <Route path="/tv/:category" element={<TVShowsCategory />} />
+        <Route path="/tv/category/:category" element={<TVShowsCategory />} />
       </Routes>
 
       <AppShell.Footer className="footer">
