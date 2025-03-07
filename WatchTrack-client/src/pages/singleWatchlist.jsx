@@ -132,10 +132,10 @@ function SingleWatchlist() {
   };
 
   return (
-    <Container style={{ padding: "20px 0" }}>
+    <Container mt={50} mb={50} style={{ padding: "20px 0" }}>
       {watchlist && (
         <div>
-          <Title order={2}>
+          <Title order={1}>
             {watchlist.title || "No title available"}
             <Button
               variant="outline"
@@ -291,6 +291,13 @@ function SingleWatchlist() {
                 </Link>
                 <CloseButton
                   onClick={() => handleRemoveTvShow(tvShow.id)}
+                  style={{
+                    position: "absolute",
+                    top: "5px",
+                    right: "25px",
+                    backgroundColor: "#cf3917",
+                    color: "white",
+                  }}
                 ></CloseButton>
               </Carousel.Slide>
             ))}
