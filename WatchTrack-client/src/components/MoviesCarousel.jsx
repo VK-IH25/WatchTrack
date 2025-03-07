@@ -17,12 +17,14 @@ const MoviesCarousel = ({ category, activeTab }) => {
     "Trending Movies": `${backendBaseUrl}/tmdb/movies/category/trending`,
     "Popular Movies": `${backendBaseUrl}/tmdb/movies/category/popular`,
     "Top Rated Movies": `${backendBaseUrl}/tmdb/movies/category/toprated`,
+    "Now Playing": `${backendBaseUrl}/tmdb/movies/category/nowplaying`,
   };
 
   const categoryLinks = {
     "Trending Movies": "/movies/category/trending",
     "Popular Movies": "/movies/category/popular",
     "Top Rated Movies": "/movies/category/toprated",
+    "Now Playing": "/movies/category/nowplaying",
   };
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const MoviesCarousel = ({ category, activeTab }) => {
     <div style={{ margin: "50px 0px" }}>
       <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
         <Group spacing="xs">
-          <Text size="xl" weight={700} color="blue">
+          <Text size="xl" mb="sm" weight={700} color="blue">
             {category}
           </Text>
         </Group>

@@ -20,6 +20,7 @@ function Homepage() {
 
           <Tabs.Panel value="movies">
             <div className="carousel-section">
+              <MoviesCarousel category="Now Playing" activeTab={activeTab} />
               <MoviesCarousel
                 category="Trending Movies"
                 activeTab={activeTab}
