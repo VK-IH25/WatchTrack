@@ -22,7 +22,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
   const categoryLinks = {
     "Trending TV Shows": "/tv/category/trending",
     "Popular TV Shows": "/tv/category/popular",
-    "Top Rated TV Shows": "/tv/category/top-rated",
+    "Top Rated TV Shows": "/tv/category/toprated",
   };
 
   useEffect(() => {
