@@ -58,7 +58,7 @@ router.get("/movies/trending", async (req, res) => {
 });
 
 // Fetch now-playing movies
-router.get("/tv/trending", async (req, res) => {
+router.get("/movies/nowplaying", async (req, res) => {
   try {
     const response = await axios.get(
       `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`
