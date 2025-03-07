@@ -12,6 +12,7 @@ import {
   Box,
   Image,
   Divider,
+  Card,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
@@ -32,7 +33,7 @@ const TVShowDetailPage = () => {
         const tvShowResponse = await axios.get(
           `${backendBaseUrl}/tmdb/tv/${id}`
         );
-        console.log(tvShowResponse);
+        console.log("TV SHow: ", tvShowResponse.data);
         setTvShow(tvShowResponse.data);
 
         const castResponse = await axios.get(
@@ -148,7 +149,13 @@ const TVShowDetailPage = () => {
             <Button radius="xl" size="md" variant="light">
               + Add to Watchlist
             </Button>
-            <Button radius="xl" size="md">
+            <Button
+              radius="xl"
+              size="md"
+              component="a"
+              href={tvShow.homepage}
+              target="_blank"
+            >
               ▶ Watch Now
             </Button>
             <Button variant="subtle" size="md">
@@ -160,6 +167,61 @@ const TVShowDetailPage = () => {
           </Text>
         </Stack>
       </SimpleGrid>
+
+      <Container size="xxl" style={{ zIndex: 2, paddingTop: 100 }}>
+        <Text size="30px" weight={700} mt="xl">
+          Networks
+        </Text>
+        <Group spacing="md" mt="xl">
+          {tvShow.networks.map((network) => (
+            <Box
+              key={network.id}
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            >
+              <Image
+                src={`https://image.tmdb.org/t/p/w92/${network.logo_path}`}
+                alt={network.name}
+                fit="contain"
+              />
+            </Box>
+          ))}
+        </Group>
+        <Divider my="xl" />
+        <Text size="30px" weight={700} mt="xl">
+          Seasons ({tvShow.number_of_seasons})
+        </Text>
+        <SimpleGrid cols={6} spacing="lg" mt="xl">
+          {tvShow.seasons.map((season) => (
+            <Card
+              key={season.id}
+              shadow="sm"
+              padding="lg"
+              radius="md"
+              withBorder
+            >
+              <Card.Section>
+                <Image
+                  src={
+                    season.poster_path
+                      ? `https://image.tmdb.org/t/p/w200/${season.poster_path}`
+                      : "https://placehold.co/200x300"
+                  }
+                  alt={season.name}
+                  fit="contain"
+                />
+              </Card.Section>
+              <Stack mt="sm">
+                <Text size="lg" weight={600}>
+                  {season.name} ({season.episode_count} episodes)
+                </Text>
+                <Text size="sm" color="dimmed">
+                  {season.air_date || "Unknown release date"}
+                </Text>
+              </Stack>
+            </Card>
+          ))}
+        </SimpleGrid>
+      </Container>
 
       <Container
         size="xxl"

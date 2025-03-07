@@ -148,7 +148,13 @@ const MovieDetailPage = () => {
             <Button radius="xl" size="md" variant="light">
               + Add to Watchlist
             </Button>
-            <Button radius="xl" size="md">
+            <Button
+              radius="xl"
+              size="md"
+              component="a"
+              href={movie.homepage}
+              target="_blank"
+            >
               ▶ Watch Now
             </Button>
             <Button variant="subtle" size="md">
