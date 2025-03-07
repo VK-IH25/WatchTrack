@@ -51,8 +51,12 @@ const SearchMovie = (props) => {
             .then((res) => {
                 console.log('Response:', res.data);
                 setWatchlist(res.data);
-                navigate(`/watchlist/${props.watchlist}`);
-                window.location.reload(); // Refresh the page
+                props.populateMovies(); // Refresh the movies
+                return fetch(`http://localhost:5005/tmdb/movies/${movieId}`);
+            })
+            .then((res) => res.json())
+            .then((movie) => {
+                props.setSelectedMovies((prevMovies) => [...prevMovies, movie]);
             })
             .catch((err) => {
                 console.error('Error updating watchlist:', err);

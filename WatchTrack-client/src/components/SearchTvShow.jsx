@@ -45,14 +45,16 @@ const SearchTvShow = (props) => {
     const handleAdd = (id) => {
         const updatedWatchlist = { ...watchlist, tvShows: [...watchlist.tvShows, id] };
 
-        console.log('Updated Watchlist:', updatedWatchlist); // Log the updated watchlist
-
         axios.put(`http://localhost:5005/watchlist/${props.watchlist}`, updatedWatchlist)
             .then((res) => {
                 console.log('Response:', res.data);
                 setWatchlist(res.data);
-                navigate(`/watchlist/${props.watchlist}`);
-                window.location.reload(); // Refresh the page
+                props.populateTvShows(); // Refresh the TV shows
+                return fetch(`http://localhost:5005/tmdb/tv/${id}`);
+            })
+            .then((res) => res.json())
+            .then((tvShow) => {
+                props.setSelectedTvShows((prevTvShows) => [...prevTvShows, tvShow]);
             })
             .catch((err) => {
                 console.error('Error updating watchlist:', err);
@@ -111,7 +113,7 @@ const SearchTvShow = (props) => {
                                     )}
                                 </Card.Section>
                                 <Text align="center" mt="sm" lineClamp={1}>
-                                    {tvShow.title}
+                                    {tvShow.name}
                                 </Text>
                               
                             </Card>
