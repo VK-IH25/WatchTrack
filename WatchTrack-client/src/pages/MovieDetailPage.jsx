@@ -33,6 +33,7 @@ const MovieDetailPage = () => {
         const movieResponse = await axios.get(
           `${backendBaseUrl}/tmdb/movies/${id}`
         );
+        console.log(movieResponse.data);
         setMovie(movieResponse.data);
 
         const castResponse = await axios.get(
@@ -142,6 +143,11 @@ const MovieDetailPage = () => {
             <Text color="white">
               {movie.genres.map((g) => g.name).join(", ")}
             </Text>
+            <Text color="white">
+              {movie.genres.map((g) => g.name).join(", ")}
+            </Text>
+            <Text color="white">•</Text>
+            <Text color="white">⭐ {movie.vote_average}</Text>
           </Group>
           <Divider my="xl" />
           <Group mt="xl">
@@ -171,6 +177,24 @@ const MovieDetailPage = () => {
         size="xxl"
         style={{ position: "", zIndex: 2, paddingTop: 100 }}
       >
+        <Text size="30px" weight={700} mt="xl">
+          Production Companies
+        </Text>
+        <Group spacing="md" mt="xl">
+          {movie.production_companies.map((company) => (
+            <Box
+              key={company.id}
+              style={{ display: "flex", alignItems: "center", gap: "10px" }}
+            >
+              <Image
+                src={`https://image.tmdb.org/t/p/w92/${company.logo_path}`}
+                alt={company.name}
+                fit="contain"
+              />
+            </Box>
+          ))}
+        </Group>
+        <Divider my="xl" />
         <Text size="30px" weight={700} mt="xl">
           Cast
         </Text>

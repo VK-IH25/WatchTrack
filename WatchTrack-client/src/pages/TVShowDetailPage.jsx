@@ -143,6 +143,11 @@ const TVShowDetailPage = () => {
             <Text color="white">
               {tvShow.genres.map((g) => g.name).join(", ")}
             </Text>
+            <Text color="white">
+              {tvShow.genres.map((g) => g.name).join(", ")}
+            </Text>
+            <Text color="white">•</Text>
+            <Text color="white">⭐ {tvShow.vote_average}</Text>
           </Group>
           <Divider my="xl" />
           <Group mt="xl">
