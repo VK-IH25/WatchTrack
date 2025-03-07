@@ -17,6 +17,8 @@ function Watchlists() {
             .catch((err) => console.log(err));
     }, []);
 
+    console.log("Watchlists:", watchlists);
+
     let filteredWatchlists = [];
     
     if (user) {
@@ -24,7 +26,7 @@ function Watchlists() {
     }
 
     return (
-        <Container size="xl" mt={80} style={{ padding: "20px 0" }}>
+        <Container m={50} mt={80} style={{ padding: "20px 0" }}>
             <Link to="/watchlists/add">
                 <Button mb={50}>Create Watchlist</Button>
             </Link>
@@ -48,7 +50,7 @@ function Watchlists() {
                                 <Card.Section>
                                     {watchlist.poster_path ? (
                                         <Image
-                                            src={`https://image.tmdb.org/t/p/w500/${watchlist.poster_path}`}
+                                            src={`${watchlist.image}`}
                                             height={270}
                                             fit="cover"
                                             alt={watchlist.title}
@@ -98,7 +100,7 @@ function Watchlists() {
                                 <Card.Section>
                                     {watchlist.poster_path ? (
                                         <Image
-                                            src={`https://image.tmdb.org/t/p/w500/${watchlist.poster_path}`}
+                                            src={`${watchlist.image}`}
                                             height={270}
                                             fit="cover"
                                             alt={watchlist.title}

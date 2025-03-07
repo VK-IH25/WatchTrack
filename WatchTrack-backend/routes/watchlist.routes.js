@@ -11,8 +11,8 @@ router.get("/watchlist", (req, res, next) => {
 });
 
 router.post("/watchlist", (req, res, next) => {
-    const { title, description, createdBy, isPrivate } = req.body;
-    Watchlist.create({ title, description, createdBy, isPrivate })
+    const { title, description, createdBy, image, isPrivate } = req.body;
+    Watchlist.create({ title, description, createdBy, image, isPrivate })
         .then((watchlist) => {
             res.status(201).json(watchlist);
         })

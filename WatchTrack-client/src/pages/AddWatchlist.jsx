@@ -6,6 +6,7 @@ import { AuthContext } from '../context/auth.context';
 function AddWatchlist() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [image, setImage] = useState('');
     const { user } = useContext(AuthContext);
 
 
@@ -15,7 +16,7 @@ function AddWatchlist() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const newWatchlist = { title, description, createdBy: loggedUser };
+        const newWatchlist = { title, description, image, createdBy: loggedUser };
 
         fetch('http://localhost:5005/watchlist', {
             method: 'POST',
@@ -50,6 +51,12 @@ function AddWatchlist() {
                     placeholder="Description"
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
+                />
+                                <TextInput
+                    label="Cover Image URL"
+                    placeholder="Cover Image URL"
+                    value={image}
+                    onChange={(e) => setImage(e.target.value)}
                 />
                 <Button type="submit" mt="md">
                     Add Watchlist

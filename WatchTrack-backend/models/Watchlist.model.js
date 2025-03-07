@@ -14,6 +14,9 @@ const watchlistSchema = new Schema({
     description: {
         type: String
     },
+    image: {
+        type: String
+    },
     createdBy: {
         type: Schema.Types.ObjectId,
         ref: 'User',
