@@ -55,7 +55,7 @@ const Search = () => {
     <Container size="xl" mt={120} style={{ padding: "50px 0" }}>
       <form onSubmit={handleSearch}>
         <TextInput
-          placeholder="Search for a movie..."
+          placeholder="Search for category, movie or Tv Show..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           required
@@ -128,7 +128,7 @@ const Search = () => {
             TV Shows
           </Text>
           <Carousel
-            height={320}
+          
             mt={20}
             type="container"
             slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
@@ -163,10 +163,7 @@ const Search = () => {
                       )}
                     </Card.Section>
                     <Text align="center" mt="sm" lineClamp={1}>
-                      {movie.title}
-                    </Text>
-                    <Text align="center" mt="sm" lineClamp={2}>
-                      {movie.description || "No description available"}
+                      {movie.name}
                     </Text>
                   </Card>
                 </Link>
