@@ -16,12 +16,15 @@ import {
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
+import { useMediaQuery } from "@mantine/hooks";
 
 const TVShowDetailPage = () => {
   const { id } = useParams();
   const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const navigate = useNavigate();
   const backendBaseUrl =
@@ -80,7 +83,7 @@ const TVShowDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: "65svh",
+          height: isMobile ? "1300px" : "700px",
           backgroundImage: `url(https://image.tmdb.org/t/p/original/${tvShow.backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -94,7 +97,7 @@ const TVShowDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: "65svh",
+          height: isMobile ? "1300px" : "700px",
         }}
         opacity={0.6}
         zIndex={1}
@@ -116,7 +119,7 @@ const TVShowDetailPage = () => {
       </Button>
 
       <SimpleGrid
-        cols={2}
+        cols={{ base: "100%", sm: "100%", md: "2" }}
         spacing="xl"
         breakpoints={[{ maxWidth: "md", cols: 1 }]}
         style={{ position: "relative", zIndex: 2, paddingTop: 60 }}
@@ -173,7 +176,7 @@ const TVShowDetailPage = () => {
         </Stack>
       </SimpleGrid>
 
-      <Container size="xxl" style={{ zIndex: 2, paddingTop: 100 }}>
+      <Container size="xxl" style={{ zIndex: 2, paddingTop: 200 }}>
         <Text size="30px" weight={700} mt="xl">
           Networks
         </Text>
@@ -195,7 +198,7 @@ const TVShowDetailPage = () => {
         <Text size="30px" weight={700} mt="xl">
           Seasons ({tvShow.number_of_seasons})
         </Text>
-        <SimpleGrid cols={6} spacing="lg" mt="xl">
+        <SimpleGrid cols={{ base: 1, sm: 3, lg: 6 }} spacing="lg" mt="xl">
           {tvShow.seasons.map((season) => (
             <Card
               key={season.id}
@@ -227,16 +230,18 @@ const TVShowDetailPage = () => {
           ))}
         </SimpleGrid>
       </Container>
-
-      <Container
-        size="xxl"
-        style={{ position: "", zIndex: 2, paddingTop: 100 }}
-      >
+      <Container size="xxl" style={{ zIndex: 2 }}>
         <Text size="30px" weight={700} mt="xl">
           Cast
         </Text>
 
-        <Carousel slideSize="12%" align="start" slidesToScroll={2} mt="xl" loop>
+        <Carousel
+          slideSize={isMobile ? "40%" : "12%"}
+          align="start"
+          slidesToScroll={isMobile ? 1 : 2}
+          mt="xl"
+          loop
+        >
           {cast.map((actor) => (
             <Carousel.Slide key={actor.id}>
               <Group spacing="md" align="center">

@@ -14,14 +14,15 @@ import {
   Divider,
 } from "@mantine/core";
 import axios from "axios";
-// import "../styles/MovieDetailPage.css";
 import { Carousel } from "@mantine/carousel";
+import { useMediaQuery } from "@mantine/hooks";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = useMediaQuery("(max-width: 768px)");
 
   const navigate = useNavigate();
   const backendBaseUrl =
@@ -33,17 +34,15 @@ const MovieDetailPage = () => {
         const movieResponse = await axios.get(
           `${backendBaseUrl}/tmdb/movies/${id}`
         );
-        console.log(movieResponse.data);
         setMovie(movieResponse.data);
 
         const castResponse = await axios.get(
           `${backendBaseUrl}/tmdb/movies/${id}/credits`
         );
-
         setCast(castResponse.data.cast);
-        setLoading(false);
       } catch (error) {
         console.error("Error fetching movie details:", error);
+      } finally {
         setLoading(false);
       }
     };
@@ -80,7 +79,7 @@ const MovieDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: "65svh",
+          height: isMobile ? "1300px" : "700px",
           backgroundImage: `url(https://image.tmdb.org/t/p/original/${movie.backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -94,7 +93,7 @@ const MovieDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: "65svh",
+          height: isMobile ? "1300px" : "700px",
         }}
         opacity={0.6}
         zIndex={1}
@@ -116,9 +115,8 @@ const MovieDetailPage = () => {
       </Button>
 
       <SimpleGrid
-        cols={2}
+        cols={{ base: 1, md: 2 }}
         spacing="xl"
-        breakpoints={[{ maxWidth: "md", cols: 1 }]}
         style={{ position: "relative", zIndex: 2, paddingTop: 60 }}
       >
         <Image
@@ -140,9 +138,6 @@ const MovieDetailPage = () => {
             <Text color="white">•</Text>
             <Text color="white">{movie.runtime} mins</Text>
             <Text color="white">•</Text>
-            <Text color="white">
-              {movie.genres.map((g) => g.name).join(", ")}
-            </Text>
             <Text color="white">
               {movie.genres.map((g) => g.name).join(", ")}
             </Text>
@@ -173,10 +168,7 @@ const MovieDetailPage = () => {
         </Stack>
       </SimpleGrid>
 
-      <Container
-        size="xxl"
-        style={{ position: "", zIndex: 2, paddingTop: 100 }}
-      >
+      <Container size="xxl" style={{ zIndex: 2, paddingTop: 230 }}>
         <Text size="30px" weight={700} mt="xl">
           Production Companies
         </Text>
@@ -199,7 +191,13 @@ const MovieDetailPage = () => {
           Cast
         </Text>
 
-        <Carousel slideSize="12%" align="start" slidesToScroll={2} mt="xl" loop>
+        <Carousel
+          slideSize={isMobile ? "40%" : "12%"}
+          align="start"
+          slidesToScroll={isMobile ? 1 : 2}
+          mt="xl"
+          loop
+        >
           {cast.map((actor) => (
             <Carousel.Slide key={actor.id}>
               <Group spacing="md" align="center">
