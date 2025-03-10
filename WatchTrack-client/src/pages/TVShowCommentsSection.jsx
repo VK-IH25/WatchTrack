@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   Group,
@@ -11,9 +11,11 @@ import {
   TypographyStylesProvider,
   Loader,
   ActionIcon,
+  Modal,
 } from "@mantine/core";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash, Plus } from "lucide-react";
 import axios from "axios";
+import { AuthContext } from "../context/auth.context";
 
 const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
   const [comments, setComments] = useState([]);
@@ -22,8 +24,10 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
   const [editedText, setEditedText] = useState("");
   const [processing, setProcessing] = useState(false);
   const token = localStorage.getItem("authToken");
+  const { user } = useContext(AuthContext);
 
-  // get all comments
+  const currentUserId = user ? user._id : null;
+
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -41,7 +45,7 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
     fetchComments();
   }, [id, backendBaseUrl]);
 
-  // Comment edit mode
+  // Edit mode
   const handleEdit = (comment) => {
     setEditingCommentId(comment._id);
     setEditedText(comment.text);
@@ -89,9 +93,11 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
       setProcessing(false);
     }
   };
+
   const filteredComments = comments.filter(
     (comment) => comment.tvShowId === id
   );
+
   return (
     <>
       <Text size="30px" weight={700} mt="xl">
@@ -131,24 +137,28 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
                       </div>
                     </Group>
                     <Group spacing="xs">
-                      <ActionIcon
-                        size="sm"
-                        color="blue"
-                        variant="subtle"
-                        onClick={() => handleEdit(comment)}
-                        disabled={processing}
-                      >
-                        <Pencil size={16} />
-                      </ActionIcon>
-                      <ActionIcon
-                        size="sm"
-                        color="red"
-                        variant="subtle"
-                        onClick={() => handleDelete(comment._id)}
-                        disabled={processing}
-                      >
-                        <Trash size={16} />
-                      </ActionIcon>
+                      {currentUserId && comment.user._id === currentUserId && (
+                        <>
+                          <ActionIcon
+                            size="sm"
+                            color="blue"
+                            variant="subtle"
+                            onClick={() => handleEdit(comment)}
+                            disabled={processing}
+                          >
+                            <Pencil size={16} />
+                          </ActionIcon>
+                          <ActionIcon
+                            size="sm"
+                            color="red"
+                            variant="subtle"
+                            onClick={() => handleDelete(comment._id)}
+                            disabled={processing}
+                          >
+                            <Trash size={16} />
+                          </ActionIcon>
+                        </>
+                      )}
                     </Group>
                   </Group>
 

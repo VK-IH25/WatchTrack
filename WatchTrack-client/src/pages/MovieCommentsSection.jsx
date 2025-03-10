@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   Text,
   Group,
@@ -11,9 +11,11 @@ import {
   TypographyStylesProvider,
   Loader,
   ActionIcon,
+  Modal,
 } from "@mantine/core";
-import { Pencil, Trash } from "lucide-react";
+import { Pencil, Trash, Plus } from "lucide-react";
 import axios from "axios";
+import { AuthContext } from "../context/auth.context";
 
 const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
   const [comments, setComments] = useState([]);
@@ -21,19 +23,19 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [newCommentText, setNewCommentText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const token = localStorage.getItem("authToken");
+  const { user } = useContext(AuthContext);
+  const currentUserId = user._id;
 
-  // Fetch comments on mount
   useEffect(() => {
     const fetchComments = async () => {
       try {
         const response = await axios.get(
           `${backendBaseUrl}/comments?movieId=${movieId}`
         );
-        const filteredComments = response.data.filter(
-          (comment) => comment.movieId === movieId
-        );
-        setComments(filteredComments);
+        setComments(response.data);
       } catch (error) {
         console.error("Error fetching comments:", error);
       } finally {
@@ -44,7 +46,7 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
     fetchComments();
   }, [movieId, backendBaseUrl]);
 
-  // Handle comment edit mode
+  // Edit mode
   const handleEdit = (comment) => {
     setEditingCommentId(comment._id);
     setEditedText(comment.text);
@@ -62,11 +64,13 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setComments((prevComments) =>
-        prevComments.map((c) =>
-          c._id === commentId ? { ...c, text: response.data.comment.text } : c
-        )
-      );
+      const updatedComments = [...comments];
+      const index = updatedComments.findIndex((c) => c._id === commentId);
+      if (index !== -1) {
+        updatedComments[index].text = response.data.comment.text;
+      }
+      // console.log(response.data.comment);
+      setComments(updatedComments);
       setEditingCommentId(null);
     } catch (error) {
       console.error("Error updating comment:", error);
@@ -93,21 +97,85 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
     }
   };
 
+  // Add new comment
+  const handleAddComment = async () => {
+    if (!newCommentText.trim()) return;
+
+    setProcessing(true);
+
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/comments`,
+        { text: newCommentText, movieId },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const newComment = {
+        ...response.data,
+        user: {
+          _id: currentUserId,
+          username: user.username,
+        },
+      };
+
+      setComments([newComment, ...comments]);
+      setNewCommentText("");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  const filteredComments = comments.filter(
+    (comment) => comment.movieId === movieId
+  );
+
   return (
     <>
       <Text size="30px" weight={700} mt="xl">
         Comments
       </Text>
 
+      <Button
+        variant="outline"
+        color="blue"
+        onClick={() => setIsModalOpen(true)}
+        mt="xl"
+      >
+        <Plus size={16} style={{ marginRight: 8 }} />
+        Add Comment
+      </Button>
+
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add a Comment"
+        size="lg"
+      >
+        <Textarea
+          value={newCommentText}
+          onChange={(e) => setNewCommentText(e.target.value)}
+          placeholder="Write your comment here..."
+          minRows={4}
+        />
+        <Group position="right" mt="md">
+          <Button onClick={handleAddComment} disabled={processing}>
+            Submit
+          </Button>
+        </Group>
+      </Modal>
+
       {loading ? (
         <Loader mt="xl" size="lg" />
       ) : (
         <ScrollArea style={{ maxHeight: 400 }}>
           <Group direction="column" spacing="md" mt="xl">
-            {comments.length === 0 ? (
+            {filteredComments.length === 0 ? (
               <Text>No comments yet. Be the first to comment!</Text>
             ) : (
-              comments.map((comment) => (
+              filteredComments.map((comment) => (
                 <Paper
                   key={comment._id}
                   withBorder
@@ -132,24 +200,28 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
                       </div>
                     </Group>
                     <Group spacing="xs">
-                      <ActionIcon
-                        size="sm"
-                        color="blue"
-                        variant="subtle"
-                        onClick={() => handleEdit(comment)}
-                        disabled={processing}
-                      >
-                        <Pencil size={16} />
-                      </ActionIcon>
-                      <ActionIcon
-                        size="sm"
-                        color="red"
-                        variant="subtle"
-                        onClick={() => handleDelete(comment._id)}
-                        disabled={processing}
-                      >
-                        <Trash size={16} />
-                      </ActionIcon>
+                      {currentUserId && comment.user._id === currentUserId && (
+                        <>
+                          <ActionIcon
+                            size="sm"
+                            color="blue"
+                            variant="subtle"
+                            onClick={() => handleEdit(comment)}
+                            disabled={processing}
+                          >
+                            <Pencil size={16} />
+                          </ActionIcon>
+                          <ActionIcon
+                            size="sm"
+                            color="red"
+                            variant="subtle"
+                            onClick={() => handleDelete(comment._id)}
+                            disabled={processing}
+                          >
+                            <Trash size={16} />
+                          </ActionIcon>
+                        </>
+                      )}
                     </Group>
                   </Group>
 
