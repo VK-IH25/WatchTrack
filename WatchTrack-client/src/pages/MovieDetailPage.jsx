@@ -16,18 +16,15 @@ import {
   Avatar,
   ScrollArea,
   TypographyStylesProvider,
-  Popover,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
-import AddMovieToWatchlist from "../components/AddMovietoWatchlist";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [cast, setCast] = useState([]);
-  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -47,11 +44,6 @@ const MovieDetailPage = () => {
           `${backendBaseUrl}/tmdb/movies/${id}/credits`
         );
         setCast(castResponse.data.cast);
-
-        const commentsResponse = await axios.get(
-          `${backendBaseUrl}/comments?movieId=${id}`
-        );
-        setComments(commentsResponse.data);
       } catch (error) {
         console.error("Error fetching movie details:", error);
       } finally {
@@ -254,43 +246,7 @@ const MovieDetailPage = () => {
       </Container>
 
       <Container size="xxl" style={{ zIndex: 2 }}>
-        <Text size="30px" weight={700} mt="xl">
-          Comments
-        </Text>
-        <ScrollArea style={{ maxHeight: 400 }}>
-          <Group direction="column" spacing="md" mt="xl">
-            {comments.length === 0 ? (
-              <Text>No comments yet. Be the first to comment!</Text>
-            ) : (
-              comments.map((comment) => (
-                <Paper
-                  key={comment.id}
-                  withBorder
-                  radius="md"
-                  className="comment"
-                >
-                  <Group>
-                    <Avatar alt={comment.user.username} radius="xl" />
-                    <div>
-                      <Text fz="sm">{comment.user.username}</Text>
-                      <Text fz="xs" c="dimmed">
-                        {new Date(comment.createdAt).toLocaleString()}
-                      </Text>
-                    </div>
-                  </Group>
-                  <TypographyStylesProvider className="comment-body">
-                    <div
-                      className="content"
-                      dangerouslySetInnerHTML={{
-                        __html: comment.text,
-                      }}
-                    />
-                  </TypographyStylesProvider>
-                </Paper>
-              ))
-            )}
-          </Group>
-        </ScrollArea>
+        <MovieCommentsSection movieId={id} backendBaseUrl={backendBaseUrl} />
       </Container>
     </Container>
   );
