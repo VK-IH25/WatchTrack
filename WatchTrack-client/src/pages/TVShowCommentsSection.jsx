@@ -23,6 +23,8 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
   const [editingCommentId, setEditingCommentId] = useState(null);
   const [editedText, setEditedText] = useState("");
   const [processing, setProcessing] = useState(false);
+  const [newCommentText, setNewCommentText] = useState("");
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const token = localStorage.getItem("authToken");
   const { user } = useContext(AuthContext);
 
@@ -94,6 +96,37 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
     }
   };
 
+  // Add new comment
+  const handleAddComment = async () => {
+    if (!newCommentText.trim()) return;
+
+    setProcessing(true);
+
+    try {
+      const response = await axios.post(
+        `${backendBaseUrl}/comments`,
+        { text: newCommentText, tvShowId: id },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+
+      const newComment = {
+        ...response.data,
+        user: {
+          _id: currentUserId,
+          username: user.username,
+        },
+      };
+
+      setComments([newComment, ...comments]);
+      setNewCommentText("");
+      setIsModalOpen(false);
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    } finally {
+      setProcessing(false);
+    }
+  };
+
   const filteredComments = comments.filter(
     (comment) => comment.tvShowId === id
   );
@@ -103,7 +136,34 @@ const TVShowCommentsSection = ({ id, backendBaseUrl }) => {
       <Text size="30px" weight={700} mt="xl">
         Comments
       </Text>
+      <Button
+        variant="outline"
+        color="blue"
+        onClick={() => setIsModalOpen(true)}
+        mt="xl"
+      >
+        <Plus size={16} style={{ marginRight: 8 }} />
+        Add Comment
+      </Button>
 
+      <Modal
+        opened={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        title="Add a Comment"
+        size="lg"
+      >
+        <Textarea
+          value={newCommentText}
+          onChange={(e) => setNewCommentText(e.target.value)}
+          placeholder="Write your comment here..."
+          minRows={4}
+        />
+        <Group position="right" mt="md">
+          <Button onClick={handleAddComment} disabled={processing}>
+            Submit
+          </Button>
+        </Group>
+      </Modal>
       {loading ? (
         <Loader mt="xl" size="lg" />
       ) : (
