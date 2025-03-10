@@ -16,10 +16,12 @@ import {
   Avatar,
   ScrollArea,
   TypographyStylesProvider,
+  Popover,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
+import AddMovieToWatchlist from "../components/AddMovietoWatchlist";
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -156,9 +158,24 @@ const MovieDetailPage = () => {
           </Group>
           <Divider my="xl" />
           <Group mt="xl">
-            <Button radius="xl" size="md" variant="light">
-              + Add to Watchlist
-            </Button>
+            <Popover
+              width={620}
+              shadow="md"
+              withArrow
+              withOverlay
+              zIndex={10001}
+              offset={{ mainAxis: 17, crossAxis: 50 }}
+            >
+              <Popover.Target>
+                <Button radius="xl" size="md" variant="light">
+                  + Add to Watchlist
+                </Button>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <AddMovieToWatchlist movieId={id}/>
+              </Popover.Dropdown>
+            </Popover>
+
             <Button
               radius="xl"
               size="md"

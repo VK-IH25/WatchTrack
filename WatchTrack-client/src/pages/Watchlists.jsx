@@ -18,8 +18,6 @@ function Watchlists() {
       .catch((err) => console.log(err));
   }, []);
 
-  console.log("Watchlists:", watchlists);
-
   let filteredWatchlists = [];
 
   if (user) {
