@@ -46,6 +46,14 @@ a {
   cursor: default;
 }
 
+.category {
+  color: var(--mantine-color-white);
+  opacity: 0.7;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: default;
+}
+
 .comment {
   padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl);
 }

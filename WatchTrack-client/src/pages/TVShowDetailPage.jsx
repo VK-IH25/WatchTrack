@@ -13,20 +13,16 @@ import {
   Image,
   Divider,
   Card,
-  ScrollArea,
-  Avatar,
-  Paper,
-  TypographyStylesProvider,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
+import TVShowCommentsSection from "./TVShowCommentsSection";
 
 const TVShowDetailPage = () => {
   const { id } = useParams();
   const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
-  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -48,13 +44,6 @@ const TVShowDetailPage = () => {
           `${backendBaseUrl}/tmdb/tv/${id}/credits`
         );
         setCast(castResponse.data.cast);
-
-        // Fetch comments
-        const commentsResponse = await axios.get(
-          `${backendBaseUrl}/comments?tvShowId=${id}`
-        );
-        console.log(commentsResponse.data);
-        setComments(commentsResponse.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching TV show details:", error);
@@ -282,43 +271,7 @@ const TVShowDetailPage = () => {
       </Container>
 
       <Container size="xxl" style={{ zIndex: 2 }}>
-        <Text size="30px" weight={700} mt="xl">
-          Comments
-        </Text>
-        <ScrollArea style={{ maxHeight: 400 }}>
-          <Group direction="column" spacing="md" mt="xl">
-            {comments.length > 0 ? (
-              comments.map((comment) => (
-                <Paper
-                  key={comment.id}
-                  withBorder
-                  radius="md"
-                  className="comment"
-                >
-                  <Group>
-                    <Avatar alt={comment.user.username} radius="xl" />
-                    <div>
-                      <Text fz="sm">{comment.user.username}</Text>
-                      <Text fz="xs" c="dimmed">
-                        {new Date(comment.createdAt).toLocaleString()}
-                      </Text>
-                    </div>
-                  </Group>
-                  <TypographyStylesProvider className="comment-body">
-                    <div
-                      className="content"
-                      dangerouslySetInnerHTML={{
-                        __html: comment.text,
-                      }}
-                    />
-                  </TypographyStylesProvider>
-                </Paper>
-              ))
-            ) : (
-              <Text>No comments available</Text>
-            )}
-          </Group>
-        </ScrollArea>
+        <TVShowCommentsSection id={id} backendBaseUrl={backendBaseUrl} />
       </Container>
     </Container>
   );
