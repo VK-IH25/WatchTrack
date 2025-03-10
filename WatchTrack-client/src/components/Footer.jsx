@@ -5,7 +5,7 @@ const Footer = () => {
   return (
     <Container className="footer">
       <Text size="sm" align="center">
-        &copy; 2025 WatchTrack Clone. All rights reserved.
+        &copy; 2025 WatchTrack. All rights reserved.
       </Text>
     </Container>
   );

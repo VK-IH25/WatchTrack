@@ -13,6 +13,10 @@ import {
   Image,
   Divider,
   Card,
+  ScrollArea,
+  Avatar,
+  Paper,
+  TypographyStylesProvider,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
@@ -22,6 +26,7 @@ const TVShowDetailPage = () => {
   const { id } = useParams();
   const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
+  const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -36,14 +41,20 @@ const TVShowDetailPage = () => {
         const tvShowResponse = await axios.get(
           `${backendBaseUrl}/tmdb/tv/${id}`
         );
-        console.log("TV SHow: ", tvShowResponse.data);
+        console.log("TV Show: ", tvShowResponse.data);
         setTvShow(tvShowResponse.data);
 
         const castResponse = await axios.get(
           `${backendBaseUrl}/tmdb/tv/${id}/credits`
         );
-
         setCast(castResponse.data.cast);
+
+        // Fetch comments
+        const commentsResponse = await axios.get(
+          `${backendBaseUrl}/comments?tvShowId=${id}`
+        );
+        console.log(commentsResponse.data);
+        setComments(commentsResponse.data);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching TV show details:", error);
@@ -83,7 +94,7 @@ const TVShowDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: isMobile ? "1300px" : "700px",
+          height: isMobile ? "145vh" : "80vh",
           backgroundImage: `url(https://image.tmdb.org/t/p/original/${tvShow.backdrop_path})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
@@ -97,7 +108,7 @@ const TVShowDetailPage = () => {
           top: 0,
           left: 0,
           width: "100%",
-          height: isMobile ? "1300px" : "700px",
+          height: isMobile ? "145vh" : "80vh",
         }}
         opacity={0.6}
         zIndex={1}
@@ -176,7 +187,7 @@ const TVShowDetailPage = () => {
         </Stack>
       </SimpleGrid>
 
-      <Container size="xxl" style={{ zIndex: 2, paddingTop: 200 }}>
+      <Container size="xxl" style={{ zIndex: 2, paddingTop: 250 }}>
         <Text size="30px" weight={700} mt="xl">
           Networks
         </Text>
@@ -268,6 +279,46 @@ const TVShowDetailPage = () => {
             </Carousel.Slide>
           ))}
         </Carousel>
+      </Container>
+
+      <Container size="xxl" style={{ zIndex: 2 }}>
+        <Text size="30px" weight={700} mt="xl">
+          Comments
+        </Text>
+        <ScrollArea style={{ maxHeight: 400 }}>
+          <Group direction="column" spacing="md" mt="xl">
+            {comments.length > 0 ? (
+              comments.map((comment) => (
+                <Paper
+                  key={comment.id}
+                  withBorder
+                  radius="md"
+                  className="comment"
+                >
+                  <Group>
+                    <Avatar alt={comment.user.username} radius="xl" />
+                    <div>
+                      <Text fz="sm">{comment.user.username}</Text>
+                      <Text fz="xs" c="dimmed">
+                        {new Date(comment.createdAt).toLocaleString()}
+                      </Text>
+                    </div>
+                  </Group>
+                  <TypographyStylesProvider className="comment-body">
+                    <div
+                      className="content"
+                      dangerouslySetInnerHTML={{
+                        __html: comment.text,
+                      }}
+                    />
+                  </TypographyStylesProvider>
+                </Paper>
+              ))
+            ) : (
+              <Text>No comments available</Text>
+            )}
+          </Group>
+        </ScrollArea>
       </Container>
     </Container>
   );
