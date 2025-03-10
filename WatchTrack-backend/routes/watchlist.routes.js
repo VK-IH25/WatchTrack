@@ -1,5 +1,6 @@
 const express = require("express");
 const Watchlist = require("../models/Watchlist.model");
+const { isAuthenticated, isOwner } = require("../middleware/jwt.middleware");
 const router = express.Router();
 
 router.get("/watchlist", (req, res, next) => {
@@ -33,7 +34,7 @@ router.get("/watchlist/:id", (req, res, next) => {
 }
 );
 
-router.put("/watchlist/:id", (req, res, next) => {
+router.put("/watchlist/:id", isAuthenticated, isOwner, (req, res, next) => {
     const { id } = req.params;
     const { title, description, createdBy, isPrivate, movies, tvShows } = req.body;
     Watchlist.findByIdAndUpdate(
@@ -52,7 +53,7 @@ router.put("/watchlist/:id", (req, res, next) => {
 }
 );
 
-router.delete("/watchlist/:id", (req, res, next) => {
+router.delete("/watchlist/:id", isAuthenticated, isOwner, (req, res, next) => {
     const { id } = req.params;
     Watchlist.findByIdAndDelete(id)
         .then((watchlist) => {

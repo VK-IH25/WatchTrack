@@ -1,14 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { TextInput, Button, Container } from '@mantine/core';
 import { Card, Image, Text } from '@mantine/core';
 import { Carousel } from '@mantine/carousel';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from "../context/auth.context";
 
 const SearchTvShow = (props) => {
     const [query, setQuery] = useState('');
     const [tvShowResult, setTvShowResult] = useState([]);
     const [watchlist, setWatchlist] = useState([]);
+    const { getToken } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -17,6 +19,7 @@ const SearchTvShow = (props) => {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${getToken()}`,
             },
         })
             .then((res) => res.json())
@@ -24,7 +27,7 @@ const SearchTvShow = (props) => {
                 setWatchlist(data);
             })
             .catch((err) => console.log(err));
-    }, [props.watchlist]);
+    }, [props.watchlist, getToken]);
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -45,7 +48,9 @@ const SearchTvShow = (props) => {
     const handleAdd = (id) => {
         const updatedWatchlist = { ...watchlist, tvShows: [...watchlist.tvShows, id] };
 
-        axios.put(`http://localhost:5005/watchlist/${props.watchlist}`, updatedWatchlist)
+        axios.put(`http://localhost:5005/watchlist/${props.watchlist}`, updatedWatchlist, {
+            headers: { Authorization: `Bearer ${getToken()}` },
+        })
             .then((res) => {
                 console.log('Response:', res.data);
                 setWatchlist(res.data);
@@ -65,7 +70,7 @@ const SearchTvShow = (props) => {
         <Container mt={20} style={{ padding: "20px 0" }}>
             <form onSubmit={handleSearch}>
                 <TextInput
-                    placeholder="Search for a movie..."
+                    placeholder="Search for a TV show..."
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     required
@@ -75,10 +80,9 @@ const SearchTvShow = (props) => {
                 </Button>
             </form>
             <Text size="xl" weight={700} mb="sm">
-                Tv Shows
+                TV Shows
             </Text>
             <Carousel
-
                 mt={20}
                 type="container"
                 slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
@@ -88,7 +92,7 @@ const SearchTvShow = (props) => {
             >
                 {tvShowResult.map((tvShow, index) => (
                     <Carousel.Slide key={index}>
-                        <Link to={`/movie/${tvShow.id}`}>
+                        <Link to={`/tv/${tvShow.id}`}>
                             <Card shadow="sm" padding="lg">
                                 <Card.Section>
                                     {tvShow.poster_path ? (
@@ -96,7 +100,7 @@ const SearchTvShow = (props) => {
                                             src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
                                             height={270}
                                             fit="cover"
-                                            alt={tvShow.title}
+                                            alt={tvShow.name}
                                         />
                                     ) : (
                                         <div
@@ -115,14 +119,12 @@ const SearchTvShow = (props) => {
                                 <Text align="center" mt="sm" lineClamp={1}>
                                     {tvShow.name}
                                 </Text>
-
                             </Card>
                         </Link>
                         <Button onClick={() => handleAdd(tvShow.id)}>Add</Button>
                     </Carousel.Slide>
                 ))}
             </Carousel>
-
         </Container>
     );
 };

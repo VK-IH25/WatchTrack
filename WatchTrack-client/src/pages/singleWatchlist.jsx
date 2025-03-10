@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useContext } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import {
   Text,
@@ -14,6 +14,7 @@ import { Carousel } from "@mantine/carousel";
 import SearchMovie from "../components/SearchMovie";
 import SearchTvShow from "../components/SearchTvShow";
 import axios from "axios";
+import { AuthContext } from "../context/auth.context";
 
 function SingleWatchlist() {
   const { id } = useParams();
@@ -21,11 +22,15 @@ function SingleWatchlist() {
   const [selectedMovies, setSelectedMovies] = useState([]);
   const [selectedTvShows, setSelectedTvShows] = useState([]);
   const navigate = useNavigate();
+  const { user, getToken } = useContext(AuthContext);
+  console.log(user);
 
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const res = await fetch(`http://localhost:5005/watchlist/${id}`);
+        const res = await fetch(`http://localhost:5005/watchlist/${id}`, {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        });
         if (!res.ok) throw new Error("Failed to fetch watchlist");
         const data = await res.json();
         setWatchlist(data);
@@ -34,7 +39,7 @@ function SingleWatchlist() {
       }
     };
     fetchWatchlist();
-  }, [id]);
+  }, [id, getToken]);
 
   const populateMovies = useCallback(async () => {
     if (!watchlist?.movies?.length) return;
@@ -80,6 +85,7 @@ function SingleWatchlist() {
     try {
       const res = await fetch(`http://localhost:5005/watchlist/${id}`, {
         method: "DELETE",
+        headers: { Authorization: `Bearer ${getToken()}` },
       });
       if (!res.ok) throw new Error("Failed to delete watchlist");
       console.log("Watchlist deleted");
@@ -96,11 +102,11 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist)
+      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((res) => {
-        console.log("Response:", res.data);
         setWatchlist(res.data);
-
         setSelectedTvShows((prevTvShows) =>
           prevTvShows.filter((tvShow) => tvShow.id !== tvShowId)
         );
@@ -117,11 +123,11 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist)
+      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((res) => {
-        console.log("Response:", res.data);
         setWatchlist(res.data);
-
         setSelectedMovies((prevMovies) =>
           prevMovies.filter((movie) => movie.id !== movieId)
         );
@@ -303,15 +309,20 @@ function SingleWatchlist() {
             ))}
           </Carousel>
 
-          <Link to={`/watchlist/${id}/edit`}>
-            <Button mt={20} mr={20}>
-              Edit
-            </Button>
-          </Link>
-          <Button mt={20} onClick={handleDelete}>
-            Delete
-          </Button>
-        </div>
+          { user && user._id === watchlist.createdBy ? (
+            <div>
+              <Link to={`/watchlist/${id}/edit`}>
+                <Button mt={20} mr={20}>
+                  Edit
+                </Button>
+              </Link>
+              <Button mt={20} onClick={handleDelete}>
+                Delete
+              </Button>
+            </div>
+          ) : <></>}
+
+         </div>
       )}
     </Container>
   );

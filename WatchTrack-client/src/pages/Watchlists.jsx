@@ -7,6 +7,7 @@ import { AuthContext } from "../context/auth.context";
 function Watchlists() {
   const [watchlists, setWatchlists] = useState([]);
   const { user } = useContext(AuthContext);
+  
 
   useEffect(() => {
     fetch("http://localhost:5005/watchlist")
@@ -50,7 +51,7 @@ function Watchlists() {
             <Link to={`/watchlist/${watchlist._id}`}>
               <Card shadow="sm" padding="lg">
                 <Card.Section>
-                  {watchlist.poster_path ? (
+                  {watchlist.image ? (
                     <Image
                       src={`${watchlist.image}`}
                       height={270}
@@ -100,9 +101,9 @@ function Watchlists() {
             <Link to={`/watchlist/${watchlist._id}`}>
               <Card shadow="sm" padding="lg">
                 <Card.Section>
-                  {watchlist.poster_path ? (
+                  {watchlist.image ? (
                     <Image
-                      src={`${watchlist.image}`}
+                      src={watchlist.image}
                       height={270}
                       fit="cover"
                       alt={watchlist.title}

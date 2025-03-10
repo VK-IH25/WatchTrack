@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-
 // Import the string from the .env with URL of the API/server - http://localhost:5005
 const API_URL = import.meta.env.VITE_BACKEND_BASE_URL;
-
 
 const AuthContext = React.createContext();
 
@@ -18,9 +16,13 @@ function AuthProviderWrapper(props) {
     localStorage.setItem("authToken", token);
   };
 
+  const getToken = () => {
+    return localStorage.getItem("authToken");
+  };
+
   const authenticateUser = () => {
     // Get the stored token from the localStorage
-    const storedToken = localStorage.getItem("authToken");
+    const storedToken = getToken();
 
     // If the token exists in the localStorage
     if (storedToken) {
@@ -79,6 +81,7 @@ function AuthProviderWrapper(props) {
         isLoading,
         user,
         storeToken,
+        getToken,
         authenticateUser,
         logOutUser,
         authError,

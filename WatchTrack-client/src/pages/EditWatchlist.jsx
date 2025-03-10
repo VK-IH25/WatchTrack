@@ -1,22 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { Container, Text, TextInput, Button } from '@mantine/core';
 import { useParams, useNavigate } from 'react-router-dom';
+import { AuthContext } from "../context/auth.context";
 
 function EditWatchlist() {
     const { id } = useParams();
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const navigate = useNavigate();
+    const { getToken } = useContext(AuthContext);
 
     useEffect(() => {
-        fetch(`http://localhost:5005/watchlist/${id}`)
+        fetch(`http://localhost:5005/watchlist/${id}`, {
+            headers: { Authorization: `Bearer ${getToken()}` },
+        })
             .then((res) => res.json())
             .then((data) => {
                 setTitle(data.title);
                 setDescription(data.description);
             })
             .catch((err) => console.log(err));
-    }, [id]);
+    }, [id, getToken]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -26,6 +30,7 @@ function EditWatchlist() {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${getToken()}`,
             },
             body: JSON.stringify(updatedWatchlist),
         })

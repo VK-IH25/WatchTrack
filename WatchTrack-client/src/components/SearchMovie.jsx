@@ -1,20 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { TextInput, Button, Container } from "@mantine/core";
 import { Card, Image, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/auth.context";
 
 const SearchMovie = (props) => {
   const [query, setQuery] = useState("");
   const [moviesResult, setMoviesResult] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
+  const { getToken } = useContext(AuthContext);
 
   useEffect(() => {
     fetch(`http://localhost:5005/watchlist/${props.watchlist}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${getToken()}`,
       },
     })
       .then((res) => res.json())
@@ -22,7 +25,7 @@ const SearchMovie = (props) => {
         setWatchlist(data);
       })
       .catch((err) => console.log(err));
-  }, [props.watchlist]);
+  }, [props.watchlist, getToken]);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -47,12 +50,15 @@ const SearchMovie = (props) => {
     axios
       .put(
         `http://localhost:5005/watchlist/${props.watchlist}`,
-        updatedWatchlist
+        updatedWatchlist,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
       )
       .then((res) => {
         console.log("Response:", res.data);
         setWatchlist(res.data);
-        props.populateMovies(); 
+        props.populateMovies();
         return fetch(`http://localhost:5005/tmdb/movies/${movieId}`);
       })
       .then((res) => res.json())
