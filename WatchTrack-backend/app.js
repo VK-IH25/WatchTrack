@@ -27,6 +27,9 @@ app.use("/tmdb", tmdbRoutes);
 const watchlistRoutes = require("./routes/watchlist.routes");
 app.use("/", watchlistRoutes);
 
+const commentsRoutes = require("./routes/comments.routes");
+app.use("/", commentsRoutes);
+
 // ❗ To handle errors. Routes that don't exist or errors that you handle in specific routes
 require("./error-handling")(app);
 

@@ -45,3 +45,18 @@ a {
   text-transform: uppercase;
   cursor: default;
 }
+
+.comment {
+  padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl);
+}
+.comment-body {
+  padding-left: 54px;
+  padding-top: var(--mantine-spacing-sm);
+  font-size: var(--mantine-font-size-sm);
+}
+
+.content {
+  & > p:last-child {
+    margin-bottom: 0;
+  }
+}
