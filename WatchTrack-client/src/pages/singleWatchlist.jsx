@@ -122,8 +122,8 @@ function SingleWatchlist() {
         console.log("Response:", res.data);
         setWatchlist(res.data);
 
-        setSelectedTvShows((prevmovies) =>
-          prevmovies.filter((tvShow) => tvShow.id !== movieId)
+        setSelectedMovies((prevMovies) =>
+          prevMovies.filter((movie) => movie.id !== movieId)
         );
       })
       .catch((err) => {

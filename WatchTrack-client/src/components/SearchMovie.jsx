@@ -3,6 +3,7 @@ import { TextInput, Button, Container } from "@mantine/core";
 import { Card, Image, Text } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const SearchMovie = (props) => {
   const [query, setQuery] = useState("");
@@ -43,8 +44,6 @@ const SearchMovie = (props) => {
       movies: [...watchlist.movies, movieId],
     };
 
-    console.log("Updated Watchlist:", updatedWatchlist); // Log the updated watchlist
-
     axios
       .put(
         `http://localhost:5005/watchlist/${props.watchlist}`,
@@ -53,7 +52,7 @@ const SearchMovie = (props) => {
       .then((res) => {
         console.log("Response:", res.data);
         setWatchlist(res.data);
-        props.populateMovies(); // Refresh the movies
+        props.populateMovies(); 
         return fetch(`http://localhost:5005/tmdb/movies/${movieId}`);
       })
       .then((res) => res.json())

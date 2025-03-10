@@ -49,7 +49,7 @@ const SearchTvShow = (props) => {
             .then((res) => {
                 console.log('Response:', res.data);
                 setWatchlist(res.data);
-                props.populateTvShows(); // Refresh the TV shows
+                props.populateTvShows();
                 return fetch(`http://localhost:5005/tmdb/tv/${id}`);
             })
             .then((res) => res.json())
@@ -78,7 +78,7 @@ const SearchTvShow = (props) => {
                 Tv Shows
             </Text>
             <Carousel
-                
+
                 mt={20}
                 type="container"
                 slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
@@ -115,14 +115,14 @@ const SearchTvShow = (props) => {
                                 <Text align="center" mt="sm" lineClamp={1}>
                                     {tvShow.name}
                                 </Text>
-                              
+
                             </Card>
                         </Link>
                         <Button onClick={() => handleAdd(tvShow.id)}>Add</Button>
                     </Carousel.Slide>
                 ))}
             </Carousel>
- 
+
         </Container>
     );
 };
