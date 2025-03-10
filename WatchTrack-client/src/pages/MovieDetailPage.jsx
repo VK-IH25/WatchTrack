@@ -16,10 +16,13 @@ import {
   Avatar,
   ScrollArea,
   TypographyStylesProvider,
+  Popover,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
+import AddMovieToWatchlist from "../components/AddMovietoWatchlist";
+import MovieCommentsSection from "./MovieCommentsSection";
 
 const MovieDetailPage = () => {
   const { id } = useParams();

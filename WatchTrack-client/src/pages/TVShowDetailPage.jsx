@@ -17,10 +17,14 @@ import {
   Avatar,
   Paper,
   TypographyStylesProvider,
+  Popover,
 } from "@mantine/core";
 import axios from "axios";
 import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
+import AddTvShowToWatchlist from "../components/AddTvShowToWatchlist";
+import TVShowCommentsSection from "./TVShowCommentsSection";
+
 
 const TVShowDetailPage = () => {
   const { id } = useParams();
