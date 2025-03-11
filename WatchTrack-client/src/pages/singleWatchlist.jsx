@@ -230,7 +230,7 @@ function SingleWatchlist() {
                 </Link>
                 {user && user._id === watchlist.createdBy && (
                   <CloseButton
-                    onClick={() => handleRemoveTvShow(movie.id)}
+                    onClick={() => handleRemoveMovie(movie.id)}
                     style={{
                       position: "absolute",
                       top: "5px",
