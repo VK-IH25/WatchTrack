@@ -27,18 +27,25 @@ const TVShowDetailPage = () => {
   const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const { getToken } = useContext(AuthContext);
 
   const [isSeenIt, setIsSeenIt] = useState(false);
-
-
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   const navigate = useNavigate();
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
+        useEffect(() => {
+          if (user) {
+            setIsSeenIt(user.tvShows.includes(id.toString()));
+          }
+        }, [user, id]);
+    
+        console.log(isSeenIt);
+            
 
   useEffect(() => {
     const fetchTVShowDetails = async () => {
@@ -55,10 +62,7 @@ const TVShowDetailPage = () => {
         setCast(castResponse.data.cast);
         setLoading(false);
 
-        if (user && user.tvShows.includes(id)) {
-          setIsSeenIt(true);
-        }
-      } catch (error) {
+     } catch (error) {
         console.error("Error fetching TV show details:", error);
         setLoading(false);
       }
@@ -87,37 +91,41 @@ const TVShowDetailPage = () => {
 
   const addSeenIt = () => {
     if (!user) return;
-    const updatedUser = { ...user, tvShows: [...user.tvShows, id] };
 
-    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
-      headers: { Authorization: `Bearer ${getToken()}` },
-    })
+    const updatedMovies = [...user.tvShows, id.toString()];
+    const updatedUser = { ...user, tvShows: updatedMovies };
+
+    axios
+      .put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((response) => {
-        console.log('User updated successfully:', response.data);
+        console.log("User updated successfully:", response.data);
+        setUser(response.data);
         setIsSeenIt(true);
       })
       .catch((err) => {
-        console.error('Error updating watchlist:', err);
+        console.error("Error updating watchlist:", err);
       });
   };
 
   const removeSeenIt = () => {
     if (!user) return;
 
-    const updatedUser2 = {
-      ...user,
-      tvShows: user.tvShows.filter(showId => showId !== id)
-    };
+    const updatedMovies = user.tvShows.filter((movieId) => movieId !== id.toString());
+    const updatedUser = { ...user, tvShows: updatedMovies };
 
-    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser2, {
-      headers: { Authorization: `Bearer ${getToken()}` },
-    })
+    axios
+      .put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((response) => {
-        console.log('User updated successfully:', response.data);
+        console.log("User updated successfully:", response.data);
+        setUser(response.data);
         setIsSeenIt(false);
       })
       .catch((err) => {
-        console.error('Error updating watchlist:', err);
+        console.error("Error updating watchlist:", err);
       });
   };
 

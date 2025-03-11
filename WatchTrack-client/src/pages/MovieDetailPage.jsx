@@ -12,10 +12,6 @@ import {
   Box,
   Image,
   Divider,
-  Paper,
-  Avatar,
-  ScrollArea,
-  TypographyStylesProvider,
   Popover,
 } from "@mantine/core";
 import axios from "axios";
@@ -33,7 +29,7 @@ const MovieDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const { user } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const { getToken } = useContext(AuthContext);
 
   const [isSeenIt, setIsSeenIt] = useState(false);
@@ -42,30 +38,39 @@ const MovieDetailPage = () => {
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
-  useEffect(() => {
-    const fetchMovieDetails = async () => {
-      try {
-        const movieResponse = await axios.get(
-          `${backendBaseUrl}/tmdb/movies/${id}`
-        );
-        setMovie(movieResponse.data);
-
-        const castResponse = await axios.get(
-          `${backendBaseUrl}/tmdb/movies/${id}/credits`
-        );
-        setCast(castResponse.data.cast);
-      } catch (error) {
-        console.error("Error fetching movie details:", error);
-      } finally {
-        setLoading(false);
-        if (user && user.tvShows.includes(id)) {
-          setIsSeenIt(true);
-        }
+    useEffect(() => {
+      if (user) {
+        setIsSeenIt(user.movies.includes(id.toString()));
       }
-    };
+    }, [user, id]);
 
-    fetchMovieDetails();
-  }, [id]);
+    console.log(isSeenIt);
+        
+
+    useEffect(() => {
+      const fetchMovieDetails = async () => {
+        try {
+          const movieResponse = await axios.get(
+            `${backendBaseUrl}/tmdb/movies/${id}`
+          );
+          setMovie(movieResponse.data);
+  
+          const castResponse = await axios.get(
+            `${backendBaseUrl}/tmdb/movies/${id}/credits`
+          );
+          setCast(castResponse.data.cast);
+        } catch (error) {
+          console.error("Error fetching movie details:", error);
+        } finally {
+          setLoading(false);
+        }
+      };
+  
+      fetchMovieDetails();
+    }, [id]);
+        
+
+
 
   if (loading) {
     return (
@@ -87,41 +92,45 @@ const MovieDetailPage = () => {
 
   const addSeenIt = () => {
     if (!user) return;
-    const updatedUser = { ...user, movies: [...user.movies, id] };
 
-    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
-      headers: { Authorization: `Bearer ${getToken()}` },
-    })
+    const updatedMovies = [...user.movies, id.toString()];
+    const updatedUser = { ...user, movies: updatedMovies };
+
+    axios
+      .put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((response) => {
-        console.log('User updated successfully:', response.data);
+        console.log("User updated successfully:", response.data);
+        setUser(response.data);
         setIsSeenIt(true);
       })
       .catch((err) => {
-        console.error('Error updating watchlist:', err);
+        console.error("Error updating watchlist:", err);
       });
   };
 
   const removeSeenIt = () => {
     if (!user) return;
 
-    const updatedUser2 = {
-      ...user,
-      movies: user.movies.filter(movieId =>movieId !== id)
-    };
+    const updatedMovies = user.movies.filter((movieId) => movieId !== id.toString());
+    const updatedUser = { ...user, movies: updatedMovies };
 
-    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser2, {
-      headers: { Authorization: `Bearer ${getToken()}` },
-    })
+    axios
+      .put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((response) => {
-        console.log('User updated successfully:', response.data);
+        console.log("User updated successfully:", response.data);
+        setUser(response.data);
         setIsSeenIt(false);
       })
       .catch((err) => {
-        console.error('Error updating watchlist:', err);
+        console.error("Error updating watchlist:", err);
       });
   };
 
-
+console.log(user)
   return (
     <Container size="xxl" style={{ padding: "50px", position: "relative" }}>
       <Box
