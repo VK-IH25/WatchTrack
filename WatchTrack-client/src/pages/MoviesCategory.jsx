@@ -32,8 +32,8 @@ function MoviesCategory() {
   }
 
   return (
-    <Container size="xl" mb="xl" mt="xl" style={{ padding: "50px 0" }}>
-      <Text size="xl" mt="xl" weight={700} mb="sm">
+    <Container size="xl" mb="xl" style={{ padding: "50px 0" }}>
+      <Text size="xl" weight={700} mb="sm">
         {category.charAt(0).toUpperCase() + category.slice(1)} Movies
       </Text>
       {loading ? (

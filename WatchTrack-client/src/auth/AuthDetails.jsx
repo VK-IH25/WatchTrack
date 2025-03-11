@@ -22,7 +22,9 @@ const AuthDetails = () => {
               <Avatar bg="white" color="#3d8d7a" radius="xl" />
             </MenuTarget>{" "}
             <MenuDropdown>
-              <MenuItem>Profile</MenuItem>
+              <MenuItem>
+                <Link to="/profile">Profile</Link>
+              </MenuItem>
               <Button onClick={logOutUser}>Sign Out</Button>
             </MenuDropdown>
           </Menu>

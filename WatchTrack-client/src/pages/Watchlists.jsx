@@ -7,7 +7,6 @@ import { AuthContext } from "../context/auth.context";
 function Watchlists() {
   const [watchlists, setWatchlists] = useState([]);
   const { user } = useContext(AuthContext);
-  
 
   useEffect(() => {
     fetch("http://localhost:5005/watchlist")
@@ -27,7 +26,7 @@ function Watchlists() {
   }
 
   return (
-    <Container m={50} mt={80} style={{ padding: "20px 0" }}>
+    <Container m={50} style={{ padding: "20px 0" }}>
       <Link to="/watchlists/add">
         <Button mb={50}>Create Watchlist</Button>
       </Link>

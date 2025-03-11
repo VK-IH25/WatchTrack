@@ -76,10 +76,7 @@ const MovieDetailPage = () => {
   }
 
   return (
-    <Container
-      size="xxl"
-      style={{ padding: "50px", marginTop: "50px", position: "relative" }}
-    >
+    <Container size="xxl" style={{ padding: "50px", position: "relative" }}>
       <Box
         style={{
           position: "absolute",
@@ -167,7 +164,7 @@ const MovieDetailPage = () => {
                 </Button>
               </Popover.Target>
               <Popover.Dropdown>
-                <AddMovieToWatchlist movieId={id}/>
+                <AddMovieToWatchlist movieId={id} />
               </Popover.Dropdown>
             </Popover>
 

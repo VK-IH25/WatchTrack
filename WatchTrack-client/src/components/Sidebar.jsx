@@ -40,6 +40,9 @@ const Sidebar = (props) => {
             Search
           </Link>
         </li>
+        <li>
+          <Link to="about">About Us</Link>
+        </li>
       </ul>
     </nav>
   );
