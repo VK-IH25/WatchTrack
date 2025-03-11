@@ -93,7 +93,6 @@ const MoviesCarousel = ({ category, activeTab }) => {
                     ) : (
                       <div
                         style={{
-                          height: 270,
                           backgroundColor: "#ccc",
                           display: "flex",
                           justifyContent: "center",
