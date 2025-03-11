@@ -158,6 +158,7 @@ function SingleWatchlist() {
           {/* Movies Section */}
           <Text size="xl" weight={700} mt={50} mb="sm">
             Movies
+            {user && user._id === watchlist.createdBy && (
             <Popover
               width={620}
               shadow="md"
@@ -177,6 +178,7 @@ function SingleWatchlist() {
                 />
               </Popover.Dropdown>
             </Popover>
+            )}
           </Text>
 
           <Carousel
@@ -218,16 +220,21 @@ function SingleWatchlist() {
                     </Text>
                   </Card>
                 </Link>
-                <CloseButton
-                  onClick={() => handleRemoveMovie(movie.id)}
-                  style={{
-                    position: "absolute",
-                    top: "5px",
-                    right: "25px",
-                    backgroundColor: "#cf3917",
-                    color: "white",
-                  }}
-                ></CloseButton>
+                {user && user._id === watchlist.createdBy && (
+
+
+                  <CloseButton
+                    onClick={() => handleRemoveTvShow(movie.id)}
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "25px",
+                      backgroundColor: "#cf3917",
+                      color: "white",
+                    }}
+
+                  ></CloseButton>
+                )}
               </Carousel.Slide>
             ))}
           </Carousel>
@@ -235,6 +242,7 @@ function SingleWatchlist() {
           {/* TV Shows Section */}
           <Text size="xl" weight={700} mt={30} mb="sm">
             TV Shows
+            {user && user._id === watchlist.createdBy && (
             <Popover
               width={620}
               shadow="md"
@@ -244,7 +252,9 @@ function SingleWatchlist() {
               offset={{ mainAxis: 17, crossAxis: 50 }}
             >
               <Popover.Target>
-                <Button ml={20}>Add TV Show</Button>
+
+                  <Button ml={20}>Add TV Show</Button>
+
               </Popover.Target>
               <Popover.Dropdown>
                 <SearchTvShow
@@ -254,6 +264,7 @@ function SingleWatchlist() {
                 />
               </Popover.Dropdown>
             </Popover>
+            )}
           </Text>
 
           <Carousel
@@ -295,21 +306,26 @@ function SingleWatchlist() {
                     </Text>
                   </Card>
                 </Link>
-                <CloseButton
-                  onClick={() => handleRemoveTvShow(tvShow.id)}
-                  style={{
-                    position: "absolute",
-                    top: "5px",
-                    right: "25px",
-                    backgroundColor: "#cf3917",
-                    color: "white",
-                  }}
-                ></CloseButton>
+                {user && user._id === watchlist.createdBy && (
+
+
+                  <CloseButton
+                    onClick={() => handleRemoveTvShow(tvShow.id)}
+                    style={{
+                      position: "absolute",
+                      top: "5px",
+                      right: "25px",
+                      backgroundColor: "#cf3917",
+                      color: "white",
+                    }}
+
+                  ></CloseButton>
+                )}
               </Carousel.Slide>
             ))}
           </Carousel>
 
-          { user && user._id === watchlist.createdBy ? (
+          {user && user._id === watchlist.createdBy ? (
             <div>
               <Link to={`/watchlist/${id}/edit`}>
                 <Button mt={20} mr={20}>
@@ -322,7 +338,7 @@ function SingleWatchlist() {
             </div>
           ) : <></>}
 
-         </div>
+        </div>
       )}
     </Container>
   );
