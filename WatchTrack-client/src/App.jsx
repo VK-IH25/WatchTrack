@@ -21,6 +21,7 @@ import ProfilePage from "./auth/Profile";
 import AuthDetails from "./auth/AuthDetails";
 import Search from "./components/Search";
 import About from "./pages/AboutUs";
+import Page404 from "./pages/Page404";
 
 function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
@@ -88,6 +89,8 @@ function App() {
 
           <Route path="/tv/:id" element={<TVShowDetailPage />} />
           <Route path="/tv/category/:category" element={<TVShowsCategory />} />
+
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </AppShell.Main>
       <AppShell.Footer className="footer">
