@@ -30,7 +30,7 @@ function TVShowsCategory() {
   }, [category]);
 
   return (
-    <Container size="xl" mb="xl" mt="xl" style={{ padding: "50px 0" }}>
+    <Container size="xl" mb="xl" style={{ padding: "50px 0" }}>
       <Text size="xl" weight={700} mb="sm">
         {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows
       </Text>

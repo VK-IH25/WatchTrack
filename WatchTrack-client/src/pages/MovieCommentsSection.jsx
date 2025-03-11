@@ -27,7 +27,7 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const token = localStorage.getItem("authToken");
   const { user } = useContext(AuthContext);
-  const currentUserId = user._id;
+  const currentUserId = user ? user._id : null;
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -137,17 +137,17 @@ const MovieCommentsSection = ({ movieId, backendBaseUrl }) => {
       <Text size="30px" weight={700} mt="xl">
         Comments
       </Text>
-
-      <Button
-        variant="outline"
-        color="blue"
-        onClick={() => setIsModalOpen(true)}
-        mt="xl"
-      >
-        <Plus size={16} style={{ marginRight: 8 }} />
-        Add Comment
-      </Button>
-
+      {currentUserId && (
+        <Button
+          variant="outline"
+          color="blue"
+          onClick={() => setIsModalOpen(true)}
+          mt="xl"
+        >
+          <Plus size={16} style={{ marginRight: 8 }} />
+          Add Comment
+        </Button>
+      )}
       <Modal
         opened={isModalOpen}
         onClose={() => setIsModalOpen(false)}

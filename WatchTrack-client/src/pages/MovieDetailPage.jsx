@@ -123,10 +123,7 @@ const MovieDetailPage = () => {
 
 
   return (
-    <Container
-      size="xxl"
-      style={{ padding: "50px", marginTop: "50px", position: "relative" }}
-    >
+    <Container size="xxl" style={{ padding: "50px", position: "relative" }}>
       <Box
         style={{
           position: "absolute",

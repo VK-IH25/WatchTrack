@@ -22,7 +22,6 @@ import AddTvShowToWatchlist from "../components/AddTvShowToWatchlist";
 import TVShowCommentsSection from "./TVShowCommentsSection";
 import { AuthContext } from "../context/auth.context";
 
-
 const TVShowDetailPage = () => {
   const { id } = useParams();
   const [tvShow, setTvShow] = useState(null);
@@ -124,10 +123,7 @@ const TVShowDetailPage = () => {
 
 
   return (
-    <Container
-      size="xxl"
-      style={{ padding: "50px", marginTop: "50px", position: "relative" }}
-    >
+    <Container size="xxl" style={{ padding: "50px", position: "relative" }}>
       <Box
         style={{
           position: "absolute",
