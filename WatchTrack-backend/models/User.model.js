@@ -19,6 +19,14 @@ const userSchema = new Schema(
       required: [true, "Username is required."],
       unique: true,
     },
+    movies: {
+      type: [String],
+      default: []
+  },
+  tvShows: {
+      type: [String],
+      default: []
+  }
   },
   {
     // this second object adds extra properties: `createdAt` and `updatedAt`
