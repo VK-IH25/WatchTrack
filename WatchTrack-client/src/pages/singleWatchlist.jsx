@@ -102,9 +102,13 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      })
+      .put(
+        `http://localhost:5005/watchlist/${watchlist._id}`,
+        updatedWatchlist,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      )
       .then((res) => {
         setWatchlist(res.data);
         setSelectedTvShows((prevTvShows) =>
@@ -123,9 +127,13 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(`http://localhost:5005/watchlist/${watchlist._id}`, updatedWatchlist, {
-        headers: { Authorization: `Bearer ${getToken()}` },
-      })
+      .put(
+        `http://localhost:5005/watchlist/${watchlist._id}`,
+        updatedWatchlist,
+        {
+          headers: { Authorization: `Bearer ${getToken()}` },
+        }
+      )
       .then((res) => {
         setWatchlist(res.data);
         setSelectedMovies((prevMovies) =>
@@ -138,7 +146,7 @@ function SingleWatchlist() {
   };
 
   return (
-    <Container mt={50} mb={50} style={{ padding: "20px 0" }}>
+    <Container size="xl" mt={50} mb={50} style={{ padding: "20px 0" }}>
       {watchlist && (
         <div>
           <Title order={1}>
@@ -159,25 +167,25 @@ function SingleWatchlist() {
           <Text size="xl" weight={700} mt={50} mb="sm">
             Movies
             {user && user._id === watchlist.createdBy && (
-            <Popover
-              width={620}
-              shadow="md"
-              withArrow
-              withOverlay
-              zIndex={10001}
-              offset={{ mainAxis: 17, crossAxis: 50 }}
-            >
-              <Popover.Target>
-                <Button ml={20}>Add Movie</Button>
-              </Popover.Target>
-              <Popover.Dropdown>
-                <SearchMovie
-                  watchlist={id}
-                  populateMovies={populateMovies}
-                  setSelectedMovies={setSelectedMovies}
-                />
-              </Popover.Dropdown>
-            </Popover>
+              <Popover
+                width={620}
+                shadow="md"
+                withArrow
+                withOverlay
+                zIndex={10001}
+                offset={{ mainAxis: 17, crossAxis: 50 }}
+              >
+                <Popover.Target>
+                  <Button ml={20}>Add Movie</Button>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <SearchMovie
+                    watchlist={id}
+                    populateMovies={populateMovies}
+                    setSelectedMovies={setSelectedMovies}
+                  />
+                </Popover.Dropdown>
+              </Popover>
             )}
           </Text>
 
@@ -197,14 +205,14 @@ function SingleWatchlist() {
                       {movie.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                          height={270}
+                          style={{ minHeight: "370px" }}
                           fit="cover"
                           alt={movie.title}
                         />
                       ) : (
                         <div
                           style={{
-                            height: 270,
+                            minHeight: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
@@ -221,8 +229,6 @@ function SingleWatchlist() {
                   </Card>
                 </Link>
                 {user && user._id === watchlist.createdBy && (
-
-
                   <CloseButton
                     onClick={() => handleRemoveTvShow(movie.id)}
                     style={{
@@ -232,7 +238,6 @@ function SingleWatchlist() {
                       backgroundColor: "#cf3917",
                       color: "white",
                     }}
-
                   ></CloseButton>
                 )}
               </Carousel.Slide>
@@ -243,27 +248,25 @@ function SingleWatchlist() {
           <Text size="xl" weight={700} mt={30} mb="sm">
             TV Shows
             {user && user._id === watchlist.createdBy && (
-            <Popover
-              width={620}
-              shadow="md"
-              withArrow
-              withOverlay
-              zIndex={10001}
-              offset={{ mainAxis: 17, crossAxis: 50 }}
-            >
-              <Popover.Target>
-
+              <Popover
+                width={620}
+                shadow="md"
+                withArrow
+                withOverlay
+                zIndex={10001}
+                offset={{ mainAxis: 17, crossAxis: 50 }}
+              >
+                <Popover.Target>
                   <Button ml={20}>Add TV Show</Button>
-
-              </Popover.Target>
-              <Popover.Dropdown>
-                <SearchTvShow
-                  watchlist={id}
-                  populateTvShows={populateTvShows}
-                  setSelectedTvShows={setSelectedTvShows}
-                />
-              </Popover.Dropdown>
-            </Popover>
+                </Popover.Target>
+                <Popover.Dropdown>
+                  <SearchTvShow
+                    watchlist={id}
+                    populateTvShows={populateTvShows}
+                    setSelectedTvShows={setSelectedTvShows}
+                  />
+                </Popover.Dropdown>
+              </Popover>
             )}
           </Text>
 
@@ -283,14 +286,14 @@ function SingleWatchlist() {
                       {tvShow.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
-                          height={270}
+                          style={{ minHeight: "370px" }}
                           fit="cover"
                           alt={tvShow.name}
                         />
                       ) : (
                         <div
                           style={{
-                            height: 270,
+                            minHeight: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
@@ -307,8 +310,6 @@ function SingleWatchlist() {
                   </Card>
                 </Link>
                 {user && user._id === watchlist.createdBy && (
-
-
                   <CloseButton
                     onClick={() => handleRemoveTvShow(tvShow.id)}
                     style={{
@@ -318,7 +319,6 @@ function SingleWatchlist() {
                       backgroundColor: "#cf3917",
                       color: "white",
                     }}
-
                   ></CloseButton>
                 )}
               </Carousel.Slide>
@@ -326,7 +326,7 @@ function SingleWatchlist() {
           </Carousel>
 
           {user && user._id === watchlist.createdBy ? (
-            <div>
+            <div style={{ marginBottom: "50px" }}>
               <Link to={`/watchlist/${id}/edit`}>
                 <Button mt={20} mr={20}>
                   Edit
@@ -336,8 +336,9 @@ function SingleWatchlist() {
                 Delete
               </Button>
             </div>
-          ) : <></>}
-
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </Container>
