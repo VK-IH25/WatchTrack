@@ -1,14 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/auth.context";
-import {
-  Container,
-  Text,
-  Card,
-  Avatar,
-  Group,
-  Loader,
-  Button,
-} from "@mantine/core";
+import { Container, Text, Card, Avatar, Group, Button } from "@mantine/core";
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContext);
