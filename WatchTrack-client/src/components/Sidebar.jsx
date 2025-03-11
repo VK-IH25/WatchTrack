@@ -63,7 +63,6 @@ const Sidebar = () => {
           />
         ))}
 
-        {/* Movies Menu */}
         <NavLink
           label="Movies"
           leftSection={<IconMovie size={16} stroke={1.5} />}
@@ -89,7 +88,6 @@ const Sidebar = () => {
           </div>
         )}
 
-        {/* TV Shows Menu */}
         <NavLink
           label="TV Shows"
           leftSection={<IconDeviceTv size={16} stroke={1.5} />}
