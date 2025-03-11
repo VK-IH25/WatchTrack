@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Text,
@@ -23,6 +23,8 @@ import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import AddMovieToWatchlist from "../components/AddMovietoWatchlist";
 import MovieCommentsSection from "./MovieCommentsSection";
+import { AuthContext } from "../context/auth.context";
+
 
 const MovieDetailPage = () => {
   const { id } = useParams();
@@ -30,6 +32,11 @@ const MovieDetailPage = () => {
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const { user } = useContext(AuthContext);
+  const { getToken } = useContext(AuthContext);
+
+  const [isSeenIt, setIsSeenIt] = useState(false);
 
   const navigate = useNavigate();
   const backendBaseUrl =
@@ -51,6 +58,9 @@ const MovieDetailPage = () => {
         console.error("Error fetching movie details:", error);
       } finally {
         setLoading(false);
+        if (user && user.tvShows.includes(id)) {
+          setIsSeenIt(true);
+        }
       }
     };
 
@@ -74,6 +84,43 @@ const MovieDetailPage = () => {
       </Container>
     );
   }
+
+  const addSeenIt = () => {
+    if (!user) return;
+    const updatedUser = { ...user, movies: [...user.movies, id] };
+
+    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    })
+      .then((response) => {
+        console.log('User updated successfully:', response.data);
+        setIsSeenIt(true);
+      })
+      .catch((err) => {
+        console.error('Error updating watchlist:', err);
+      });
+  };
+
+  const removeSeenIt = () => {
+    if (!user) return;
+
+    const updatedUser2 = {
+      ...user,
+      movies: user.movies.filter(movieId =>movieId !== id)
+    };
+
+    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser2, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    })
+      .then((response) => {
+        console.log('User updated successfully:', response.data);
+        setIsSeenIt(false);
+      })
+      .catch((err) => {
+        console.error('Error updating watchlist:', err);
+      });
+  };
+
 
   return (
     <Container
@@ -167,7 +214,7 @@ const MovieDetailPage = () => {
                 </Button>
               </Popover.Target>
               <Popover.Dropdown>
-                <AddMovieToWatchlist movieId={id}/>
+                <AddMovieToWatchlist movieId={id} />
               </Popover.Dropdown>
             </Popover>
 
@@ -180,9 +227,15 @@ const MovieDetailPage = () => {
             >
               ▶ Watch Now
             </Button>
-            <Button variant="subtle" size="md">
-              Already seen it?
-            </Button>
+            {isSeenIt ? (
+              <Button variant="subtle" size="md" onClick={removeSeenIt}>
+                Unsee it
+              </Button>
+            ) : (
+              <Button variant="subtle" size="md" onClick={addSeenIt}>
+                Already seen it?
+              </Button>
+            )}
           </Group>
           <Text my="xl" color="white" size="md">
             {movie.overview}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   Text,
@@ -13,10 +13,6 @@ import {
   Image,
   Divider,
   Card,
-  ScrollArea,
-  Avatar,
-  Paper,
-  TypographyStylesProvider,
   Popover,
 } from "@mantine/core";
 import axios from "axios";
@@ -24,6 +20,7 @@ import { Carousel } from "@mantine/carousel";
 import { useMediaQuery } from "@mantine/hooks";
 import AddTvShowToWatchlist from "../components/AddTvShowToWatchlist";
 import TVShowCommentsSection from "./TVShowCommentsSection";
+import { AuthContext } from "../context/auth.context";
 
 
 const TVShowDetailPage = () => {
@@ -31,6 +28,12 @@ const TVShowDetailPage = () => {
   const [tvShow, setTvShow] = useState(null);
   const [cast, setCast] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { user } = useContext(AuthContext);
+  const { getToken } = useContext(AuthContext);
+
+  const [isSeenIt, setIsSeenIt] = useState(false);
+
+
 
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -52,6 +55,10 @@ const TVShowDetailPage = () => {
         );
         setCast(castResponse.data.cast);
         setLoading(false);
+
+        if (user && user.tvShows.includes(id)) {
+          setIsSeenIt(true);
+        }
       } catch (error) {
         console.error("Error fetching TV show details:", error);
         setLoading(false);
@@ -78,6 +85,43 @@ const TVShowDetailPage = () => {
       </Container>
     );
   }
+
+  const addSeenIt = () => {
+    if (!user) return;
+    const updatedUser = { ...user, tvShows: [...user.tvShows, id] };
+
+    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    })
+      .then((response) => {
+        console.log('User updated successfully:', response.data);
+        setIsSeenIt(true);
+      })
+      .catch((err) => {
+        console.error('Error updating watchlist:', err);
+      });
+  };
+
+  const removeSeenIt = () => {
+    if (!user) return;
+
+    const updatedUser2 = {
+      ...user,
+      tvShows: user.tvShows.filter(showId => showId !== id)
+    };
+
+    axios.put(`${backendBaseUrl}/auth/edit/${user._id}`, updatedUser2, {
+      headers: { Authorization: `Bearer ${getToken()}` },
+    })
+      .then((response) => {
+        console.log('User updated successfully:', response.data);
+        setIsSeenIt(false);
+      })
+      .catch((err) => {
+        console.error('Error updating watchlist:', err);
+      });
+  };
+
 
   return (
     <Container
@@ -153,9 +197,6 @@ const TVShowDetailPage = () => {
             <Text color="white">
               {tvShow.genres.map((g) => g.name).join(", ")}
             </Text>
-            <Text color="white">
-              {tvShow.genres.map((g) => g.name).join(", ")}
-            </Text>
             <Text color="white">•</Text>
             <Text color="white">⭐ {tvShow.vote_average}</Text>
           </Group>
@@ -187,9 +228,15 @@ const TVShowDetailPage = () => {
             >
               ▶ Watch Now
             </Button>
-            <Button variant="subtle" size="md">
-              Already seen it?
-            </Button>
+            {isSeenIt ? (
+              <Button variant="subtle" size="md" onClick={removeSeenIt}>
+                Unsee it
+              </Button>
+            ) : (
+              <Button variant="subtle" size="md" onClick={addSeenIt}>
+                Already seen it?
+              </Button>
+            )}
           </Group>
           <Text my="xl" color="white" size="md">
             {tvShow.overview}

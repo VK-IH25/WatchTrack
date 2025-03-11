@@ -98,10 +98,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username } = foundUser;
+        const { _id, email, username, movies, tvShows } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username };
+        const payload = { _id, email, username, movies, tvShows };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -116,6 +116,22 @@ router.post("/login", (req, res, next) => {
       }
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
+});
+
+// Edit user profile
+router.put("/edit/:id", isAuthenticated, (req, res, next) => {
+  const { email, username, movies, tvShows } = req.body;
+  const _id = req.payload._id;
+
+  User.findByIdAndUpdate(
+    _id,
+    { email, username, movies, tvShows },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.status(200).json(updatedUser);
+    })
+    .catch((err) => next(err));
 });
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
