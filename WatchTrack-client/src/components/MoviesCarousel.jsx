@@ -72,7 +72,6 @@ const MoviesCarousel = ({ category, activeTab }) => {
       {movies.length > 0 && (
         <Carousel
           key={category}
-          height={320}
           type="container"
           slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
           slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
@@ -87,9 +86,9 @@ const MoviesCarousel = ({ category, activeTab }) => {
                     {movie.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                        height={270}
-                        fit="cover"
                         alt={movie.title || "No Image"}
+                        style={{ minHeight: "370px" }}
+                        fit="cover"
                       />
                     ) : (
                       <div
@@ -97,6 +96,9 @@ const MoviesCarousel = ({ category, activeTab }) => {
                           height: 270,
                           backgroundColor: "#ccc",
                           display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          minHeight: "370px",
                         }}
                       >
                         No Image

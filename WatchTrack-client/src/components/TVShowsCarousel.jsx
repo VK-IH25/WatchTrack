@@ -61,7 +61,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
 
   return (
     <div style={{ margin: "50px 0px" }}>
-      <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
+      <Link to={categoryLinks[category]}>
         <Text size="xl" weight={700} mb="sm" color="blue">
           {category}
         </Text>
@@ -69,7 +69,6 @@ const TVShowsCarousel = ({ category, activeTab }) => {
       {shows.length > 0 && (
         <Carousel
           key={category}
-          height={320}
           type="container"
           slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
           slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
@@ -84,16 +83,18 @@ const TVShowsCarousel = ({ category, activeTab }) => {
                     {show.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${show.poster_path}`}
-                        height={270}
-                        fit="cover"
                         alt={show.name || "No Image"}
+                        style={{ minHeight: "370px" }}
+                        fit="cover"
                       />
                     ) : (
                       <div
                         style={{
-                          height: 270,
+                          minHeight: "370px",
                           backgroundColor: "#ccc",
                           display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
                         }}
                       >
                         No Image

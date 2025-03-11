@@ -3,7 +3,7 @@ import { AuthContext } from "../context/auth.context";
 import { Container, Text, Card, Avatar, Group, Button } from "@mantine/core";
 
 const ProfilePage = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOutUser } = useContext(AuthContext);
   const loggedUser = user;
 
   if (!loggedUser) {
@@ -30,7 +30,7 @@ const ProfilePage = () => {
         </Group>
       </Card>
 
-      <Button fullWidth mt={20} color="red">
+      <Button fullWidth mt={20} color="red" onClick={logOutUser}>
         Logout
       </Button>
     </Container>
