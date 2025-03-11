@@ -232,7 +232,8 @@ const TVShowDetailPage = () => {
                       : "https://placehold.co/200x300"
                   }
                   alt={season.name}
-                  fit="contain"
+                  fit="cover"
+                  style={{ minHeight: "370px" }}
                 />
               </Card.Section>
               <Stack mt="sm">

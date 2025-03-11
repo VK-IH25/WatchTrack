@@ -52,7 +52,7 @@ const Search = () => {
   };
 
   return (
-    <Container size="xl" mt={120} style={{ padding: "50px 0" }}>
+    <Container size="xl" style={{ padding: "50px 0" }}>
       <form onSubmit={handleSearch}>
         <TextInput
           placeholder="Search for category, movie or Tv Show..."
@@ -74,7 +74,6 @@ const Search = () => {
             Movies
           </Text>
           <Carousel
-            height={320}
             mt={20}
             type="container"
             slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
@@ -90,14 +89,14 @@ const Search = () => {
                       {movie.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                          height={270}
                           fit="cover"
                           alt={movie.title}
+                          style={{ minHeight: "370px" }}
                         />
                       ) : (
                         <div
                           style={{
-                            height: 270,
+                            minHeight: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
@@ -111,9 +110,6 @@ const Search = () => {
                     <Text align="center" mt="sm" lineClamp={1}>
                       {movie.title}
                     </Text>
-                    <Text align="center" mt="sm" lineClamp={2}>
-                      {movie.description || "No description available"}
-                    </Text>
                   </Card>
                 </Link>
               </Carousel.Slide>
@@ -124,11 +120,10 @@ const Search = () => {
 
       {tvResult.length > 0 && (
         <>
-          <Text size="xl" weight={700} mb="sm">
+          <Text size="xl" weight={700} mb="sm" mt="lg">
             TV Shows
           </Text>
           <Carousel
-          
             mt={20}
             type="container"
             slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
@@ -144,14 +139,14 @@ const Search = () => {
                       {movie.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                          height={270}
                           fit="cover"
                           alt={movie.title}
+                          style={{ minHeight: "370px" }}
                         />
                       ) : (
                         <div
                           style={{
-                            height: 270,
+                            minHeight: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
