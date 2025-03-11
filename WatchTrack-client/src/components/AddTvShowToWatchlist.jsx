@@ -3,13 +3,14 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { Notification } from '@mantine/core';   
+import { notifications } from '@mantine/notifications';
 
 function AddTvShowToWatchlist(props) {
     const [watchlists, setWatchlists] = useState([]);
     const { user } = useContext(AuthContext);
     const { getToken } = useContext(AuthContext);
     const { id } = useParams();
+    
     
 
 
@@ -37,6 +38,11 @@ function AddTvShowToWatchlist(props) {
             await axios.put(`http://localhost:5005/watchlist/${wid}`, updatedWatchlist, {
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
+
+            notifications.show({
+                      title: 'Show added',
+                      message: 'Your watchlist has been updated',
+                    })
 
  
         } catch (err) {

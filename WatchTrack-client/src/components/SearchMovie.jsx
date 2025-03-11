@@ -5,12 +5,14 @@ import { Carousel } from "@mantine/carousel";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
+import { notifications } from '@mantine/notifications';
 
 const SearchMovie = (props) => {
   const [query, setQuery] = useState("");
   const [moviesResult, setMoviesResult] = useState([]);
   const [watchlist, setWatchlist] = useState([]);
   const { getToken } = useContext(AuthContext);
+
 
   useEffect(() => {
     fetch(`http://localhost:5005/watchlist/${props.watchlist}`, {
@@ -63,8 +65,14 @@ const SearchMovie = (props) => {
       })
       .then((res) => res.json())
       .then((movie) => {
-        props.setSelectedMovies((prevMovies) => [...prevMovies, movie]);
-      })
+        props.setSelectedMovies((prevMovies) => [...prevMovies, movie])
+        notifications.show({
+          title: 'Movie added',
+          message: 'Your watchlist has been updated',
+        })
+      }
+        
+      )
       .catch((err) => {
         console.error("Error updating watchlist:", err);
       });
@@ -82,6 +90,8 @@ const SearchMovie = (props) => {
         <Button type="submit" mt="md" mb={20}>
           Search
         </Button>
+
+        
       </form>
       <Text size="xl" weight={700} mb="sm">
         Movies

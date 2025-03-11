@@ -3,6 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/auth.context";
 import { useParams } from "react-router-dom";
 import axios from "axios";
+import { notifications } from '@mantine/notifications';
 
 function AddMovieToWatchlist(props) {
     const [watchlists, setWatchlists] = useState([]);
@@ -36,7 +37,12 @@ function AddMovieToWatchlist(props) {
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
 
- 
+            notifications.show({
+                title: 'Movie added',
+                message: 'Your watchlist has been updated',
+            })
+
+
         } catch (err) {
             console.error("Error updating watchlist:", err);
         }

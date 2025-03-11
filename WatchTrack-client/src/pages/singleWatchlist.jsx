@@ -15,6 +15,7 @@ import SearchMovie from "../components/SearchMovie";
 import SearchTvShow from "../components/SearchTvShow";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
+import { notifications } from '@mantine/notifications';
 
 function SingleWatchlist() {
   const { id } = useParams();
@@ -80,6 +81,8 @@ function SingleWatchlist() {
     }
   }, [watchlist, populateMovies, populateTvShows]);
 
+
+
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
@@ -87,6 +90,9 @@ function SingleWatchlist() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
+
+
+
       if (!res.ok) throw new Error("Failed to delete watchlist");
       console.log("Watchlist deleted");
       navigate("/watchlists");
@@ -113,7 +119,11 @@ function SingleWatchlist() {
         setWatchlist(res.data);
         setSelectedTvShows((prevTvShows) =>
           prevTvShows.filter((tvShow) => tvShow.id !== tvShowId)
-        );
+        )
+        notifications.show({
+          title: 'Show removed',
+          message: 'Your watchlist has been updated',
+        })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -139,6 +149,10 @@ function SingleWatchlist() {
         setSelectedMovies((prevMovies) =>
           prevMovies.filter((movie) => movie.id !== movieId)
         );
+        notifications.show({
+          title: 'Movie removed',
+          message: 'Your watchlist has been updated',
+        })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);

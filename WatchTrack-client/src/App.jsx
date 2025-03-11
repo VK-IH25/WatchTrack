@@ -21,6 +21,8 @@ import ProfilePage from "./auth/Profile";
 import AuthDetails from "./auth/AuthDetails";
 import Search from "./components/Search";
 import About from "./pages/AboutUs";
+import { Notifications } from '@mantine/notifications';
+
 
 function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
@@ -59,6 +61,7 @@ function App() {
         <Sidebar toggleDesktop={toggleDesktop} toggleMobile={toggleMobile} />
       </AppShell.Navbar>
       <AppShell.Main>
+      <Notifications />
         <Routes>
           <Route path="/" element={<Homepage></Homepage>} />
           <Route path="about" element={<About></About>} />

@@ -5,6 +5,7 @@ import { Carousel } from '@mantine/carousel';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from "../context/auth.context";
+import { notifications } from '@mantine/notifications';
 
 const SearchTvShow = (props) => {
     const [query, setQuery] = useState('');
@@ -55,7 +56,12 @@ const SearchTvShow = (props) => {
                 console.log('Response:', res.data);
                 setWatchlist(res.data);
                 props.populateTvShows();
+                notifications.show({
+                    title: 'Show added',
+                    message: 'Your watchlist has been updated',
+                })
                 return fetch(`http://localhost:5005/tmdb/tv/${id}`);
+
             })
             .then((res) => res.json())
             .then((tvShow) => {
