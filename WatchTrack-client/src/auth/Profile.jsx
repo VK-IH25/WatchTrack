@@ -169,7 +169,7 @@ const ProfilePage = () => {
                       )}
                     </Card.Section>
                     <Text align="center" mt="sm" lineClamp={2}>
-                      {movie.title}
+                      {movie.name}
                     </Text>
                   </Card>
                 </Link>
