@@ -8,6 +8,8 @@ import {
   Loader,
   Pagination,
   Center,
+  TextInput,
+  Button,
 } from "@mantine/core";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
@@ -21,42 +23,66 @@ function MoviesCategory() {
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setPage(1);
   }, [category]);
 
   useEffect(() => {
-    if (category) {
+    const fetchMovies = async () => {
+      if (!category) return;
+
       setLoading(true);
-      axios
-        .get(`${backendBaseUrl}/tmdb/movies/category/${category}?page=${page}`)
-        .then((response) => {
-          setMovies(response.data.results);
-          setTotalPages(response.data.total_pages);
-          setLoading(false);
-        })
-        .catch((err) => {
-          console.error("Error fetching movies:", err);
-          setLoading(false);
-        });
-    }
-  }, [category, page]);
+      try {
+        const url = searchQuery
+          ? `${backendBaseUrl}/tmdb/movies/search/${searchQuery}?page=${page}`
+          : `${backendBaseUrl}/tmdb/movies/category/${category}`;
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+        const { data } = await axios.get(url, { params: { page } });
+        setMovies(data.results);
+        setTotalPages(data.total_pages);
+      } catch (err) {
+        console.error("Error fetching movies:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  if (!category) {
-    return <Text>Please select a category</Text>;
-  }
+    fetchMovies();
+  }, [category, page, searchQuery]);
+
+  const handleSearch = () => setPage(1);
+
+  if (!category) return <Text>Please select a category</Text>;
 
   return (
     <Container size="xl" style={{ padding: "50px 0" }}>
-      <Text size="xl" fw={500} mb="md">
-        {category.charAt(0).toUpperCase() + category.slice(1)} Movies
-      </Text>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Text size="xl" fw={500}>
+          {searchQuery
+            ? `Search results for "${searchQuery}"`
+            : `${category.replace(/_/g, " ").toUpperCase()} MOVIES`}
+        </Text>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <TextInput
+            placeholder="Search movies..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            style={{ width: 250 }}
+          />
+          <Button onClick={handleSearch} variant="light" color="blue">
+            🔍 Search
+          </Button>
+        </div>
+      </div>
 
       {loading ? (
         <Loader size="xl" variant="dots" my="xl" />
@@ -64,10 +90,7 @@ function MoviesCategory() {
         <>
           <Grid gutter="xl">
             {movies.map((movie) => (
-              <Grid.Col
-                key={movie.id}
-                span={{ base: 12, xs: 6, sm: 4, md: 3, lg: 3 }}
-              >
+              <Grid.Col key={movie.id} span={{ base: 12, xs: 6, sm: 4, md: 3 }}>
                 <Link
                   to={`/movie/${movie.id}`}
                   style={{ textDecoration: "none" }}
@@ -98,8 +121,9 @@ function MoviesCategory() {
                       {movie.title}
                     </Text>
                     <Text c="dimmed" size="sm" mt={4}>
-                      {new Date(movie.release_date).getFullYear() ||
-                        "Unknown year"}
+                      {movie.release_date
+                        ? new Date(movie.release_date).getFullYear()
+                        : "Unknown year"}
                     </Text>
                   </Card>
                 </Link>
@@ -111,15 +135,12 @@ function MoviesCategory() {
             {movies.length > 0 && (
               <Pagination
                 value={page}
-                onChange={handlePageChange}
+                onChange={setPage}
                 total={totalPages}
-                mt="xl"
-                mb="xl"
+                color="var(--secondary-color)"
                 siblings={2}
                 boundaries={1}
-                color="var(--secondary-color)"
                 withEdges
-                disabled={loading}
                 position="center"
               />
             )}

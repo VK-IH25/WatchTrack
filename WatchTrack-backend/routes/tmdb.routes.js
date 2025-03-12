@@ -131,11 +131,15 @@ router.get("/movies/:id/recommendations", async (req, res) => {
 // Search movies by keyword
 router.get("/movies/search/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
+  const { page = 1 } = req.query;
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}`
+      `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${keyword}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error(
       `Error searching for movies with keyword ${keyword}:`,
@@ -274,11 +278,15 @@ router.get("/tv/:id/season/:season", async (req, res) => {
 // Search shows by keyword
 router.get("/tv/search/:keyword", async (req, res) => {
   const keyword = req.params.keyword;
+  const { page = 1 } = req.query;
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${keyword}`
+      `https://api.themoviedb.org/3/search/tv?api_key=${API_KEY}&query=${keyword}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error(
       `Error searching for shows with keyword ${keyword}:`,

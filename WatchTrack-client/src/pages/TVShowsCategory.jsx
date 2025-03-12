@@ -9,6 +9,8 @@ import {
   Loader,
   Center,
   Pagination,
+  TextInput,
+  Button,
 } from "@mantine/core";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
@@ -19,43 +21,69 @@ const backendBaseUrl =
 function TVShowsCategory() {
   const { category } = useParams();
   const [tvShows, setTvShows] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     setPage(1);
   }, [category]);
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(`${backendBaseUrl}/tmdb/tv/category/${category}?page=${page}`)
-      .then((response) => {
-        if (response.data.results) {
-          setTvShows(response.data.results);
-          setTotalPages(response.data.total_pages);
-        } else {
-          setTvShows([]);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching TV shows:", err);
-        setLoading(false);
-      });
-  }, [category, page]);
+    const fetchTVShows = async () => {
+      if (!category) return;
 
-  const handlePageChange = (newPage) => {
-    setPage(newPage);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
+      setLoading(true);
+      try {
+        const url = searchQuery
+          ? `${backendBaseUrl}/tmdb/tv/search/${searchQuery}?page=${page}`
+          : `${backendBaseUrl}/tmdb/tv/category/${category}`;
+
+        const { data } = await axios.get(url, { params: { page } });
+        setTvShows(data.results || []);
+        setTotalPages(data.total_pages || 1);
+      } catch (err) {
+        console.error("Error fetching TV shows:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTVShows();
+  }, [category, page, searchQuery]);
+
+  const handleSearch = () => setPage(1);
+
+  if (!category) return <Text>Please select a category</Text>;
 
   return (
     <Container size="xl" mb="xl" style={{ padding: "50px 0" }}>
-      <Text size="xl" weight={700} mb="sm">
-        {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows
-      </Text>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: 20,
+        }}
+      >
+        <Text size="xl" weight={700}>
+          {searchQuery
+            ? `Search results for "${searchQuery}"`
+            : `${category.replace(/_/g, " ").toUpperCase()} TV SHOWS`}
+        </Text>
+        <div style={{ display: "flex", gap: "10px" }}>
+          <TextInput
+            placeholder="Search TV shows..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.currentTarget.value)}
+            style={{ width: 250 }}
+          />
+          <Button onClick={handleSearch} variant="light" color="blue">
+            🔍 Search
+          </Button>
+        </div>
+      </div>
 
       {loading ? (
         <Loader size="xl" style={{ display: "block", margin: "auto" }} />
@@ -65,7 +93,7 @@ function TVShowsCategory() {
             tvShows.map((tvShow) => (
               <Grid.Col
                 key={tvShow.id}
-                span={{ base: 12, xs: 6, sm: 4, md: 3, lg: 3 }}
+                span={{ base: 12, xs: 6, sm: 4, md: 3 }}
               >
                 <Link
                   to={`/tv/${tvShow.id}`}
@@ -101,23 +129,21 @@ function TVShowsCategory() {
               </Grid.Col>
             ))
           ) : (
-            <Text align="center">No TV shows found in this category.</Text>
+            <Text align="center">No TV shows found.</Text>
           )}
         </Grid>
       )}
+
       <Center mt="xl">
         {tvShows.length > 0 && (
           <Pagination
             value={page}
-            onChange={handlePageChange}
+            onChange={setPage}
             total={totalPages}
-            mt="xl"
-            mb="xl"
-            siblings={2}
             color="var(--secondary-color)"
+            siblings={2}
             boundaries={1}
             withEdges
-            disabled={loading}
             position="center"
           />
         )}
