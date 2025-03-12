@@ -11,7 +11,7 @@ function Homepage() {
   return (
     <div>
       <HeroBanner />
-      <Container size="xl">
+      <Container size="xl" my={50}>
         <Tabs value={activeTab} onChange={setActiveTab} color="dark">
           <Tabs.List grow>
             <Tabs.Tab value="movies">Movies</Tabs.Tab>
