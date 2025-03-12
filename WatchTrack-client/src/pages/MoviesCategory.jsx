@@ -42,7 +42,7 @@ function MoviesCategory() {
         <>
           <Grid gutter="md">
             {movies.map((movie) => (
-              <Grid.Col key={movie.id} span={{ base: 12, md: 6, lg: 3 }}>
+              <Grid.Col key={movie.id} span={{ base: 12, md: 6, lg: 2 }}>
                 <Link
                   to={`/movie/${movie.id}`}
                   style={{ textDecoration: "none" }}
@@ -58,7 +58,6 @@ function MoviesCategory() {
                       ) : (
                         <div
                           style={{
-                            height: 300,
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",

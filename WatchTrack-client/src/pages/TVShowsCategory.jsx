@@ -41,29 +41,22 @@ function TVShowsCategory() {
         <Grid gutter="lg">
           {tvShows.length > 0 ? (
             tvShows.map((tvShow) => (
-              <Grid.Col key={tvShow.id} span={{ base: 12, md: 6, lg: 3 }}>
+              <Grid.Col key={tvShow.id} span={{ base: 12, md: 6, lg: 2 }}>
                 <Link
                   to={`/tv/${tvShow.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Card
-                    shadow="sm"
-                    padding="lg"
-                    radius="md"
-                    style={{ width: "100%" }}
-                  >
+                  <Card shadow="sm" padding="lg">
                     <Card.Section>
                       {tvShow.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
-                          height={350}
-                          fit="cover"
+                          fit="contain"
                           alt={tvShow.name}
                         />
                       ) : (
                         <Box
                           style={{
-                            height: 350,
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
