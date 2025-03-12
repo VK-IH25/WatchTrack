@@ -20,6 +20,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import AddMovieToWatchlist from "../components/AddMovietoWatchlist";
 import MovieCommentsSection from "./MovieCommentsSection";
 import { AuthContext } from "../context/auth.context";
+import { notifications } from '@mantine/notifications';
 
 
 const MovieDetailPage = () => {
@@ -104,6 +105,10 @@ const MovieDetailPage = () => {
         console.log("User updated successfully:", response.data);
         setUser(response.data);
         setIsSeenIt(true);
+        notifications.show({
+          title: 'Your watch history has been updated',
+          message: 'Check your profile page to full history',
+      })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -124,6 +129,10 @@ const MovieDetailPage = () => {
         console.log("User updated successfully:", response.data);
         setUser(response.data);
         setIsSeenIt(false);
+        notifications.show({
+          title: 'Your watch history has been updated',
+          message: 'Check your profile page to full history',
+      })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);

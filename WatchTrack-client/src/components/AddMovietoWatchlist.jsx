@@ -4,6 +4,7 @@ import { AuthContext } from "../context/auth.context";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { notifications } from '@mantine/notifications';
+import { useNavigate } from 'react-router-dom';
 
 
 function AddMovieToWatchlist(props) {
@@ -12,8 +13,10 @@ function AddMovieToWatchlist(props) {
     const { getToken } = useContext(AuthContext);
     const { id } = useParams();
 
+    const navigate = useNavigate();
+
     const backendBaseUrl =
-    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+        import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
     useEffect(() => {
         fetch(`${backendBaseUrl}/watchlist`)
@@ -53,6 +56,14 @@ function AddMovieToWatchlist(props) {
 
     return (
         <div>
+            {filteredWatchlists.length === 0 && (
+                <div>
+                    <Text>No watchlists found</Text>
+                    <Button component="a" onClick={() => navigate("/watchlists/add")}>
+                        Create a watchlist
+                    </Button>
+                </div>
+            )}
             {filteredWatchlists.map((watchlist) => (
                 <div key={watchlist._id}>
                     <Card display={"flex"} shadow="sm" padding="lg" radius="md" withBorder>

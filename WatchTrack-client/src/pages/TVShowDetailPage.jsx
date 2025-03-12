@@ -21,6 +21,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import AddTvShowToWatchlist from "../components/AddTvShowToWatchlist";
 import TVShowCommentsSection from "./TVShowCommentsSection";
 import { AuthContext } from "../context/auth.context";
+import { notifications } from '@mantine/notifications';
 
 const TVShowDetailPage = () => {
   const { id } = useParams();
@@ -103,6 +104,10 @@ const TVShowDetailPage = () => {
         console.log("User updated successfully:", response.data);
         setUser(response.data);
         setIsSeenIt(true);
+          notifications.show({
+                        title: 'Your watch history has been updated',
+                        message: 'Check your profile page to full history',
+                    })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -123,6 +128,10 @@ const TVShowDetailPage = () => {
         console.log("User updated successfully:", response.data);
         setUser(response.data);
         setIsSeenIt(false);
+        notifications.show({
+          title: 'Your watch history has been updated',
+          message: 'Check your profile page to full history',
+      })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);

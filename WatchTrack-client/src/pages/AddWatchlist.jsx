@@ -9,6 +9,7 @@ function AddWatchlist() {
   const [image, setImage] = useState("");
   const { user } = useContext(AuthContext);
 
+
   const loggedUser = user._id;
 
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function AddWatchlist() {
   };
 
   return (
-    <Container size="xl" style={{ padding: "20px 0" }}>
+    <Container m={30} style={{ padding: "20px 0" }}>
       <Text size="xl" weight={700} mb="sm">
         Add Watchlist
       </Text>
