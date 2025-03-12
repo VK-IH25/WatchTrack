@@ -9,7 +9,7 @@ import {
   FaTv,
   FaChevronRight,
 } from "react-icons/fa";
-import "../styles/Sidebar.css";
+import "../styles/sidebar.css";
 
 const Sidebar = () => {
   const [openMenus, setOpenMenus] = useState({ movies: false, tvShows: false });
