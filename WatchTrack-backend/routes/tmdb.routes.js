@@ -21,10 +21,14 @@ router.get("/movie/genre", async (req, res) => {
 // Fetch popular movies
 router.get("/movies/category/popular", async (req, res) => {
   try {
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching popular movies:", error.message);
     res.status(500).json({ error: "Failed to fetch popular movies" });
@@ -33,11 +37,15 @@ router.get("/movies/category/popular", async (req, res) => {
 
 // Fetch top-rated movies
 router.get("/movies/category/toprated", async (req, res) => {
+  const { page = 1 } = req.query;
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching top-rated movies:", error.message);
     res.status(500).json({ error: "Failed to fetch top-rated movies" });
@@ -46,11 +54,15 @@ router.get("/movies/category/toprated", async (req, res) => {
 
 // Fetch trending movies
 router.get("/movies/category/trending", async (req, res) => {
+  const { page = 1 } = req.query;
   try {
     const response = await axios.get(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/trending/movie/day?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching top-rated shows:", error.message);
     res.status(500).json({ error: "Failed to fetch top-rated shows" });
@@ -60,10 +72,14 @@ router.get("/movies/category/trending", async (req, res) => {
 // Fetch now-playing movies
 router.get("/movies/category/nowplaying", async (req, res) => {
   try {
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/movie/now_playing?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching top-rated shows:", error.message);
     res.status(500).json({ error: "Failed to fetch top-rated shows" });
@@ -147,10 +163,14 @@ router.get("/tv/genre", async (req, res) => {
 // Fetch popular shows
 router.get("/tv/category/popular", async (req, res) => {
   try {
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/tv/popular?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching popular shows:", error.message);
     res.status(500).json({ error: "Failed to fetch popular shows" });
@@ -160,10 +180,14 @@ router.get("/tv/category/popular", async (req, res) => {
 // Fetch top-rated shows
 router.get("/tv/category/toprated", async (req, res) => {
   try {
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/tv/top_rated?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching top-rated shows:", error.message);
     res.status(500).json({ error: "Failed to fetch top-rated shows" });
@@ -173,10 +197,14 @@ router.get("/tv/category/toprated", async (req, res) => {
 // Fetch trending shows
 router.get("/tv/category/trending", async (req, res) => {
   try {
+    const { page = 1 } = req.query;
     const response = await axios.get(
-      `https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY}`
+      `https://api.themoviedb.org/3/trending/tv/day?api_key=${API_KEY}&page=${page}`
     );
-    res.json(response.data.results);
+    res.json({
+      results: response.data.results,
+      total_pages: response.data.total_pages,
+    });
   } catch (error) {
     console.error("Error fetching top-rated shows:", error.message);
     res.status(500).json({ error: "Failed to fetch top-rated shows" });

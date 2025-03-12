@@ -1,5 +1,15 @@
 import { useEffect, useState } from "react";
-import { Container, Text, Grid, Card, Image, Box, Loader } from "@mantine/core";
+import {
+  Container,
+  Text,
+  Grid,
+  Card,
+  Image,
+  Box,
+  Loader,
+  Center,
+  Pagination,
+} from "@mantine/core";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,14 +20,21 @@ function TVShowsCategory() {
   const { category } = useParams();
   const [tvShows, setTvShows] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
 
   useEffect(() => {
     setLoading(true);
     axios
-      .get(`${backendBaseUrl}/tmdb/tv/category/${category}`)
+      .get(`${backendBaseUrl}/tmdb/tv/category/${category}?page=${page}`)
       .then((response) => {
-        if (response.data) {
-          setTvShows(response.data);
+        if (response.data.results) {
+          setTvShows(response.data.results);
+          setTotalPages(response.data.total_pages);
         } else {
           setTvShows([]);
         }
@@ -27,7 +44,12 @@ function TVShowsCategory() {
         console.error("Error fetching TV shows:", err);
         setLoading(false);
       });
-  }, [category]);
+  }, [category, page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
     <Container size="xl" mb="xl" style={{ padding: "50px 0" }}>
@@ -41,7 +63,10 @@ function TVShowsCategory() {
         <Grid gutter="lg">
           {tvShows.length > 0 ? (
             tvShows.map((tvShow) => (
-              <Grid.Col key={tvShow.id} span={{ base: 12, md: 6, lg: 2 }}>
+              <Grid.Col
+                key={tvShow.id}
+                span={{ base: 12, xs: 6, sm: 4, md: 3, lg: 3 }}
+              >
                 <Link
                   to={`/tv/${tvShow.id}`}
                   style={{ textDecoration: "none" }}
@@ -51,12 +76,13 @@ function TVShowsCategory() {
                       {tvShow.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${tvShow.poster_path}`}
-                          fit="contain"
                           alt={tvShow.name}
+                          style={{ height: "430px" }}
                         />
                       ) : (
                         <Box
                           style={{
+                            height: 430,
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
@@ -79,6 +105,23 @@ function TVShowsCategory() {
           )}
         </Grid>
       )}
+      <Center mt="xl">
+        {tvShows.length > 0 && (
+          <Pagination
+            value={page}
+            onChange={handlePageChange}
+            total={totalPages}
+            mt="xl"
+            mb="xl"
+            siblings={2}
+            color="var(--secondary-color)"
+            boundaries={1}
+            withEdges
+            disabled={loading}
+            position="center"
+          />
+        )}
+      </Center>
     </Container>
   );
 }

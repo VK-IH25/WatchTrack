@@ -20,33 +20,18 @@ function Homepage() {
 
           <Tabs.Panel value="movies">
             <div className="carousel-section">
-              <MoviesCarousel category="Now Playing" activeTab={activeTab} />
-              <MoviesCarousel
-                category="Trending Movies"
-                activeTab={activeTab}
-              />
-              <MoviesCarousel category="Popular Movies" activeTab={activeTab} />
-              <MoviesCarousel
-                category="Top Rated Movies"
-                activeTab={activeTab}
-              />
+              <MoviesCarousel category="nowplaying" activeTab={activeTab} />
+              <MoviesCarousel category="trending" activeTab={activeTab} />
+              <MoviesCarousel category="popular" activeTab={activeTab} />
+              <MoviesCarousel category="toprated" activeTab={activeTab} />
             </div>
           </Tabs.Panel>
 
           <Tabs.Panel value="tv">
             <div className="carousel-section">
-              <TVShowsCarousel
-                category="Trending TV Shows"
-                activeTab={activeTab}
-              />
-              <TVShowsCarousel
-                category="Popular TV Shows"
-                activeTab={activeTab}
-              />
-              <TVShowsCarousel
-                category="Top Rated TV Shows"
-                activeTab={activeTab}
-              />
+              <TVShowsCarousel category="trending" activeTab={activeTab} />
+              <TVShowsCarousel category="popular" activeTab={activeTab} />
+              <TVShowsCarousel category="toprated" activeTab={activeTab} />
             </div>
           </Tabs.Panel>
         </Tabs>

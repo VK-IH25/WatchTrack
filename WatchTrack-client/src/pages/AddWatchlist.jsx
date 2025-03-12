@@ -9,7 +9,6 @@ function AddWatchlist() {
   const [image, setImage] = useState("");
   const { user } = useContext(AuthContext);
 
-
   const loggedUser = user._id;
 
   const navigate = useNavigate();

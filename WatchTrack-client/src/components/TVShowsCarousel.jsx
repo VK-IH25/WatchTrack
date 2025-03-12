@@ -14,15 +14,15 @@ const TVShowsCarousel = ({ category, activeTab }) => {
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   const apiEndpoints = {
-    "Trending TV Shows": `${backendBaseUrl}/tmdb/tv/category/trending`,
-    "Popular TV Shows": `${backendBaseUrl}/tmdb/tv/category/popular`,
-    "Top Rated TV Shows": `${backendBaseUrl}/tmdb/tv/category/toprated`,
+    trending: `${backendBaseUrl}/tmdb/tv/category/trending/?page=1`,
+    popular: `${backendBaseUrl}/tmdb/tv/category/popular/?page=1`,
+    toprated: `${backendBaseUrl}/tmdb/tv/category/toprated/?page=1`,
   };
 
   const categoryLinks = {
-    "Trending TV Shows": "/tv/category/trending",
-    "Popular TV Shows": "/tv/category/popular",
-    "Top Rated TV Shows": "/tv/category/toprated",
+    trending: "/tv/category/trending",
+    popular: "/tv/category/popular",
+    toprated: "/tv/category/toprated",
   };
 
   useEffect(() => {
@@ -30,8 +30,8 @@ const TVShowsCarousel = ({ category, activeTab }) => {
       try {
         setLoading(true);
         const response = await axios.get(apiEndpoints[category]);
-        console.log(category, response.data);
-        setShows(response.data || []);
+        // console.log(category, response.data);
+        setShows(response.data.results || []);
         setLoading(false);
       } catch (error) {
         setError("Failed to fetch TV shows. Please try again later.");
@@ -63,7 +63,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
     <div style={{ margin: "50px 0px" }}>
       <Link to={categoryLinks[category]}>
         <Text size="xl" weight={700} mb="sm" color="blue">
-          {category}
+          {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows
         </Text>
       </Link>
       {shows.length > 0 && (

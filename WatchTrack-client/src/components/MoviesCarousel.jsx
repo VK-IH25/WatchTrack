@@ -14,17 +14,17 @@ const MoviesCarousel = ({ category, activeTab }) => {
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   const apiEndpoints = {
-    "Trending Movies": `${backendBaseUrl}/tmdb/movies/category/trending`,
-    "Popular Movies": `${backendBaseUrl}/tmdb/movies/category/popular`,
-    "Top Rated Movies": `${backendBaseUrl}/tmdb/movies/category/toprated`,
-    "Now Playing": `${backendBaseUrl}/tmdb/movies/category/nowplaying`,
+    trending: `${backendBaseUrl}/tmdb/movies/category/trending/?page=1`,
+    popular: `${backendBaseUrl}/tmdb/movies/category/popular/?page=1`,
+    toprated: `${backendBaseUrl}/tmdb/movies/category/toprated/?page=1`,
+    nowplaying: `${backendBaseUrl}/tmdb/movies/category/nowplaying/?page=1`,
   };
 
   const categoryLinks = {
-    "Trending Movies": "/movies/category/trending",
-    "Popular Movies": "/movies/category/popular",
-    "Top Rated Movies": "/movies/category/toprated",
-    "Now Playing": "/movies/category/nowplaying",
+    trending: "/movies/category/trending",
+    popular: "/movies/category/popular",
+    toprated: "/movies/category/toprated",
+    nowplaying: "/movies/category/nowplaying",
   };
 
   useEffect(() => {
@@ -32,7 +32,8 @@ const MoviesCarousel = ({ category, activeTab }) => {
       try {
         setLoading(true);
         const response = await axios.get(apiEndpoints[category]);
-        setMovies(response.data || []);
+        setMovies(response.data.results || []);
+        console.log(apiEndpoints[category]);
         setLoading(false);
       } catch (error) {
         setError("Failed to fetch movies. Please try again later.");
@@ -65,7 +66,7 @@ const MoviesCarousel = ({ category, activeTab }) => {
       <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
         <Group spacing="xs">
           <Text size="xl" mb="sm" weight={700} color="blue">
-            {category}
+            {category.charAt(0).toUpperCase() + category.slice(1)} Movies
           </Text>
         </Group>
       </Link>

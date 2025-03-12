@@ -1,5 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container, Text, Grid, Card, Image, Loader } from "@mantine/core";
+import {
+  Container,
+  Text,
+  Grid,
+  Card,
+  Image,
+  Loader,
+  Pagination,
+  Center,
+} from "@mantine/core";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom";
 
@@ -10,14 +19,21 @@ function MoviesCategory() {
   const { category } = useParams();
   const [movies, setMovies] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    setPage(1);
+  }, [category]);
 
   useEffect(() => {
     if (category) {
       setLoading(true);
       axios
-        .get(`${backendBaseUrl}/tmdb/movies/category/${category}`)
+        .get(`${backendBaseUrl}/tmdb/movies/category/${category}?page=${page}`)
         .then((response) => {
-          setMovies(response.data);
+          setMovies(response.data.results);
+          setTotalPages(response.data.total_pages);
           setLoading(false);
         })
         .catch((err) => {
@@ -25,57 +41,89 @@ function MoviesCategory() {
           setLoading(false);
         });
     }
-  }, [category]);
+  }, [category, page]);
+
+  const handlePageChange = (newPage) => {
+    setPage(newPage);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   if (!category) {
     return <Text>Please select a category</Text>;
   }
 
   return (
-    <Container size="xl" mb="xl" style={{ padding: "50px 0" }}>
-      <Text size="xl" weight={700} mb="sm">
+    <Container size="xl" style={{ padding: "50px 0" }}>
+      <Text size="xl" fw={500} mb="md">
         {category.charAt(0).toUpperCase() + category.slice(1)} Movies
       </Text>
+
       {loading ? (
-        <Loader size="xl" />
+        <Loader size="xl" variant="dots" my="xl" />
       ) : (
         <>
-          <Grid gutter="md">
+          <Grid gutter="xl">
             {movies.map((movie) => (
-              <Grid.Col key={movie.id} span={{ base: 12, md: 6, lg: 2 }}>
+              <Grid.Col
+                key={movie.id}
+                span={{ base: 12, xs: 6, sm: 4, md: 3, lg: 3 }}
+              >
                 <Link
                   to={`/movie/${movie.id}`}
                   style={{ textDecoration: "none" }}
                 >
-                  <Card shadow="sm" padding="lg">
+                  <Card shadow="md" padding="lg" withBorder>
                     <Card.Section>
                       {movie.poster_path ? (
                         <Image
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
-                          fit="contain"
                           alt={movie.title}
+                          style={{ height: "430px" }}
                         />
                       ) : (
                         <div
                           style={{
-                            backgroundColor: "#ccc",
+                            height: 430,
+                            backgroundColor: "#f0f0f0",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
                           }}
                         >
-                          No Image
+                          <Text c="dimmed">No image available</Text>
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={1}>
+                    <Text fw={500} mt="md" lineClamp={1}>
                       {movie.title}
+                    </Text>
+                    <Text c="dimmed" size="sm" mt={4}>
+                      {new Date(movie.release_date).getFullYear() ||
+                        "Unknown year"}
                     </Text>
                   </Card>
                 </Link>
               </Grid.Col>
             ))}
           </Grid>
+
+          <Center mt="xl">
+            {movies.length > 0 && (
+              <Pagination
+                value={page}
+                onChange={handlePageChange}
+                total={totalPages}
+                mt="xl"
+                mb="xl"
+                siblings={2}
+                boundaries={1}
+                color="var(--secondary-color)"
+                withEdges
+                disabled={loading}
+                position="center"
+              />
+            )}
+          </Center>
         </>
       )}
     </Container>
