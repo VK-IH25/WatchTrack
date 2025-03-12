@@ -91,6 +91,8 @@ function App() {
 
           <Route path="/tv/:id" element={<TVShowDetailPage />} />
           <Route path="/tv/category/:category" element={<TVShowsCategory />} />
+
+          <Route path="*" element={<Page404 />} />
         </Routes>
       </AppShell.Main>
       <AppShell.Footer className="footer">
