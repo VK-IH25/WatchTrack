@@ -35,42 +35,96 @@ const MovieDetailPage = () => {
 
   const [isSeenIt, setIsSeenIt] = useState(false);
 
+  const [loggedUser, setLoggedUser] = useState(null);
+
+  const [watchedMovies, setWatchedMovies] = useState([]);
+  const [watchedTvShows, setWatchedTvShows] = useState([]);
+
   const navigate = useNavigate();
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
-    useEffect(() => {
-      if (user) {
-        setIsSeenIt(user.movies.includes(id.toString()));
+  const API_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+
+
+  useEffect(() => {
+    const fetchMovieDetails = async () => {
+      try {
+        const movieResponse = await axios.get(
+          `${backendBaseUrl}/tmdb/movies/${id}`
+        );
+        setMovie(movieResponse.data);
+
+        const castResponse = await axios.get(
+          `${backendBaseUrl}/tmdb/movies/${id}/credits`
+        );
+        setCast(castResponse.data.cast);
+      } catch (error) {
+        console.error("Error fetching movie details:", error);
+      } finally {
+        setLoading(false);
       }
-    }, [user, id]);
+    };
 
-    console.log(isSeenIt);
-        
+    fetchMovieDetails();
+  }, [id]);
 
-    useEffect(() => {
-      const fetchMovieDetails = async () => {
+  useEffect(() => {
+    let isMounted = true; // Prevent state updates after unmount
+  
+    if (user) {
+      const token = localStorage.getItem("authToken");
+  
+      axios.get(`${API_URL}/auth/my-profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(async (userDetails) => {
+        if (!isMounted) return; // Stop execution if unmounted
+  
+        setLoggedUser(userDetails.data);
+  
         try {
-          const movieResponse = await axios.get(
-            `${backendBaseUrl}/tmdb/movies/${id}`
+          const movies = await Promise.all(
+            userDetails.data.movies.map(async (movie) => {
+              const res = await axios.get(`${API_URL}/tmdb/movies/${movie}`);
+              return res.data;
+            })
           );
-          setMovie(movieResponse.data);
   
-          const castResponse = await axios.get(
-            `${backendBaseUrl}/tmdb/movies/${id}/credits`
+          const tvShows = await Promise.all(
+            userDetails.data.tvShows.map(async (tvShow) => {
+              const res = await axios.get(`${API_URL}/tmdb/tv/${tvShow}`);
+              return res.data;
+            })
           );
-          setCast(castResponse.data.cast);
+  
+          if (isMounted) {
+            setWatchedMovies(movies.filter(Boolean));
+            setWatchedTvShows(tvShows.filter(Boolean));
+          }
         } catch (error) {
-          console.error("Error fetching movie details:", error);
-        } finally {
-          setLoading(false);
+          console.error("Error fetching movies:", error);
         }
-      };
+      })
+      .catch((err) => {
+        console.error("Error fetching user profile:", err);
+      });
+    }
   
-      fetchMovieDetails();
-    }, [id]);
-        
+    return () => {
+      isMounted = false; // Cleanup function to prevent updates after unmount
+    };
+  }, [user]);
 
+  useEffect(() => {
+    if (loggedUser && Array.isArray(loggedUser.movies)) {
+      if(loggedUser.movies.includes(id.toString())){
+        setIsSeenIt(true);
+      };
+    }
+  }, [watchedMovies, loggedUser, id]);  // Removed `isSeenIt` to avoid unnecessary re-renders
+  
+  
 
 
   if (loading) {
@@ -94,7 +148,7 @@ const MovieDetailPage = () => {
   const addSeenIt = () => {
     if (!user) return;
 
-    const updatedMovies = [...user.movies, id.toString()];
+    const updatedMovies = [...loggedUser.movies, id.toString()];
     const updatedUser = { ...user, movies: updatedMovies };
 
     axios
@@ -108,7 +162,7 @@ const MovieDetailPage = () => {
         notifications.show({
           title: 'Your watch history has been updated',
           message: 'Check your profile page to full history',
-      })
+        })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -118,7 +172,7 @@ const MovieDetailPage = () => {
   const removeSeenIt = () => {
     if (!user) return;
 
-    const updatedMovies = user.movies.filter((movieId) => movieId !== id.toString());
+    const updatedMovies = loggedUser.movies.filter((movieId) => movieId !== id.toString());
     const updatedUser = { ...user, movies: updatedMovies };
 
     axios
@@ -132,14 +186,16 @@ const MovieDetailPage = () => {
         notifications.show({
           title: 'Your watch history has been updated',
           message: 'Check your profile page to full history',
-      })
+        })
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
       });
   };
 
-console.log(user)
+  console.log(loggedUser)
+
+
   return (
     <Container size="xxl" style={{ padding: "50px", position: "relative" }}>
       <Box
