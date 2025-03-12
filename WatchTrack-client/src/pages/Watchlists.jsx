@@ -8,6 +8,9 @@ function Watchlists() {
   const [watchlists, setWatchlists] = useState([]);
   const { user } = useContext(AuthContext);
 
+  const admin = {
+    _id: "67d168f147efec872eb942bb",}
+
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
@@ -28,6 +31,10 @@ function Watchlists() {
     );
   }
 
+  let adminWatchlists = watchlists.filter(
+    (watchlist) => watchlist.createdBy === admin._id
+  );
+
   return (
     <Container m={50} style={{ padding: "20px 0" }}>
       <Link to="/watchlists/add">
@@ -46,7 +53,7 @@ function Watchlists() {
         loop
         align="start"
       >
-        {watchlists.map((watchlist, index) => (
+        {adminWatchlists.map((watchlist, index) => (
           <Carousel.Slide key={index}>
             <Link to={`/watchlist/${watchlist._id}`}>
               <Card shadow="sm" padding="lg">
