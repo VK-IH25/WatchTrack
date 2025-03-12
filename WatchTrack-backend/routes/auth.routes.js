@@ -98,10 +98,10 @@ router.post("/login", (req, res, next) => {
 
       if (passwordCorrect) {
         // Deconstruct the user object to omit the password
-        const { _id, email, username, movies, tvShows } = foundUser;
+        const { _id, email, username } = foundUser;
 
         // Create an object that will be set as the token payload
-        const payload = { _id, email, username, movies, tvShows };
+        const payload = { _id, email, username };
 
         // Create a JSON Web Token and sign it
         const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -117,6 +117,20 @@ router.post("/login", (req, res, next) => {
     })
     .catch((err) => next(err)); // In this case, we send error handling to the error handling middleware.
 });
+
+
+router.get("/my-profile", isAuthenticated, (req, res, next) => {
+  const _id = req.payload._id;
+
+  User
+    .findById(_id,  {password: 0})
+    .then((user) => {
+      res.status(200).json(user);
+    })
+    .catch((err) => next(err));
+});
+
+
 
 // Edit user profile
 router.put("/edit/:id", isAuthenticated, (req, res, next) => {
@@ -135,23 +149,13 @@ router.put("/edit/:id", isAuthenticated, (req, res, next) => {
 });
 
 // GET  /auth/verify  -  Used to verify JWT stored on the client
-router.get("/verify", isAuthenticated, async (req, res, next) => {
+router.get("/verify", isAuthenticated, (req, res, next) => {
   // If JWT token is valid the payload gets decoded by the
-  // isAuthenticated middleware and is made available on `req.payload`
-  try {
-      console.log(`req.payload`, req.payload);
-      const user = await User.findById(req.payload._id, {password: 0});
-
-      return res.status(200).json(user)
-  } catch (error) {
-    console.log(error)
-    return res.status(500).json(error)
-  }
-
-
-
-
-  // Send back the token payload object containing the user data
+  // isAuthenticated middleware and made available on `req.payload`
+  console.log(`req.payload`, req.payload);
+ 
+  // Send back the object with user data
+  // previously set as the token payload
   res.status(200).json(req.payload);
 });
 

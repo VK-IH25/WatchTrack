@@ -1,11 +1,60 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { AuthContext } from "../context/auth.context";
-import { Container, Text, Card, Avatar, Group, Button, Title } from "@mantine/core";
+import { Container, Text, Card, Avatar, Group, Button, Title, Image } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
+import axios from "axios";
+import { Link } from "react-router-dom";
+
 
 const ProfilePage = () => {
   const { user, logOutUser } = useContext(AuthContext);
-  const loggedUser = user;
+  const [loggedUser, setLoggedUser] = useState(null);
+  const [watchedMovies, setWatchedMovies] = useState([]);
+  const [watchedTvShows, setWatchedTvShows] = useState([]);
+
+  const API_URL = import.meta.env.VITE_BACKEND_BASE_URL;
+
+  useEffect(() => {
+    if (user) {
+      const token = localStorage.getItem("authToken");
+  
+      axios.get(`${API_URL}/auth/my-profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(async (userDetails) => {
+        setLoggedUser(userDetails.data);
+  
+        try {
+          const movies = await Promise.all(
+            userDetails.data.movies.map(async (movie) => {
+              const res = await axios.get(`${API_URL}/tmdb/movies/${movie}`);
+              return res.data;
+            })
+          );
+
+          const tvShows = await Promise.all(
+            userDetails.data.tvShows.map(async (tvShow) => {
+              const res = await axios.get(`${API_URL}/tmdb/tv/${tvShow}`);
+              return res.data;
+            })
+          );
+  
+          setWatchedMovies(movies.filter(Boolean));
+          setWatchedTvShows(tvShows.filter(Boolean));
+        } catch (error) {
+          console.error("Error fetching movies:", error);
+        }
+      })
+
+      
+      .catch((error) => {
+        console.error("Error fetching user profile:", error);
+      });
+    }
+  }, [user]);
+  
+
+ 
 
   if (!loggedUser) {
     return (
@@ -17,14 +66,18 @@ const ProfilePage = () => {
     );
   }
 
+  
+
+  
+
   return (
-    <Container size="sm" my={40}>
+    <Container size="lg" my={40}>
       <Card shadow="sm" padding="lg" radius="md" withBorder>
         <Group>
           <Avatar size={100} radius="xl" />
           <div>
             <Text size="xl" weight={700}>
-              {user?.username}
+              {loggedUser?.username}
             </Text>
             <Text color="dimmed">{user?.email}</Text>
           </div>
@@ -42,7 +95,7 @@ const ProfilePage = () => {
             loop
             align="start"
           >
-            {user.movies.map((movie, index) => (
+            {watchedMovies.map((movie, index) => (
               <Carousel.Slide key={index}>
                 <Link to={`/movie/${movie.id}`}>
                   <Card shadow="sm" padding="lg">
@@ -68,7 +121,7 @@ const ProfilePage = () => {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={1}>
+                    <Text align="center" mt="sm" lineClamp={2}>
                       {movie.title}
                     </Text>
                   </Card>
@@ -89,7 +142,7 @@ const ProfilePage = () => {
             loop
             align="start"
           >
-            {user.tvShows.map((movie, index) => (
+            {watchedTvShows.map((movie, index) => (
               <Carousel.Slide key={index}>
                 <Link to={`/movie/${movie.id}`}>
                   <Card shadow="sm" padding="lg">
@@ -115,7 +168,7 @@ const ProfilePage = () => {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={1}>
+                    <Text align="center" mt="sm" lineClamp={2}>
                       {movie.title}
                     </Text>
                   </Card>
