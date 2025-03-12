@@ -10,8 +10,11 @@ function EditWatchlist() {
   const navigate = useNavigate();
   const { getToken } = useContext(AuthContext);
 
+  const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
   useEffect(() => {
-    fetch(`http://localhost:5005/watchlist/${id}`, {
+    fetch(`${backendBaseUrl}/watchlist/${id}`, {
       headers: { Authorization: `Bearer ${getToken()}` },
     })
       .then((res) => res.json())
@@ -26,7 +29,7 @@ function EditWatchlist() {
     e.preventDefault();
     const updatedWatchlist = { title, description };
 
-    fetch(`http://localhost:5005/watchlist/${id}`, {
+    fetch(`${backendBaseUrl}/watchlist/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
