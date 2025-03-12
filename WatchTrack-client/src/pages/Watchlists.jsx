@@ -8,8 +8,11 @@ function Watchlists() {
   const [watchlists, setWatchlists] = useState([]);
   const { user } = useContext(AuthContext);
 
+  const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
   useEffect(() => {
-    fetch("http://localhost:5005/watchlist")
+    fetch(`${backendBaseUrl}/watchlist`)
       .then((res) => res.json())
       .then((data) => {
         setWatchlists(data);

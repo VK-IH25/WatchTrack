@@ -11,11 +11,13 @@ function AddTvShowToWatchlist(props) {
     const { getToken } = useContext(AuthContext);
     const { id } = useParams();
     
+    const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
     
 
 
     useEffect(() => {
-        fetch("http://localhost:5005/watchlist")
+        fetch(`${backendBaseUrl}/watchlist`)
             .then((res) => res.json())
             .then((data) => setWatchlists(data))
             .catch((err) => console.log("Error fetching watchlists:", err));
@@ -28,14 +30,14 @@ function AddTvShowToWatchlist(props) {
     const handleClick = async (wid) => {
         try {
             // Fetch the target watchlist
-            const res = await axios.get(`http://localhost:5005/watchlist/${wid}`);
+            const res = await axios.get(`${backendBaseUrl}/watchlist/${wid}`);
             const updatedWatchlist = {
                 ...res.data,
                 tvShows: [...res.data.tvShows, id], // Ensure movie ID is added
             };
 
             // Update the watchlist
-            await axios.put(`http://localhost:5005/watchlist/${wid}`, updatedWatchlist, {
+            await axios.put(`${backendBaseUrl}/watchlist/${wid}`, updatedWatchlist, {
                 headers: { Authorization: `Bearer ${getToken()}` },
             });
 

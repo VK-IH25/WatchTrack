@@ -15,8 +15,11 @@ const SearchTvShow = (props) => {
 
     const navigate = useNavigate();
 
+    const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
     useEffect(() => {
-        fetch(`http://localhost:5005/watchlist/${props.watchlist}`, {
+        fetch(`${backendBaseUrl}/watchlist/${props.watchlist}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -33,7 +36,7 @@ const SearchTvShow = (props) => {
     const handleSearch = (e) => {
         e.preventDefault();
         fetch(
-            `http://localhost:5005/tmdb/tv/search/${query}`
+            `${backendBaseUrl}/tmdb/tv/search/${query}`
         )
             .then((res) => res.json())
             .then((data) => {
@@ -49,7 +52,7 @@ const SearchTvShow = (props) => {
     const handleAdd = (id) => {
         const updatedWatchlist = { ...watchlist, tvShows: [...watchlist.tvShows, id] };
 
-        axios.put(`http://localhost:5005/watchlist/${props.watchlist}`, updatedWatchlist, {
+        axios.put(`${backendBaseUrl}/watchlist/${props.watchlist}`, updatedWatchlist, {
             headers: { Authorization: `Bearer ${getToken()}` },
         })
             .then((res) => {
@@ -60,7 +63,7 @@ const SearchTvShow = (props) => {
                     title: 'Show added',
                     message: 'Your watchlist has been updated',
                 })
-                return fetch(`http://localhost:5005/tmdb/tv/${id}`);
+                return fetch(`${backendBaseUrl}/tmdb/tv/${id}`);
 
             })
             .then((res) => res.json())

@@ -13,9 +13,12 @@ const SearchMovie = (props) => {
   const [watchlist, setWatchlist] = useState([]);
   const { getToken } = useContext(AuthContext);
 
+  const backendBaseUrl =
+  import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
 
   useEffect(() => {
-    fetch(`http://localhost:5005/watchlist/${props.watchlist}`, {
+    fetch(`${backendBaseUrl}/watchlist/${props.watchlist}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -31,7 +34,7 @@ const SearchMovie = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5005/tmdb/movies/search/${query}`)
+    fetch(`${backendBaseUrl}/tmdb/movies/search/${query}`)
       .then((res) => res.json())
       .then((data) => {
         if (data) {
@@ -51,7 +54,7 @@ const SearchMovie = (props) => {
 
     axios
       .put(
-        `http://localhost:5005/watchlist/${props.watchlist}`,
+        `${backendBaseUrl}/watchlist/${props.watchlist}`,
         updatedWatchlist,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
@@ -61,7 +64,7 @@ const SearchMovie = (props) => {
         console.log("Response:", res.data);
         setWatchlist(res.data);
         props.populateMovies();
-        return fetch(`http://localhost:5005/tmdb/movies/${movieId}`);
+        return fetch(`${backendBaseUrl}/tmdb/movies/${movieId}`);
       })
       .then((res) => res.json())
       .then((movie) => {

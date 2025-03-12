@@ -13,11 +13,14 @@ function AddWatchlist() {
 
   const navigate = useNavigate();
 
+  const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const newWatchlist = { title, description, image, createdBy: loggedUser };
 
-    fetch("http://localhost:5005/watchlist", {
+    fetch(`${backendBaseUrl}/watchlist`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

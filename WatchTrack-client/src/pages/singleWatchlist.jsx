@@ -17,6 +17,9 @@ import axios from "axios";
 import { AuthContext } from "../context/auth.context";
 import { notifications } from '@mantine/notifications';
 
+const backendBaseUrl =
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+
 function SingleWatchlist() {
   const { id } = useParams();
   const [watchlist, setWatchlist] = useState(null);
@@ -29,7 +32,7 @@ function SingleWatchlist() {
   useEffect(() => {
     const fetchWatchlist = async () => {
       try {
-        const res = await fetch(`http://localhost:5005/watchlist/${id}`, {
+        const res = await fetch(`${backendBaseUrl}/watchlist/${id}`, {
           headers: { Authorization: `Bearer ${getToken()}` },
         });
         if (!res.ok) throw new Error("Failed to fetch watchlist");
@@ -47,7 +50,7 @@ function SingleWatchlist() {
     try {
       const movies = await Promise.all(
         watchlist.movies.map(async (movie) => {
-          const res = await fetch(`http://localhost:5005/tmdb/movies/${movie}`);
+          const res = await fetch(`${backendBaseUrl}/tmdb/movies/${movie}`);
           if (!res.ok) throw new Error(`Failed to fetch movie: ${movie}`);
           return res.json();
         })
@@ -63,7 +66,7 @@ function SingleWatchlist() {
     try {
       const tvShows = await Promise.all(
         watchlist.tvShows.map(async (show) => {
-          const res = await fetch(`http://localhost:5005/tmdb/tv/${show}`);
+          const res = await fetch(`${backendBaseUrl}/tmdb/tv/${show}`);
           if (!res.ok) throw new Error(`Failed to fetch TV show: ${show}`);
           return res.json();
         })
@@ -86,7 +89,7 @@ function SingleWatchlist() {
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch(`http://localhost:5005/watchlist/${id}`, {
+      const res = await fetch(`${backendBaseUrl}/watchlist/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
@@ -109,7 +112,7 @@ function SingleWatchlist() {
 
     axios
       .put(
-        `http://localhost:5005/watchlist/${watchlist._id}`,
+        `${backendBaseUrl}/watchlist/${watchlist._id}`,
         updatedWatchlist,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
@@ -138,7 +141,7 @@ function SingleWatchlist() {
 
     axios
       .put(
-        `http://localhost:5005/watchlist/${watchlist._id}`,
+        `${backendBaseUrl}/watchlist/${watchlist._id}`,
         updatedWatchlist,
         {
           headers: { Authorization: `Bearer ${getToken()}` },
