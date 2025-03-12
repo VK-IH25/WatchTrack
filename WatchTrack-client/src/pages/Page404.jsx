@@ -6,7 +6,7 @@ const NotFoundPage = () => {
   return (
     <Container className="root" size="md">
       <div className="label">404</div>
-      <Title order={2} className="title">
+      <Title order={2} className="title-404">
         You have found a secret place.
       </Title>
       <Text color="dimmed" size="lg" ta="center" className="description">

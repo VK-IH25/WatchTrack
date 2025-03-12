@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import { NavLink, ScrollArea } from "@mantine/core";
 import {
-  IconHome2,
-  IconList,
-  IconSearch,
-  IconInfoCircle,
-  IconMovie,
-  IconDeviceTv,
-  IconChevronRight,
-} from "@tabler/icons-react";
+  FaHome,
+  FaList,
+  FaSearch,
+  FaInfoCircle,
+  FaFilm,
+  FaTv,
+  FaChevronRight,
+} from "react-icons/fa";
 import "../styles/Sidebar.css";
 
 const Sidebar = () => {
@@ -19,22 +19,10 @@ const Sidebar = () => {
   };
 
   const menuItems = [
-    { label: "Home", to: "/", icon: <IconHome2 size={16} stroke={1.5} /> },
-    {
-      label: "Watchlists",
-      to: "/watchlists",
-      icon: <IconList size={16} stroke={1.5} />,
-    },
-    {
-      label: "Search",
-      to: "/search",
-      icon: <IconSearch size={16} stroke={1.5} />,
-    },
-    {
-      label: "About Us",
-      to: "/about",
-      icon: <IconInfoCircle size={16} stroke={1.5} />,
-    },
+    { label: "Home", to: "/", icon: <FaHome size={16} /> },
+    { label: "Watchlists", to: "/watchlists", icon: <FaList size={16} /> },
+    { label: "Search", to: "/search", icon: <FaSearch size={16} /> },
+    { label: "About Us", to: "/about", icon: <FaInfoCircle size={16} /> },
   ];
 
   const moviesSubmenu = [
@@ -65,9 +53,9 @@ const Sidebar = () => {
 
         <NavLink
           label="Movies"
-          leftSection={<IconMovie size={16} stroke={1.5} />}
+          leftSection={<FaFilm size={16} />}
           rightSection={
-            <IconChevronRight
+            <FaChevronRight
               size={12}
               className={openMenus.movies ? "rotate" : ""}
             />
@@ -90,9 +78,9 @@ const Sidebar = () => {
 
         <NavLink
           label="TV Shows"
-          leftSection={<IconDeviceTv size={16} stroke={1.5} />}
+          leftSection={<FaTv size={16} />}
           rightSection={
-            <IconChevronRight
+            <FaChevronRight
               size={12}
               className={openMenus.tvShows ? "rotate" : ""}
             />

@@ -20,7 +20,7 @@
   margin-bottom: calc(1.5 * var(--mantine-spacing-xl));
 }
 
-.title {
+.title-404 {
   color: var(--secondary-color);
   text-align: center;
   font-weight: 900;

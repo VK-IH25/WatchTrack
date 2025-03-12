@@ -21,8 +21,8 @@ import ProfilePage from "./auth/Profile";
 import AuthDetails from "./auth/AuthDetails";
 import Search from "./components/Search";
 import About from "./pages/AboutUs";
-import { Notifications } from '@mantine/notifications';
-
+import { Notifications } from "@mantine/notifications";
+import NotFoundPage from "./pages/Page404";
 
 function App() {
   const [mobileOpened, { toggle: toggleMobile }] = useDisclosure(false);
@@ -61,7 +61,7 @@ function App() {
         <Sidebar toggleDesktop={toggleDesktop} toggleMobile={toggleMobile} />
       </AppShell.Navbar>
       <AppShell.Main>
-      <Notifications />
+        <Notifications />
         <Routes>
           <Route path="/" element={<Homepage></Homepage>} />
           <Route path="about" element={<About></About>} />
@@ -92,7 +92,7 @@ function App() {
           <Route path="/tv/:id" element={<TVShowDetailPage />} />
           <Route path="/tv/category/:category" element={<TVShowsCategory />} />
 
-          <Route path="*" element={<Page404 />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppShell.Main>
       <AppShell.Footer className="footer">
