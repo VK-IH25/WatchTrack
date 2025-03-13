@@ -25,7 +25,7 @@ const Search = () => {
       .get(`${backendBaseUrl}/tmdb/movies/search/${query}`)
       .then((response) => {
         if (response.data) {
-          setMoviesResult(response.data);
+          setMoviesResult(response.data.results);
         } else {
           setMoviesResult([]);
         }
@@ -41,7 +41,7 @@ const Search = () => {
       .get(`${backendBaseUrl}/tmdb/tv/search/${query}`)
       .then((response) => {
         if (response.data) {
-          setTvResult(response.data);
+          setTvResult(response.data.results);
         } else {
           setTvResult([]);
         }

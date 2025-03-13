@@ -14,7 +14,7 @@ const SearchMovie = (props) => {
   const { getToken } = useContext(AuthContext);
 
   const backendBaseUrl =
-  import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
 
   useEffect(() => {
@@ -34,13 +34,13 @@ const SearchMovie = (props) => {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    fetch(`${backendBaseUrl}/tmdb/movies/search/${query}`)
-      .then((res) => res.json())
-      .then((data) => {
-        if (data) {
-          setMoviesResult(data);
+    axios.get(`${backendBaseUrl}/tmdb/movies/search/${query}`)
+      .then((res) => {
+        if (res) {
+          setMoviesResult(res.data.results);
+       
         } else {
-          setMoviesResult([]);
+          setTvShowResult([])
         }
       })
       .catch((err) => console.log(err));
@@ -74,7 +74,7 @@ const SearchMovie = (props) => {
           message: 'Your watchlist has been updated',
         })
       }
-        
+
       )
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -94,7 +94,7 @@ const SearchMovie = (props) => {
           Search
         </Button>
 
-        
+
       </form>
       <Text size="xl" weight={700} mb="sm">
         Movies

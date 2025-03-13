@@ -16,7 +16,7 @@ const SearchTvShow = (props) => {
     const navigate = useNavigate();
 
     const backendBaseUrl =
-    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+        import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
     useEffect(() => {
         fetch(`${backendBaseUrl}/watchlist/${props.watchlist}`, {
@@ -35,18 +35,19 @@ const SearchTvShow = (props) => {
 
     const handleSearch = (e) => {
         e.preventDefault();
-        fetch(
-            `${backendBaseUrl}/tmdb/tv/search/${query}`
-        )
-            .then((res) => res.json())
-            .then((data) => {
-                if (data) {
-                    setTvShowResult(data);
+        axios.get(`${backendBaseUrl}/tmdb/tv/search/${query}`)
+            .then((res) => {
+                if (res) {
+                    setTvShowResult(res.data.results);
+      
                 } else {
-                    setTvShowResult([]);
+                    setTvShowResult([])
                 }
-            })
-            .catch((err) => console.log(err));
+            }
+            )
+            .catch((err) => console.log(err))
+
+
     };
 
     const handleAdd = (id) => {
@@ -98,8 +99,9 @@ const SearchTvShow = (props) => {
                 slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
                 loop
                 align="start"
+                
             >
-                {tvShowResult.map((tvShow, index) => (
+              {tvShowResult.map((tvShow, index) => (
                     <Carousel.Slide key={index}>
                         <Link to={`/tv/${tvShow.id}`}>
                             <Card shadow="sm" padding="lg">
@@ -131,7 +133,7 @@ const SearchTvShow = (props) => {
                             </Card>
                         </Link>
                         <Button onClick={() => handleAdd(tvShow.id)}>Add</Button>
-                    </Carousel.Slide>
+                     </Carousel.Slide>
                 ))}
             </Carousel>
         </Container>

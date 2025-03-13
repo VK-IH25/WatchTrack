@@ -27,7 +27,7 @@ function SingleWatchlist() {
   const [selectedTvShows, setSelectedTvShows] = useState([]);
   const navigate = useNavigate();
   const { user, getToken } = useContext(AuthContext);
-  console.log(user);
+
 
   useEffect(() => {
     const fetchWatchlist = async () => {
