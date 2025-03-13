@@ -95,14 +95,16 @@ const SearchTvShow = (props) => {
             <Carousel
                 mt={20}
                 type="container"
-                slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+                slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
                 slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
                 loop
                 align="start"
-                
             >
-              {tvShowResult.map((tvShow, index) => (
-                    <Carousel.Slide key={index}>
+                {tvShowResult.map((tvShow, index) => (
+                    <Carousel.Slide
+                        key={index}
+                        style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                    >
                         <Link to={`/tv/${tvShow.id}`}>
                             <Card shadow="sm" padding="lg">
                                 <Card.Section>
@@ -132,8 +134,8 @@ const SearchTvShow = (props) => {
                                 </Text>
                             </Card>
                         </Link>
-                        <Button onClick={() => handleAdd(tvShow.id)}>Add</Button>
-                     </Carousel.Slide>
+                        <Button size={"compact-sm"} rightSection={"+"} onClick={() => handleAdd(tvShow.id)}>Add</Button>
+                    </Carousel.Slide>
                 ))}
             </Carousel>
         </Container>

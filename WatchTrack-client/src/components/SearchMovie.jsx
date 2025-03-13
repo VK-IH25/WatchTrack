@@ -102,8 +102,8 @@ const SearchMovie = (props) => {
       <Carousel
         mt={20}
         type="container"
-        slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
-        slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+        slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
+        slideGap={ "10" }
         loop
         align="start"
       >
@@ -133,7 +133,7 @@ const SearchMovie = (props) => {
                     </div>
                   )}
                 </Card.Section>
-                <Text align="center" mt="sm" lineClamp={1}>
+                <Text align="center" mt="sm" size="xs" lineClamp={2}>
                   {movie.title}
                 </Text>
               </Card>
