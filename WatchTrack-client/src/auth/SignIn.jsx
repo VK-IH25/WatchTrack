@@ -58,6 +58,7 @@ const SignIn = () => {
         <form onSubmit={signin}>
           <TextInput
             label="Email"
+            type="email"
             placeholder="Your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}

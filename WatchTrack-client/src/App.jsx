@@ -22,6 +22,7 @@ import AuthDetails from "./auth/AuthDetails";
 import Search from "./components/Search";
 import About from "./pages/AboutUs";
 import { Notifications } from "@mantine/notifications";
+import SingleGenrePage from "./pages/SingleGenrePage";
 import NotFoundPage from "./pages/Page404";
 
 function App() {
@@ -91,7 +92,7 @@ function App() {
 
           <Route path="/tv/:id" element={<TVShowDetailPage />} />
           <Route path="/tv/category/:category" element={<TVShowsCategory />} />
-
+          <Route path="/genre/:type/:genreId" element={<SingleGenrePage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppShell.Main>

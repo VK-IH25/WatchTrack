@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Tabs, Container } from "@mantine/core";
-import { Link } from "react-router-dom";
 import MoviesCarousel from "../components/MoviesCarousel";
 import TVShowsCarousel from "../components/TVShowsCarousel";
 import HeroBanner from "../components/HeroBanner";
+import GenreList from "../components/GenreList";
 
 function Homepage() {
   const [activeTab, setActiveTab] = useState("movies");
@@ -35,6 +35,7 @@ function Homepage() {
             </div>
           </Tabs.Panel>
         </Tabs>
+        <GenreList />
       </Container>
     </div>
   );
