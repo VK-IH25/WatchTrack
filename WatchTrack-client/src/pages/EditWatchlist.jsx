@@ -46,7 +46,7 @@ function EditWatchlist() {
   };
 
   return (
-    <Container size="xl" mt={120} style={{ padding: "20px 0" }}>
+    <Container m={30} mt={120} style={{ padding: "20px 0" }}>
       <Text size="xl" weight={700} mb="sm">
         Edit Watchlist
       </Text>

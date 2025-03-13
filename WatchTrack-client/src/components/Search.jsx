@@ -52,7 +52,7 @@ const Search = () => {
   };
 
   return (
-    <Container size="xl" style={{ padding: "50px 0" }}>
+    <Container ml={50} mr={50} style={{ padding: "50px 0" }}>
       <form onSubmit={handleSearch}>
         <TextInput
           placeholder="Search for category, movie or Tv Show..."

@@ -163,7 +163,7 @@ function SingleWatchlist() {
   };
 
   return (
-    <Container size="xl" mt={50} mb={50} style={{ padding: "20px 0" }}>
+    <Container m={50} style={{ padding: "20px 0" }}>
       {watchlist && (
         <div>
           <Title order={1}>
