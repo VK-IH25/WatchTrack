@@ -146,7 +146,15 @@ useEffect(() => {
   }
 
   const addSeenIt = () => {
-    if (!user) return;
+    if (!user) {
+      notifications.show({
+        title: 'Please Log In',
+        message: 'You need to be logged in to add to your watch history',
+      })
+
+      return
+      
+    }
 
     const updatedMovies = [...loggedUser.tvShows, id.toString()];
     const updatedUser = { ...user, tvShows: updatedMovies };
