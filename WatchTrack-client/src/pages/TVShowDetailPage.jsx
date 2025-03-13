@@ -22,6 +22,7 @@ import AddTvShowToWatchlist from "../components/AddTvShowToWatchlist";
 import TVShowCommentsSection from "./TVShowCommentsSection";
 import { AuthContext } from "../context/auth.context";
 import { notifications } from '@mantine/notifications';
+import { Link } from "react-router-dom";
 
 const TVShowDetailPage = () => {
   const { id } = useParams();
@@ -39,6 +40,8 @@ const TVShowDetailPage = () => {
 
   const [watchedMovies, setWatchedMovies] = useState([]);
   const [watchedTvShows, setWatchedTvShows] = useState([]);
+
+   const [recommendations, setRecommendations] = useState([]);
 
 
   const navigate = useNavigate();
@@ -69,6 +72,11 @@ useEffect(() => {
           `${backendBaseUrl}/tmdb/tv/${id}/credits`
         );
         setCast(castResponse.data.cast);
+
+        const recommendationsResponse = await axios.get(
+          `${backendBaseUrl}/tmdb/tv/${id}/recommendations`
+        );
+        setRecommendations(recommendationsResponse.data.results);
         setLoading(false);
 
       } catch (error) {
@@ -413,6 +421,65 @@ useEffect(() => {
             </Carousel.Slide>
           ))}
         </Carousel>
+      </Container>
+
+      <Container size="xxl" style={{ zIndex: 2, paddingTop: 30, }}>
+      <Text size="30px" weight={700} mt="xl">
+          If you like this, you might also like...
+        </Text>
+      {recommendations.length > 0 && (
+        <Carousel
+          key={recommendations.title}
+          type="container"
+          slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+          slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+          mt={40}
+          loop
+          align="start"
+        >
+          {recommendations.map((movie) => (
+            <Carousel.Slide key={movie.id}>
+              <Card shadow="sm" padding="lg">
+                <Card.Section>
+                  <Link to={`/movie/${movie.id}`}>
+                    {movie.poster_path ? (
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
+                        alt={movie.title || "No Image"}
+                        style={{ minHeight: "370px" }}
+                        fit="cover"
+                      />
+                    ) : (
+                      <div
+                        style={{
+                          backgroundColor: "#ccc",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          minHeight: "370px",
+                        }}
+                      >
+                        No Image
+                      </div>
+                    )}
+                  </Link>
+                </Card.Section>
+                <Text align="center" mt="sm" lineClamp={2}>
+                  <Link
+                    to={`/movie/${movie.id}`}
+                    style={{
+                      textDecoration: "none",
+                      color: "inherit",
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {movie.name || "Unknown Title"}
+                  </Link>
+                </Text>
+              </Card>
+            </Carousel.Slide>
+          ))}
+        </Carousel>)}
       </Container>
 
       <Container size="xxl" style={{ zIndex: 2 }}>
