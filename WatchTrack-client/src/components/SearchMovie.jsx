@@ -38,7 +38,7 @@ const SearchMovie = (props) => {
       .then((res) => {
         if (res) {
           setMoviesResult(res.data.results);
-       
+
         } else {
           setTvShowResult([])
         }
@@ -103,12 +103,15 @@ const SearchMovie = (props) => {
         mt={20}
         type="container"
         slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
-        slideGap={ "10" }
+        slideGap={"10"}
         loop
         align="start"
       >
         {moviesResult.map((movie, index) => (
-          <Carousel.Slide key={index}>
+          <Carousel.Slide
+            key={index}
+            style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+          >
             <Link to={`/movie/${movie.id}`}>
               <Card shadow="sm" padding="lg">
                 <Card.Section>

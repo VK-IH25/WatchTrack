@@ -252,7 +252,7 @@ const MovieDetailPage = () => {
         />
 
         <Stack spacing="sm">
-          <Text size="35px" color="white" weight={900} lineClamp={1}>
+          <Text size="35px" color="white" weight={900} lineClamp={2}>
             {movie.title}
           </Text>
           <Text size="lg" color="white">

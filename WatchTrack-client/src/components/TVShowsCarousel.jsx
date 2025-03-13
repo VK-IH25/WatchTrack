@@ -102,7 +102,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
                     )}
                   </Link>
                 </Card.Section>
-                <Text align="center" mt="sm" lineClamp={1}>
+                <Text align="center" mt="sm" lineClamp={2}>
                   <Link
                     to={`/tv/${show.id}`}
                     style={{ textDecoration: "none", color: "inherit" }}

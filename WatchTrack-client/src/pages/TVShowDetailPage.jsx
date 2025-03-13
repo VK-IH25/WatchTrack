@@ -251,7 +251,7 @@ useEffect(() => {
         />
 
         <Stack spacing="sm">
-          <Text size="35px" color="white" weight={900} lineClamp={1}>
+          <Text size="35px" color="white" weight={900} lineClamp={2}>
             {tvShow.name}
           </Text>
           <Text size="lg" color="white">
