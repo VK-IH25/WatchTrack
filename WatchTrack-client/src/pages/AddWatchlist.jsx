@@ -9,16 +9,28 @@ function AddWatchlist() {
   const [image, setImage] = useState("");
   const { user } = useContext(AuthContext);
 
-  const loggedUser = user._id;
 
   const navigate = useNavigate();
+
+
+  
+    if (!user) {
+      return (
+        <Container size="md" style={{ textAlign: "center", padding: "50px" }}>
+          <Text size="xl" weight={700}>
+            Please sign in to continue.
+          </Text>
+        </Container>
+      );
+    }
+  
 
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newWatchlist = { title, description, image, createdBy: loggedUser };
+    const newWatchlist = { title, description, image, createdBy: user._id };
 
     fetch(`${backendBaseUrl}/watchlist`, {
       method: "POST",

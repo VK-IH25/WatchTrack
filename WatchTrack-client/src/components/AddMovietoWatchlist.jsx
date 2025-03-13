@@ -15,6 +15,8 @@ function AddMovieToWatchlist(props) {
 
     const navigate = useNavigate();
 
+    
+
     const backendBaseUrl =
         import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
