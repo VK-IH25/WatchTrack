@@ -93,9 +93,10 @@ const SingleGenrePage = () => {
                   {item.title || item.name}
                 </Text>
                 <Text c="dimmed" size="sm" mt={4}>
+                  {console.log(item)}
                   {item.release_date
                     ? new Date(item.release_date).getFullYear()
-                    : "Unknown year"}
+                    : new Date(item.first_air_date).getFullYear()}
                 </Text>
               </Card>
             </Link>
