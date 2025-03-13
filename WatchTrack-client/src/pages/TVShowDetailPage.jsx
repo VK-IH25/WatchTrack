@@ -441,7 +441,7 @@ useEffect(() => {
             <Carousel.Slide key={movie.id}>
               <Card shadow="sm" padding="lg">
                 <Card.Section>
-                  <Link to={`/movie/${movie.id}`}>
+                  <Link to={`/tv/${movie.id}`}>
                     {movie.poster_path ? (
                       <Image
                         src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
