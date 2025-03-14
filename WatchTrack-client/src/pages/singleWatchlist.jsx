@@ -150,7 +150,7 @@ function SingleWatchlist() {
   };
 
   return (
-    <Container m={50} style={{ padding: "20px 0" }}>
+    <Container size="xxl" m={50} style={{ padding: "20px 0" }}>
       {watchlist && (
         <div>
           <Title order={1}>
@@ -196,7 +196,7 @@ function SingleWatchlist() {
           <Carousel
             mb={50}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
+            slideSize={{ base: "100%", "300px": "50%", "500px": "15%" }}
             slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
             loop
             align="start"
@@ -277,7 +277,7 @@ function SingleWatchlist() {
           <Carousel
             mb={50}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
+            slideSize={{ base: "100%", "300px": "50%", "500px": "15%" }}
             slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
             loop
             align="start"

@@ -37,7 +37,7 @@ function Watchlists() {
   );
 
   return (
-    <Container m={50} style={{ padding: "20px 0" }}>
+    <Container size="xxl" m={50} style={{ padding: "20px 0" }}>
       <Link to="/watchlists/add">
         <Button mb={50}>Create Watchlist</Button>
       </Link>
@@ -98,7 +98,7 @@ function Watchlists() {
 
       <Carousel
         type="container"
-        slideSize={{ base: "100%", "300px": "50%", "500px": "33.3333%" }}
+        slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
         slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
         loop
         align="start"
