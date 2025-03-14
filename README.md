@@ -195,5 +195,3 @@ Distributed under the MIT License.
 ### Kamran Ali
 - GitHub: [Kamran Ali](https://github.com/Kamran-frontend)
 - LinkedIn: [Kamran Ali](https://www.linkedin.com/in/kamranalifrmrbw/)
-
-📧 Contact: [your.email@example.com]
