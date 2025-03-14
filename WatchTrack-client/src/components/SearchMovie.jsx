@@ -141,7 +141,7 @@ const SearchMovie = (props) => {
                 </Text>
               </Card>
             </Link>
-            <Button onClick={() => handleAdd(movie.id)}>Add</Button>
+            <Button size={"compact-sm"} rightSection={"+"} onClick={() => handleAdd(movie.id)}>Add</Button>
           </Carousel.Slide>
         ))}
       </Carousel>
