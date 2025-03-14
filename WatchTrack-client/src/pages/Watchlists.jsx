@@ -132,7 +132,7 @@ function Watchlists() {
                 <Text align="center" mt="sm">
                   {watchlist.title}
                 </Text>
-                <Text align="center" mt="sm">
+                <Text align="center" mt="sm" lineClamp={1}>
                   {watchlist.description || "No description available"}
                 </Text>
               </Card>
