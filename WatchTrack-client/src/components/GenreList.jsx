@@ -49,7 +49,7 @@ const GenreList = () => {
       </Title>
       <Grid gutter="md" mt="sm">
         {movieGenres.map((genre) => (
-          <Grid.Col key={genre.id} span={2} md={3}>
+          <Grid.Col key={genre.id} span={{ base: 6, md: 3, lg: 2 }}>
             {console.log("Movie ID: ", genre.id)}
             <Card
               shadow="sm"
@@ -97,7 +97,7 @@ const GenreList = () => {
       </Title>
       <Grid gutter="md" mt="sm">
         {tvGenres.map((genre) => (
-          <Grid.Col key={genre.id} span={2} md={3}>
+          <Grid.Col key={genre.id} span={{ base: 6, md: 3, lg: 2 }}>
             <Card
               shadow="sm"
               padding="lg"

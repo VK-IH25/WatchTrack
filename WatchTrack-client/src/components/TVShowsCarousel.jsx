@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Card, Image, Text, Loader } from "@mantine/core";
+import { Card, Image, Text, Loader, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "@mantine/carousel/styles.css";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 const TVShowsCarousel = ({ category, activeTab }) => {
   const [shows, setShows] = useState([]);
@@ -61,10 +62,17 @@ const TVShowsCarousel = ({ category, activeTab }) => {
 
   return (
     <div style={{ margin: "50px 0px" }}>
-      <Link to={categoryLinks[category]}>
-        <Text size="xl" weight={700} mb="sm" color="blue">
-          {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows
-        </Text>
+      <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
+        <Button
+          justify="start"
+          rightSection={<FaAngleDoubleRight />}
+          variant="transparent"
+          p={0}
+          mb={15}
+          style={{ color: "var(--secondary-color)", fontSize: "25px" }}
+        >
+          {category.charAt(0).toUpperCase() + category.slice(1)} TV Shows{" "}
+        </Button>
       </Link>
       {shows.length > 0 && (
         <Carousel
@@ -102,7 +110,7 @@ const TVShowsCarousel = ({ category, activeTab }) => {
                     )}
                   </Link>
                 </Card.Section>
-                <Text align="center" mt="sm" lineClamp={2}>
+                <Text align="center" mt="sm" lineClamp={1}>
                   <Link
                     to={`/tv/${show.id}`}
                     style={{ textDecoration: "none", color: "inherit" }}

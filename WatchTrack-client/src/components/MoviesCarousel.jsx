@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import { Carousel } from "@mantine/carousel";
-import { Card, Image, Text, Loader, Group } from "@mantine/core";
+import { Card, Image, Text, Loader, Button } from "@mantine/core";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import "@mantine/carousel/styles.css";
+import { FaAngleDoubleRight } from "react-icons/fa";
 
 const MoviesCarousel = ({ category, activeTab }) => {
   const [movies, setMovies] = useState([]);
@@ -64,11 +65,16 @@ const MoviesCarousel = ({ category, activeTab }) => {
   return (
     <div style={{ margin: "50px 0px" }}>
       <Link to={categoryLinks[category]} style={{ textDecoration: "none" }}>
-        <Group spacing="xs">
-          <Text size="xl" mb="sm" weight={700} color="blue">
-            {category.charAt(0).toUpperCase() + category.slice(1)} Movies
-          </Text>
-        </Group>
+        <Button
+          justify="start"
+          rightSection={<FaAngleDoubleRight />}
+          variant="transparent"
+          p={0}
+          mb={15}
+          style={{ color: "var(--secondary-color)", fontSize: "25px" }}
+        >
+          {category.charAt(0).toUpperCase() + category.slice(1)} Movies{" "}
+        </Button>
       </Link>
       {movies.length > 0 && (
         <Carousel
@@ -106,7 +112,7 @@ const MoviesCarousel = ({ category, activeTab }) => {
                     )}
                   </Link>
                 </Card.Section>
-                <Text align="center" mt="sm" lineClamp={2}>
+                <Text align="center" mt="sm" lineClamp={1}>
                   <Link
                     to={`/movie/${movie.id}`}
                     style={{
