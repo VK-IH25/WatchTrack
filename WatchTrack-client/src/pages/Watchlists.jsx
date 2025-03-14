@@ -62,14 +62,14 @@ function Watchlists() {
                   {watchlist.image ? (
                     <Image
                       src={`${watchlist.image}`}
-                      height={270}
+                      style={{ height: "370px" }}
                       fit="cover"
                       alt={watchlist.title}
                     />
                   ) : (
                     <div
                       style={{
-                        height: 270,
+                        height: "370px",
                         backgroundColor: "#ccc",
                         display: "flex",
                         alignItems: "center",
