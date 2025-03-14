@@ -52,7 +52,7 @@ const Search = () => {
   };
 
   return (
-    <Container ml={50} mr={50} style={{ padding: "50px 0" }}>
+    <Container size="xxl" ml={50} mr={50} style={{ padding: "50px 0" }}>
       <form onSubmit={handleSearch}>
         <TextInput
           placeholder="Search for category, movie or Tv Show..."
@@ -76,8 +76,8 @@ const Search = () => {
           <Carousel
             mt={20}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
-            slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+            slideSize={{ base: "100%", "370px": "50%", "500px": "20%" }}
+            slideGap={{ base: 0, "370px": "md", "500px": "lg" }}
             loop
             align="start"
           >
@@ -91,12 +91,12 @@ const Search = () => {
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                           fit="cover"
                           alt={movie.title}
-                          style={{ minHeight: "370px" }}
+                          style={{ height: "370px" }}
                         />
                       ) : (
                         <div
                           style={{
-                            minHeight: "370px",
+                            height: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
@@ -126,8 +126,8 @@ const Search = () => {
           <Carousel
             mt={20}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
-            slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
+            slideSize={{ base: "100%", "370px": "50%", "500px": "20%" }}
+            slideGap={{ base: 0, "370px": "md", "500px": "lg" }}
             loop
             align="start"
           >
@@ -141,12 +141,12 @@ const Search = () => {
                           src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`}
                           fit="cover"
                           alt={movie.title}
-                          style={{ minHeight: "370px" }}
+                          style={{ height: "370px" }}
                         />
                       ) : (
                         <div
                           style={{
-                            minHeight: "370px",
+                            height: "370px",
                             backgroundColor: "#ccc",
                             display: "flex",
                             alignItems: "center",
