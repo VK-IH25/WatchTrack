@@ -9,7 +9,8 @@ function Watchlists() {
   const { user } = useContext(AuthContext);
 
   const admin = {
-    _id: "67d168f147efec872eb942bb",}
+    _id: "67d168f147efec872eb942bb",
+  };
 
   const backendBaseUrl =
     import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
@@ -96,9 +97,8 @@ function Watchlists() {
       </Text>
 
       <Carousel
-        height={320}
         type="container"
-        slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+        slideSize={{ base: "100%", "300px": "50%", "500px": "33.3333%" }}
         slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
         loop
         align="start"
@@ -111,18 +111,18 @@ function Watchlists() {
                   {watchlist.image ? (
                     <Image
                       src={watchlist.image}
-                      height={270}
+                      style={{ height: "370px" }}
                       fit="cover"
                       alt={watchlist.title}
                     />
                   ) : (
                     <div
                       style={{
-                        height: 270,
                         backgroundColor: "#ccc",
                         display: "flex",
-                        alignItems: "center",
                         justifyContent: "center",
+                        alignItems: "center",
+                        height: "370px",
                       }}
                     >
                       No Image

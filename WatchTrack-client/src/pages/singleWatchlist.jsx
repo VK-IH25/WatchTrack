@@ -196,7 +196,7 @@ function SingleWatchlist() {
           <Carousel
             mb={50}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+            slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
             slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
             loop
             align="start"
@@ -277,7 +277,7 @@ function SingleWatchlist() {
           <Carousel
             mb={50}
             type="container"
-            slideSize={{ base: "100%", "300px": "50%", "500px": "20%" }}
+            slideSize={{ base: "100%", "300px": "50%", "500px": "33%" }}
             slideGap={{ base: 0, "300px": "md", "500px": "lg" }}
             loop
             align="start"
