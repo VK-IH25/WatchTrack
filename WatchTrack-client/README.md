@@ -6,7 +6,7 @@
 
 WatchTrack is your go-to app for organizing and tracking your favorite movies and TV shows. Easily search, save, and manage your watchlist while accessing real-time ratings and details from the TMDB database. Whether you're planning your next binge-watch or keeping track of classics, WatchTrack has you covered!
 
-![WatchTrack Demo](https://via.placeholder.com/800x400.png?text=WatchTrack+Demo+Screenshot) <!-- Replace with actual screenshot -->
+![WatchTrack Demo](https://github.com/VK-IH25/WatchTrack/blob/main/WatchTrack-client/demo-watchtrack.png)
 
 ## Features
 
