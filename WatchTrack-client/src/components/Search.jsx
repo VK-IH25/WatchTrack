@@ -107,7 +107,7 @@ const Search = () => {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={2}>
+                    <Text align="center" mt="sm" lineClamp={1}>
                       {movie.title}
                     </Text>
                   </Card>
@@ -157,7 +157,7 @@ const Search = () => {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={2}>
+                    <Text align="center" mt="sm" lineClamp={1}>
                       {movie.name}
                     </Text>
                   </Card>

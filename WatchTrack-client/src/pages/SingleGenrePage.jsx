@@ -89,7 +89,7 @@ const SingleGenrePage = () => {
                     </div>
                   )}
                 </Card.Section>
-                <Text fw={500} mt="md" lineClamp={2}>
+                <Text fw={500} mt="md" lineClamp={1}>
                   {item.title || item.name}
                 </Text>
                 <Text c="dimmed" size="sm" mt={4}>

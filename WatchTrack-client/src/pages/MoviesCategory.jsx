@@ -117,7 +117,7 @@ function MoviesCategory() {
                         </div>
                       )}
                     </Card.Section>
-                    <Text fw={500} mt="md" lineClamp={2}>
+                    <Text fw={500} mt="md" lineClamp={1}>
                       {movie.title}
                     </Text>
                     <Text c="dimmed" size="sm" mt={4}>

@@ -15,10 +15,10 @@ import SearchMovie from "../components/SearchMovie";
 import SearchTvShow from "../components/SearchTvShow";
 import axios from "axios";
 import { AuthContext } from "../context/auth.context";
-import { notifications } from '@mantine/notifications';
+import { notifications } from "@mantine/notifications";
 
 const backendBaseUrl =
-    import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
+  import.meta.env.VITE_BACKEND_BASE_URL || "http://localhost:5005";
 
 function SingleWatchlist() {
   const { id } = useParams();
@@ -27,7 +27,6 @@ function SingleWatchlist() {
   const [selectedTvShows, setSelectedTvShows] = useState([]);
   const navigate = useNavigate();
   const { user, getToken } = useContext(AuthContext);
-
 
   useEffect(() => {
     const fetchWatchlist = async () => {
@@ -84,8 +83,6 @@ function SingleWatchlist() {
     }
   }, [watchlist, populateMovies, populateTvShows]);
 
-
-
   const handleDelete = async (e) => {
     e.preventDefault();
     try {
@@ -93,8 +90,6 @@ function SingleWatchlist() {
         method: "DELETE",
         headers: { Authorization: `Bearer ${getToken()}` },
       });
-
-
 
       if (!res.ok) throw new Error("Failed to delete watchlist");
       console.log("Watchlist deleted");
@@ -111,22 +106,18 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(
-        `${backendBaseUrl}/watchlist/${watchlist._id}`,
-        updatedWatchlist,
-        {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        }
-      )
+      .put(`${backendBaseUrl}/watchlist/${watchlist._id}`, updatedWatchlist, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((res) => {
         setWatchlist(res.data);
         setSelectedTvShows((prevTvShows) =>
           prevTvShows.filter((tvShow) => tvShow.id !== tvShowId)
-        )
+        );
         notifications.show({
-          title: 'Show removed',
-          message: 'Your watchlist has been updated',
-        })
+          title: "Show removed",
+          message: "Your watchlist has been updated",
+        });
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -140,22 +131,18 @@ function SingleWatchlist() {
     };
 
     axios
-      .put(
-        `${backendBaseUrl}/watchlist/${watchlist._id}`,
-        updatedWatchlist,
-        {
-          headers: { Authorization: `Bearer ${getToken()}` },
-        }
-      )
+      .put(`${backendBaseUrl}/watchlist/${watchlist._id}`, updatedWatchlist, {
+        headers: { Authorization: `Bearer ${getToken()}` },
+      })
       .then((res) => {
         setWatchlist(res.data);
         setSelectedMovies((prevMovies) =>
           prevMovies.filter((movie) => movie.id !== movieId)
         );
         notifications.show({
-          title: 'Movie removed',
-          message: 'Your watchlist has been updated',
-        })
+          title: "Movie removed",
+          message: "Your watchlist has been updated",
+        });
       })
       .catch((err) => {
         console.error("Error updating watchlist:", err);
@@ -240,7 +227,7 @@ function SingleWatchlist() {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={2}>
+                    <Text align="center" mt="sm" lineClamp={1}>
                       {movie.title}
                     </Text>
                   </Card>
@@ -321,7 +308,7 @@ function SingleWatchlist() {
                         </div>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={2}>
+                    <Text align="center" mt="sm" lineClamp={1}>
                       {tvShow.name}
                     </Text>
                   </Card>

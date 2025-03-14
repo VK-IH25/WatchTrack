@@ -121,7 +121,7 @@ function TVShowsCategory() {
                         </Box>
                       )}
                     </Card.Section>
-                    <Text align="center" mt="sm" lineClamp={2}>
+                    <Text align="center" mt="sm" lineClamp={1}>
                       {tvShow.name}
                     </Text>
                   </Card>

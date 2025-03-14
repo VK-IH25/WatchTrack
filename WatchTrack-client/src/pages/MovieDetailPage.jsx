@@ -261,7 +261,7 @@ const MovieDetailPage = () => {
 
         <Grid.Col span={isMobile ? 12 : 8}>
           <Stack spacing="sm">
-            <Text size="35px" color="white" weight={900} lineClamp={2}>
+            <Text size="35px" color="white" weight={900} lineClamp={1}>
               {movie.title}
             </Text>
             <Text size="lg" color="white">
@@ -423,7 +423,7 @@ const MovieDetailPage = () => {
                       )}
                     </Link>
                   </Card.Section>
-                  <Text align="center" mt="sm" lineClamp={2}>
+                  <Text align="center" mt="sm" lineClamp={1}>
                     <Link
                       to={`/movie/${movie.id}`}
                       style={{
